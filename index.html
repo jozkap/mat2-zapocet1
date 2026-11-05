@@ -144,6 +144,49 @@
     nav.side { width: 100%; height: auto; position: static; }
     main { padding: 20px 16px 60px; }
   }
+
+  /* ---------- Gadget: číselné množiny ---------- */
+  .ns-toggle {
+    position: fixed; right: 20px; bottom: 20px; z-index: 50;
+    background: var(--accent); color: #fff; border: 0; border-radius: 24px;
+    padding: 10px 18px; font: inherit; font-size: 15px; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(20, 40, 100, .25);
+  }
+  .ns-toggle:hover { background: #2449ad; }
+  .ns-panel {
+    position: fixed; right: 20px; bottom: 74px; z-index: 50;
+    width: 460px; max-width: calc(100vw - 40px); max-height: calc(100vh - 100px); overflow-y: auto;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: 0 10px 34px rgba(20, 30, 60, .22); padding: 16px 18px 18px;
+    display: none;
+  }
+  .ns-panel.open { display: block; }
+  .ns-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .ns-head h4 { margin: 0; }
+  .ns-close { border: 0; background: transparent; font-size: 20px; cursor: pointer; color: var(--muted); line-height: 1; }
+  .ns-box {
+    border: 2px solid #c9cfdb; border-radius: 12px; padding: 6px 9px 9px; margin-top: 4px;
+    background: #fbfcfe; transition: background .15s, border-color .15s;
+  }
+  .ns-box .ns-name { font-weight: 700; font-size: 14px; }
+  .ns-box .ns-name .sym { font-family: "Cambria Math", "Cambria", serif; font-size: 18px; margin-right: 4px; }
+  .ns-box .ns-desc { font-size: 12.5px; color: var(--muted); line-height: 1.4; margin: 1px 0 4px; }
+  .ns-row { display: flex; gap: 8px; align-items: stretch; }
+  .ns-row > .ns-box { margin-top: 4px; }
+  .ns-row > .ns-q { flex: 2; }
+  .ns-row > .ns-i { flex: 1; }
+  .ns-box.hit { border-color: var(--ok); background: var(--ok-soft); }
+  .ns-box.maybe { border-color: var(--warn); background: var(--warn-soft); }
+  .ns-box.miss { border-color: #dfe3ea; background: #f7f8fa; }
+  .ns-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 8px; }
+  .ns-chip {
+    border: 1px solid var(--line); background: #f1f3f7; border-radius: 16px;
+    padding: 4px 11px; font-family: "Cambria Math", "Cambria", serif; font-size: 15px; cursor: pointer;
+  }
+  .ns-chip:hover { border-color: var(--accent); }
+  .ns-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .ns-why { font-size: 14px; background: var(--code); border-radius: 8px; padding: 9px 12px; min-height: 40px; }
+  .ns-note { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.45; }
 </style>
 </head>
 <body>
@@ -158,11 +201,13 @@
   <div class="group">Základy</div>
   <button class="topic-btn" data-topic="mnoziny"><span class="num">1</span>Množiny<span class="done-mark">✔</span></button>
 
-  <div class="group">Binárne relácie</div>
-  <button class="topic-btn disabled" disabled><span class="num">2</span>Relácie a ich vlastnosti<span class="soon">čoskoro</span></button>
+  <div class="group">Výroková logika – základy</div>
+  <button class="topic-btn disabled" disabled><span class="num">2</span>Formuly a tabuľky<span class="soon">čoskoro</span></button>
 
-  <div class="group">Výroková logika</div>
-  <button class="topic-btn disabled" disabled><span class="num">3</span>Formuly a tabuľky<span class="soon">čoskoro</span></button>
+  <div class="group">Binárne relácie</div>
+  <button class="topic-btn disabled" disabled><span class="num">3</span>Relácie a ich vlastnosti<span class="soon">čoskoro</span></button>
+
+  <div class="group">Výroková logika – pokračovanie</div>
   <button class="topic-btn disabled" disabled><span class="num">4</span>Splniteľnosť a vyplývanie<span class="soon">čoskoro</span></button>
   <button class="topic-btn disabled" disabled><span class="num">5</span>Klauzuly a rezolúcia<span class="soon">čoskoro</span></button>
   <button class="topic-btn disabled" disabled><span class="num">6</span>Normálne tvary a K-mapa<span class="soon">čoskoro</span></button>
@@ -196,13 +241,14 @@
 
   <h3>Plán tém</h3>
   <ul class="road">
-    <li><b>1. Množiny</b>: základ pre relácie aj logiku <span class="badge ok">hotové</span></li>
-    <li><b>2. Binárne relácie</b>: vlastnosti, aj na nekonečných množinách <span class="badge hi">vysoká priorita</span></li>
-    <li><b>3. Výroková logika</b>: formuly a pravdivostné tabuľky <span class="badge hi">vysoká priorita</span></li>
+    <li><b>1. Množiny</b>: základ pre relácie aj logiku <span class="badge ok">materiál pripravený</span></li>
+    <li><b>2. Výroková logika</b>: formuly, pravdivostné tabuľky, implikácia, ekvivalentné úpravy <span class="badge hi">vysoká priorita</span></li>
+    <li><b>3. Binárne relácie</b>: vlastnosti, aj na nekonečných množinách <span class="badge hi">vysoká priorita</span></li>
     <li><b>4. Splniteľnosť a vyplývanie</b> <span class="badge hi">vysoká priorita</span></li>
     <li><b>5. Klauzuly a rezolučná metóda</b> <span class="badge hi">vysoká priorita</span></li>
     <li><b>6. Normálne tvary a minimalizácia (Karnaughova mapa)</b> <span class="badge mid">stredná priorita</span></li>
   </ul>
+  <p class="why">Prečo toto poradie: vlastnosti relácií sú definované ako implikácie. Pred reláciami preto treba poznať základy výrokovej logiky, najmä kedy je implikácia pravdivá. Rezolúcia a minimalizácia sú samostatné techniky, ktoré relácie nepotrebujú, preto idú až po nich.</p>
 
   <div class="tip"><span class="lbl">Ako s tým pracovať</span>
     Každá téma má štyri záložky. <b>Teória</b> vysvetľuje pojmy. <b>Príklady</b> obsahujú riešené úlohy so slovným postupom: čo robím a prečo. <b>Zhrnutie</b> je ťahák na rýchle zopakovanie. <b>Cvičenia</b> si najprv skús vyriešiť sám a až potom si rozbaľ riešenie.
@@ -756,6 +802,70 @@
 </main>
 </div>
 
+<!-- ============================ GADGET: ČÍSELNÉ MNOŽINY ============================ -->
+<button class="ns-toggle" id="ns-toggle" title="Číselné množiny">ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ</button>
+<div class="ns-panel" id="ns-panel">
+  <div class="ns-head">
+    <h4>Číselné množiny</h4>
+    <button class="ns-close" id="ns-close" title="Zavrieť">×</button>
+  </div>
+
+  <div class="ns-box" data-set="C">
+    <div class="ns-name"><span class="sym">ℂ</span>komplexné</div>
+    <div class="ns-desc">a + bi, kde a, b ∈ ℝ a i² = −1. Napr. 2 + 3i, i.</div>
+
+    <div class="ns-box" data-set="R">
+      <div class="ns-name"><span class="sym">ℝ</span>reálne</div>
+      <div class="ns-desc">ℝ = ℚ ∪ 𝕀, všetky body číselnej osi.</div>
+
+      <div class="ns-row">
+        <div class="ns-box ns-q" data-set="Q">
+          <div class="ns-name"><span class="sym">ℚ</span>racionálne</div>
+          <div class="ns-desc">p/q, kde p ∈ ℤ, q ∈ ℕ. Desatinný rozvoj je konečný alebo periodický.</div>
+
+          <div class="ns-box" data-set="Z">
+            <div class="ns-name"><span class="sym">ℤ</span>celé</div>
+            <div class="ns-desc">…, −2, −1, 0, 1, 2, … Uzavreté na +, −, ·, ale nie na delenie.</div>
+
+            <div class="ns-box" data-set="N">
+              <div class="ns-name"><span class="sym">ℕ</span>prirodzené</div>
+              <div class="ns-desc">1, 2, 3, … (0 podľa konvencie). Uzavreté na +, ·, ale nie na −.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ns-box ns-i" data-set="I">
+          <div class="ns-name"><span class="sym">𝕀</span>iracionálne</div>
+          <div class="ns-desc">ℝ ∖ ℚ. Nekonečný neperiodický rozvoj: √2, π, e.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ns-chips">
+    <button class="ns-chip" data-in="N Z Q R C" data-why="7 je prirodzené číslo. Keďže ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ ⊂ ℂ, patrí aj do všetkých väčších množín (napr. 7 = 7/1 je zlomok).">7</button>
+    <button class="ns-chip" data-in="Z Q R C" data-maybe="N" data-why="0 je celé číslo. Či patrí aj do ℕ, závisí od konvencie predmetu, preto je ℕ označená oranžovo. Over si to v zošite.">0</button>
+    <button class="ns-chip" data-in="Z Q R C" data-why="−3 je celé, ale záporné, preto nie je v ℕ. Ako zlomok −3/1 je v ℚ.">−3</button>
+    <button class="ns-chip" data-in="Q R C" data-why="1/2 je podiel celých čísel, ale samo nie je celé číslo. Patrí preto do ℚ, nie do ℤ.">1/2</button>
+    <button class="ns-chip" data-in="Q R C" data-why="−0,75 = −3/4. Konečný desatinný rozvoj sa dá vždy zapísať ako zlomok, teda je v ℚ.">−0,75</button>
+    <button class="ns-chip" data-in="Q R C" data-why="0,333… = 1/3. Periodický rozvoj je tiež racionálny, je to zlomok.">0,333…</button>
+    <button class="ns-chip" data-in="N Z Q R C" data-why="Pasca: 6/3 vyzerá ako zlomok, ale 6/3 = 2, a to je prirodzené číslo. Vždy najprv zjednoduš.">6/3</button>
+    <button class="ns-chip" data-in="N Z Q R C" data-why="Pasca: √4 = 2, takže je to prirodzené číslo, nie iracionálne. Odmocnina nemusí byť iracionálna.">√4</button>
+    <button class="ns-chip" data-in="Z Q R C" data-why="−√9 = −3, teda celé záporné číslo.">−√9</button>
+    <button class="ns-chip" data-in="I R C" data-why="√2 nie je možné zapísať ako zlomok (klasický dôkaz sporom). Rozvoj 1,41421… je nekonečný a neperiodický.">√2</button>
+    <button class="ns-chip" data-in="I R C" data-why="π = 3,14159… je iracionálne. 22/7 je iba jeho približná hodnota, nie presná.">π</button>
+    <button class="ns-chip" data-in="I R C" data-why="0,1010010001… má nekonečný rozvoj bez periódy (počet núl stále rastie), preto je iracionálne.">0,1010010001…</button>
+    <button class="ns-chip" data-in="C" data-why="i (imaginárna jednotka, i² = −1) nie je reálne číslo. Na číselnej osi nemá miesto, patrí iba do ℂ.">i</button>
+  </div>
+  <div class="ns-why" id="ns-why">Klikni na číslo a uvidíš, do ktorých množín patrí (zelená = patrí).</div>
+
+  <div class="ns-note">
+    <b>Inklúzie:</b> ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ ⊂ ℂ, ℚ ∩ 𝕀 = ∅ a ℚ ∪ 𝕀 = ℝ.<br>
+    <b>Mohutnosť:</b> ℕ, ℤ a ℚ sú spočítateľné; 𝕀, ℝ a ℂ sú nespočítateľné.<br>
+    <b>Pre relácie:</b> pri overovaní vlastnosti vždy pozri, na ktorej množine je relácia definovaná. Tá istá podmienka môže na ℕ platiť a na ℤ nie, napríklad antisymetrickosť deliteľnosti.
+  </div>
+</div>
+
 <script>
 (function () {
   var STORE_KEY = "dm-zapoctova-1";
@@ -840,6 +950,34 @@
 
   refreshDoneMarks();
   if (state.topic) { showTopic(state.topic); }
+
+  /* ---------- Gadget: number sets ---------- */
+  var nsPanel = document.getElementById("ns-panel");
+  var nsToggle = document.getElementById("ns-toggle");
+  var nsClose = document.getElementById("ns-close");
+  var nsWhy = document.getElementById("ns-why");
+  var nsBoxes = nsPanel.querySelectorAll(".ns-box");
+  var nsChips = nsPanel.querySelectorAll(".ns-chip");
+
+  nsToggle.addEventListener("click", function () { nsPanel.classList.toggle("open"); });
+  nsClose.addEventListener("click", function () { nsPanel.classList.remove("open"); });
+
+  for (var c = 0; c < nsChips.length; c++) {
+    nsChips[c].addEventListener("click", function () {
+      var inSets = (this.getAttribute("data-in") || "").split(" ");
+      var maybeSets = (this.getAttribute("data-maybe") || "").split(" ");
+      for (var x = 0; x < nsChips.length; x++) { nsChips[x].classList.toggle("active", nsChips[x] === this); }
+      for (var y = 0; y < nsBoxes.length; y++) {
+        var s = nsBoxes[y].getAttribute("data-set");
+        var isIn = inSets.indexOf(s) !== -1;
+        var isMaybe = maybeSets.indexOf(s) !== -1;
+        nsBoxes[y].classList.toggle("hit", isIn);
+        nsBoxes[y].classList.toggle("maybe", isMaybe && !isIn);
+        nsBoxes[y].classList.toggle("miss", !isIn && !isMaybe);
+      }
+      nsWhy.textContent = this.getAttribute("data-why");
+    });
+  }
 })();
 </script>
 </body>
