@@ -214,6 +214,21 @@
   .sym-table td { padding: 5px 8px; }
   .sym-table td:first-child { white-space: nowrap; font-size: 15px; }
   .sym-table tr.sym-sec td { background: #eef1f6; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  /* ---------- Tabuľky vyplývania a Karnaughove mapy ---------- */
+  table.tt tr.sel td { background: var(--ok-soft); }
+  table.tt tr.sel td.hl { background: var(--bad-soft); }
+  .kwrap { display: block; margin: 8px 0 4px; }
+  table.kmap td .code:only-child { font-size: 12px; }
+  table.kmap { border-collapse: collapse; width: auto; background: var(--panel); margin: 0; }
+  table.kmap th, table.kmap td { border: 1px solid #b9c0cc; text-align: center; padding: 0; font-family: "Cambria Math", "Cambria", serif; }
+  table.kmap th { background: #eef1f6; padding: 6px 10px; font-size: 14px; }
+  table.kmap th.corner { font-size: 13px; white-space: nowrap; }
+  table.kmap td { width: 54px; height: 46px; font-size: 18px; color: #9aa3b5; position: relative; }
+  table.kmap td.one { color: var(--text); font-weight: 700; }
+  table.kmap .code { display: block; font-size: 10.5px; color: var(--muted); font-weight: 400; line-height: 1; }
+  ul.kgroups { list-style: none; padding: 0; margin: 6px 0 0; font-size: 14px; }
+  ul.kgroups li { margin: 3px 0; display: flex; align-items: center; gap: 6px; }
+  ul.kgroups .sw { display: inline-block; width: 14px; height: 14px; border-radius: 3px; }
 </style>
 </head>
 <body>
@@ -232,12 +247,12 @@
   <button class="topic-btn" data-topic="logika"><span class="num">2</span>Formuly a tabuľky<span class="done-mark">✔</span></button>
 
   <div class="group">Binárne relácie</div>
-  <button class="topic-btn disabled" disabled><span class="num">3</span>Relácie a ich vlastnosti<span class="soon">čoskoro</span></button>
+  <button class="topic-btn" data-topic="relacie"><span class="num">3</span>Relácie a ich vlastnosti<span class="done-mark">✔</span></button>
 
   <div class="group">Výroková logika – pokračovanie</div>
-  <button class="topic-btn disabled" disabled><span class="num">4</span>Splniteľnosť a vyplývanie<span class="soon">čoskoro</span></button>
-  <button class="topic-btn disabled" disabled><span class="num">5</span>Klauzuly a rezolúcia<span class="soon">čoskoro</span></button>
-  <button class="topic-btn disabled" disabled><span class="num">6</span>Normálne tvary a K-mapa<span class="soon">čoskoro</span></button>
+  <button class="topic-btn" data-topic="vyplyvanie"><span class="num">4</span>Splniteľnosť a vyplývanie<span class="done-mark">✔</span></button>
+  <button class="topic-btn" data-topic="rezolucia"><span class="num">5</span>Klauzuly a rezolúcia<span class="done-mark">✔</span></button>
+  <button class="topic-btn" data-topic="tvary"><span class="num">6</span>Normálne tvary a K-mapa<span class="done-mark">✔</span></button>
 </nav>
 
 <main>
@@ -269,11 +284,11 @@
   <h3>Plán tém</h3>
   <ul class="road">
     <li><b>1. Množiny</b>: základ pre relácie aj logiku <span class="badge ok">materiál pripravený</span></li>
-    <li><b>2. Výroková logika</b>: formuly, pravdivostné tabuľky, implikácia, ekvivalentné úpravy <span class="badge ok">materiál pripravený</span></li>
-    <li><b>3. Binárne relácie</b>: vlastnosti, aj na nekonečných množinách <span class="badge hi">vysoká priorita</span></li>
-    <li><b>4. Splniteľnosť a vyplývanie</b> <span class="badge hi">vysoká priorita</span></li>
-    <li><b>5. Klauzuly a rezolučná metóda</b> <span class="badge hi">vysoká priorita</span></li>
-    <li><b>6. Normálne tvary a minimalizácia (Karnaughova mapa)</b> <span class="badge mid">stredná priorita</span></li>
+    <li><b>2. Výroková logika</b>: formuly, pravdivostné tabuľky, implikácia, ekvivalentné úpravy <span class="badge ok">materiál pripravený</span> <span class="badge hi">vysoká priorita</span></li>
+    <li><b>3. Binárne relácie</b>: vlastnosti, aj na nekonečných množinách <span class="badge ok">materiál pripravený</span> <span class="badge hi">vysoká priorita</span></li>
+    <li><b>4. Splniteľnosť a vyplývanie</b> <span class="badge ok">materiál pripravený</span> <span class="badge hi">vysoká priorita</span></li>
+    <li><b>5. Klauzuly a rezolučná metóda</b> <span class="badge ok">materiál pripravený</span> <span class="badge hi">vysoká priorita</span></li>
+    <li><b>6. Normálne tvary a minimalizácia (Karnaughova mapa)</b> <span class="badge ok">materiál pripravený</span> <span class="badge mid">stredná priorita</span></li>
   </ul>
   <p class="why">Prečo toto poradie: vlastnosti relácií sú definované ako implikácie. Pred reláciami preto treba poznať základy výrokovej logiky, najmä kedy je implikácia pravdivá. Rezolúcia a minimalizácia sú samostatné techniky, ktoré relácie nepotrebujú, preto idú až po nich.</p>
 
@@ -1343,6 +1358,1429 @@
     <label for="done-logika">Tému Výroková logika (základy) mám zvládnutú</label>
   </div>
 </section>
+
+<!-- ============================ RELÁCIE ============================ -->
+<section class="topic" id="topic-relacie">
+  <h2>3. Binárne relácie a ich vlastnosti</h2>
+  <p class="lead">Čo je relácia, štyri vlastnosti (reflexívnosť, symetrickosť, antisymetrickosť, tranzitívnosť) a hlavne <b>ako ich na písomke overiť</b>, aj na nekonečných množinách. Postup je podľa vzoru od prednášajúcej.</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="teoria">Teória</button>
+    <button class="tab-btn" data-tab="priklady">Riešené príklady</button>
+    <button class="tab-btn" data-tab="zhrnutie">Zhrnutie</button>
+    <button class="tab-btn" data-tab="cvicenia">Cvičenia</button>
+  </div>
+
+  <div class="tab-panel active" data-panel="teoria">
+    <div class="simple"><span class="lbl">O čom je celá téma</span>
+      Relácia je spôsob, ako povedať, ktoré dvojice prvkov „spolu súvisia“. Medzi ľuďmi napríklad „je súrodencom“, medzi číslami „je menšie ako“ alebo „delí“. Matematicky je relácia jednoducho <b>množina tých dvojíc, ktoré v danom vzťahu sú</b>. Vlastnosti relácie potom popisujú, ako sa ten vzťah „správa“.
+    </div>
+
+    <h3>3.1 Čo je binárna relácia</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Zo všetkých možných dvojíc (karteziánskeho súčinu) si „vyberieš“ niektoré a tie tvoria reláciu. Pri každej dvojici sa pýtaš, či je v relácii, alebo nie je.
+    </div>
+    <div class="def"><span class="lbl">Definícia</span>
+      <b>Binárna relácia</b> z množiny A do množiny B je ľubovoľná podmnožina <span class="m">R ⊆ A × B</span>. Ak A = B, hovoríme o relácii <b>na množine A</b>, teda <span class="m">R ⊆ A × A</span>.<br>
+      Ak <span class="m">(a, b) ∈ R</span>, píšeme aj <span class="m">a R b</span> a čítame „a je v relácii R s b“.
+    </div>
+    <p><b>Spôsoby zápisu:</b></p>
+    <ul>
+      <li><b>Vymenovaním:</b> <span class="m">R = {(1,2), (2,4), (3,2), (4,2), (4,4)}</span> na <span class="m">A = {1,2,3,4}</span>.</li>
+      <li><b>Podmienkou:</b> <span class="m">R = {(x, y) ∈ ℤ × ℤ : |x − y| ≤ 3}</span>, teda dvojica patrí do R práve vtedy, keď splní podmienku. Na písomke je relácia zadaná takto.</li>
+      <li><b>Maticou:</b> riadok = prvý prvok, stĺpec = druhý prvok, 1 = dvojica je v R. Pre reláciu vyššie:
+        <table class="tt" style="width:auto; margin-top:6px">
+          <tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+          <tr><th>1</th><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+          <tr><th>2</th><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><th>3</th><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+          <tr><th>4</th><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+        </table></li>
+      <li><b>Grafom:</b> prvky sú krúžky (vrcholy) a dvojica <span class="m">(a, b)</span> je šípka z a do b. Dvojica <span class="m">(a, a)</span> je slučka.</li>
+    </ul>
+
+    <h3>3.2 Inverzná relácia a skladanie (stručne)</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Inverzná relácia otočí všetky šípky. Zloženie relácií je „cesta na dva kroky“: najprv krok podľa R, potom krok podľa S.
+    </div>
+    <ul>
+      <li><span class="m">R⁻¹ = {(b, a) ; (a, b) ∈ R}</span>. Napríklad inverzná k „x &lt; y“ je „x &gt; y“.</li>
+      <li><span class="m">(a, c) ∈ R ∘ S</span> práve vtedy, keď <b>existuje</b> b, pre ktoré <span class="m">(a, b) ∈ R</span> a <span class="m">(b, c) ∈ S</span>.</li>
+    </ul>
+
+    <h3>3.3 Štyri vlastnosti relácie</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Každá vlastnosť je „pravidlo“, ktoré musí platiť pre <b>všetky</b> prvky. Ak platí pre všetky, relácia vlastnosť má. Ak nájdeš <b>jediný</b> prípad, kde pravidlo neplatí (kontrapríklad), relácia vlastnosť nemá.
+    </div>
+
+    <h4>Reflexívnosť</h4>
+    <div class="def"><span class="lbl">Definícia</span>
+      R je <b>reflexívna</b>, ak <span class="m">∀x ∈ A : (x, x) ∈ R</span>.
+    </div>
+    <p><i>Jednoducho:</i> každý prvok je v relácii sám so sebou. V matici sú na diagonále samé 1, v grafe má každý vrchol slučku.<br>
+    <i>Vyvrátenie:</i> stačí jeden prvok x, pre ktorý <span class="m">(x, x) ∉ R</span>.</p>
+
+    <h4>Symetrickosť</h4>
+    <div class="def"><span class="lbl">Definícia</span>
+      R je <b>symetrická</b>, ak <span class="m">∀x, y ∈ A : (x, y) ∈ R ⇒ (y, x) ∈ R</span>.
+    </div>
+    <p><i>Jednoducho:</i> ak x súvisí s y, tak aj y súvisí s x. Každá šípka má aj spiatočnú šípku a matica je súmerná podľa diagonály. Príklad: „je súrodencom“.<br>
+    <i>Vyvrátenie:</i> nájdi dvojicu, kde <span class="m">(x, y) ∈ R</span>, ale <span class="m">(y, x) ∉ R</span>.</p>
+
+    <h4>Antisymetrickosť</h4>
+    <div class="def"><span class="lbl">Definícia</span>
+      R je <b>antisymetrická</b>, ak <span class="m">∀x, y ∈ A : ((x, y) ∈ R ∧ (y, x) ∈ R) ⇒ x = y</span>.
+    </div>
+    <p><i>Jednoducho:</i> dva <b>rôzne</b> prvky nikdy nesúvisia oboma smermi. Medzi dvoma rôznymi vrcholmi je najviac jedna šípka. Príklad: „x ≤ y“, lebo ak x ≤ y aj y ≤ x, tak x = y.<br>
+    <i>Vyvrátenie:</i> nájdi <span class="m">x ≠ y</span>, pre ktoré platí <span class="m">(x, y) ∈ R</span> aj <span class="m">(y, x) ∈ R</span>.</p>
+    <div class="trap"><span class="lbl">Pozor: antisymetrická ≠ „nie symetrická“</span>
+      Sú to dve samostatné vlastnosti. Relácia môže byť:
+      <ul style="margin:6px 0 0">
+        <li><b>symetrická aj antisymetrická</b>, napríklad „x = y“ alebo prázdna relácia,</li>
+        <li><b>ani jedno</b>, napríklad <span class="m">x ≤ y²</span> na ℤ (pozri Príklad 6).</li>
+      </ul>
+    </div>
+
+    <h4>Tranzitívnosť</h4>
+    <div class="def"><span class="lbl">Definícia</span>
+      R je <b>tranzitívna</b>, ak <span class="m">∀x, y, z ∈ A : ((x, y) ∈ R ∧ (y, z) ∈ R) ⇒ (x, z) ∈ R</span>.
+    </div>
+    <p><i>Jednoducho:</i> keď sa dá prejsť z x do y a z y do z, musí existovať aj priama šípka z x do z. „Reťaz sa dá skrátiť.“ Príklad: „je predkom“, lebo predok môjho predka je aj môj predok.<br>
+    <i>Vyvrátenie:</i> nájdi x, y, z, pre ktoré <span class="m">(x, y) ∈ R</span> a <span class="m">(y, z) ∈ R</span>, ale <span class="m">(x, z) ∉ R</span>.</p>
+
+    <div class="link"><span class="lbl">Platnosť „naprázdno“ (z témy 2)</span>
+      Symetrickosť, antisymetrickosť a tranzitívnosť sú <b>implikácie</b>. Ak predpoklad nie je nikdy splnený, implikácia platí naprázdno a vlastnosť <b>platí</b>. Príklady:
+      <ul style="margin:6px 0 0">
+        <li><b>Prázdna relácia</b> je symetrická aj tranzitívna, lebo nie je žiadna dvojica, ktorá by predpoklad splnila.</li>
+        <li><b>„x &lt; y“</b> je antisymetrická, lebo situácia x &lt; y a zároveň y &lt; x nikdy nenastane.</li>
+      </ul>
+      Reflexívnosť nie je implikácia, preto prázdna relácia na neprázdnej množine reflexívna <b>nie je</b>.
+    </div>
+
+    <h3>3.4 Postup na písomke (podľa vzoru od prednášajúcej)</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Pri každej vlastnosti napíšeš všeobecnú definíciu, „dosadíš“ do nej podmienku z relácie, rozhodneš a zdôvodníš. Keď vlastnosť platí, dokazuješ <b>všeobecne</b>. Keď neplatí, stačí <b>jeden konkrétny protipríklad</b>.
+    </div>
+    <ol>
+      <li><b>Napíš definíciu</b> vlastnosti všeobecne, napríklad <span class="m">∀x, y ∈ A : (x, y) ∈ R ⇒ (y, x) ∈ R</span>. Zadanie vzorovej písomky to výslovne vyžaduje.</li>
+      <li><b>Dosaď podmienku relácie</b>: každé <span class="m">(x, y) ∈ R</span> prepíš na konkrétnu podmienku. Napríklad pri <span class="m">|x − y| ≤ 3</span> dostaneš <span class="m">∀x, y ∈ ℤ : |x − y| ≤ 3 ⇒ |y − x| ≤ 3</span>.</li>
+      <li><b>Rozhodni</b>, či platí. Pomôže skúsiť pár čísel; ak rýchlo nájdeš protipríklad, neplatí.</li>
+      <li><b>Zdôvodni:</b>
+        <ul>
+          <li><b>Platí:</b> ukáž to pre <b>ľubovoľné</b> x, y (z) pomocou úpravy výrazu alebo známych pravidiel (|a| ≥ 0, |x − y| = |y − x|, súčet párnych čísel je párny…). Konkrétne čísla tu <b>nestačia</b>.</li>
+          <li><b>Neplatí:</b> napíš <b>kontrapríklad</b> s konkrétnymi číslami a ukáž dosadením, že predpoklad platí a záver nie.</li>
+        </ul></li>
+    </ol>
+    <div class="tip"><span class="lbl">Ako rýchlo nájsť protipríklad</span>
+      <ul style="margin:4px 0 0">
+        <li><b>Antisymetrickosť:</b> skús dve rôzne „blízke“ čísla, napríklad x = 4, y = 6.</li>
+        <li><b>Tranzitívnosť:</b> urob „reťaz na hranici“. Pri <span class="m">|x − y| ≤ 3</span> ber kroky veľké takmer 3, napríklad 2 → 5 → 7: oba kroky sú ≤ 3, ale celkový skok je 5.</li>
+        <li><b>Symetrickosť:</b> pri nesúmerných podmienkach (≤, |, x = 2y…) skús 1 a 2 alebo 0 a 1.</li>
+        <li><b>Reflexívnosť:</b> skús „podozrivé“ čísla: 0, 1, záporné čísla, zlomky (napr. 1/2).</li>
+      </ul>
+    </div>
+
+    <h3>3.5 Konečná verzus nekonečná množina</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Pri malej konečnej množine môžeš všetky dvojice <b>vypísať</b> a skontrolovať. Pri nekonečnej množine (ℕ, ℤ, ℝ) to nejde, preto musíš argumentovať <b>všeobecne</b>. Výsledok navyše závisí od toho, <b>na akej množine</b> je relácia definovaná.
+    </div>
+    <ul>
+      <li><b>Konečná množina</b> (vzorová písomka, A = {1, 5, 8, 11, 16}): vypíš R, prípadne maticu, a kontroluj vlastnosti priamo na dvojiciach.</li>
+      <li><b>Nekonečná množina</b> (vzor prednášajúcej, ℤ): všeobecný dôkaz alebo kontrapríklad.</li>
+      <li><b>Na množine záleží:</b> deliteľnosť je na ℕ antisymetrická, ale na ℤ nie (2 | −2 aj −2 | 2). Relácia <span class="m">x ≤ y²</span> je na ℤ reflexívna, na ℝ nie (½ ≤ ¼ neplatí).</li>
+    </ul>
+
+    <h3>3.6 Užitočné fakty na zdôvodňovanie</h3>
+    <table>
+      <tr><th>Fakt</th><th>Kde sa hodí</th></tr>
+      <tr><td class="m">|x − x| = 0</td><td>reflexívnosť relácií s |x − y|</td></tr>
+      <tr><td class="m">|x − y| = |y − x|</td><td>symetrickosť relácií s |x − y|</td></tr>
+      <tr><td class="m">x · y = y · x,  x + y = y + x</td><td>symetrickosť</td></tr>
+      <tr><td class="m">x² ≥ 0</td><td>reflexívnosť, napr. pri x · y ≥ 0</td></tr>
+      <tr><td class="m">a | b ∧ b | c ⇒ a | c</td><td>tranzitívnosť deliteľnosti</td></tr>
+      <tr><td class="m">m | a ∧ m | b ⇒ m | (a + b)</td><td>tranzitívnosť kongruencie: <span class="m">x − z = (x − y) + (y − z)</span></td></tr>
+      <tr><td class="m">n² − n = n(n − 1) ≥ 0 pre n ∈ ℤ</td><td>reflexívnosť <span class="m">x ≤ x²</span> na ℤ</td></tr>
+      <tr><td>súčet dvoch párnych čísel je párny</td><td>tranzitívnosť „x + y je párne“</td></tr>
+    </table>
+
+    <h3>3.7 Ekvivalencia a čiastočné usporiadanie</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Niektoré kombinácie vlastností majú vlastné mená. <b>Ekvivalencia</b> zoskupuje „podobné“ prvky do skupín, napríklad čísla s rovnakým zvyškom. <b>Čiastočné usporiadanie</b> prvky „radí“ (menší – väčší), ale nie každé dva prvky sa dajú porovnať.
+    </div>
+    <ul>
+      <li><b>Ekvivalencia</b> = reflexívna + symetrická + tranzitívna. Rozdelí množinu na triedy, teda na <b>rozklad</b> z témy 1. Príklady: kongruencia mod m, „x + y je párne“, „|x| = |y|“.</li>
+      <li><b>Čiastočné usporiadanie</b> = reflexívna + antisymetrická + tranzitívna. Príklady: ≤ na číslach, deliteľnosť na ℕ, inklúzia ⊆.</li>
+    </ul>
+  </div>
+
+  <div class="tab-panel" data-panel="priklady">
+
+    <div class="ex">
+      <div class="ex-head">Príklad 1: Vzor od prednášajúcej, |x − y| ≤ 3 na ℤ</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Na množine celých čísel je daná relácia <span class="m">R = {(x, y) ∈ ℤ × ℤ : |x − y| ≤ 3}</span>. Rozhodnite, či R je reflexívna, symetrická, antisymetrická a tranzitívna.</div>
+        <p><b>Čo podmienka znamená:</b> <span class="m">|x − y|</span> je vzdialenosť x a y na číselnej osi. Dve čísla sú v relácii, keď sú od seba vzdialené najviac 3.</p>
+        <ol class="steps">
+          <li><b>Reflexívnosť:</b> <span class="m">∀x ∈ A : (x, x) ∈ R</span>, po dosadení <span class="m">∀x ∈ ℤ : |x − x| ≤ 3</span>.<br>
+            <b>R je reflexívna</b>, lebo pre každé x je <span class="m">|x − x| = 0 ≤ 3</span>.<br>
+            <span class="why">Prečo to stačí: tento výpočet platí pre každé celé číslo, nie iba pre jedno konkrétne. Je to všeobecný dôkaz.</span></li>
+          <li><b>Symetrickosť:</b> <span class="m">∀x, y ∈ A : (x, y) ∈ R ⇒ (y, x) ∈ R</span>, po dosadení <span class="m">∀x, y ∈ ℤ : |x − y| ≤ 3 ⇒ |y − x| ≤ 3</span>.<br>
+            <b>R je symetrická</b>, lebo <span class="m">|x − y| = |y − x|</span>. Po dosadení dostaneme <span class="m">|x − y| ≤ 3 ⇒ |x − y| ≤ 3</span>, a to je tautológia (tvaru p ⇒ p).<br>
+            <span class="why">Intuícia: vzdialenosť z x do y je rovnaká ako z y do x.</span></li>
+          <li><b>Antisymetrickosť:</b> <span class="m">∀x, y ∈ A : ((x, y) ∈ R ∧ (y, x) ∈ R) ⇒ x = y</span>, po dosadení <span class="m">∀x, y ∈ ℤ : (|x − y| ≤ 3 ∧ |y − x| ≤ 3) ⇒ x = y</span>.<br>
+            <b>R nie je antisymetrická.</b> Kontrapríklad: x = 4, y = 6. Platí <span class="m">|4 − 6| = 2 ≤ 3</span> aj <span class="m">|6 − 4| = 2 ≤ 3</span>, ale <span class="m">4 ≠ 6</span>.<br>
+            <span class="why">Ako som ho našiel: hľadám dve rôzne čísla, ktoré sú blízko seba. Vďaka symetrii sú potom v relácii oboma smermi.</span></li>
+          <li><b>Tranzitívnosť:</b> <span class="m">∀x, y, z ∈ A : ((x, y) ∈ R ∧ (y, z) ∈ R) ⇒ (x, z) ∈ R</span>, po dosadení <span class="m">∀x, y, z ∈ ℤ : (|x − y| ≤ 3 ∧ |y − z| ≤ 3) ⇒ |x − z| ≤ 3</span>.<br>
+            <b>R nie je tranzitívna.</b> Kontrapríklad: x = 2, y = 5, z = 7. Platí <span class="m">|2 − 5| = 3 ≤ 3</span> aj <span class="m">|5 − 7| = 2 ≤ 3</span>, ale <span class="m">|2 − 7| = 5 &gt; 3</span>.<br>
+            <span class="why">Ako som ho našiel: dva kroky po najviac 3 dajú spolu až 6. Stačí urobiť dva „dlhé“ kroky rovnakým smerom.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> reflexívna ✔, symetrická ✔, antisymetrická ✘, tranzitívna ✘.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 2: Vzorová písomka, konečná množina</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> <span class="m">A = {1, 5, 8, 11, 16}</span>. Zistite, ktoré z vlastností reflexívnosť, symetrickosť, antisymetrickosť, tranzitívnosť platia v relácii <span class="m">R = {(x, y) ∈ A × A ; |x − y| ≤ 4}</span>. Ku každej vlastnosti napíšte definíciu, rozhodnite a odôvodnite.</div>
+        <p><b>Prvý krok:</b> množina je konečná a malá, preto si R vypíšem. Pri dvojiciach rôznych prvkov počítam vzdialenosti:</p>
+        <ul>
+          <li>1 a 5: 4 ✔ · 5 a 8: 3 ✔ · 8 a 11: 3 ✔ · 11 a 16: 5 ✘</li>
+          <li>1 a 8: 7 ✘ · 5 a 11: 6 ✘ · 8 a 16: 8 ✘ · ostatné sú ešte ďalej ✘</li>
+        </ul>
+        <p><span class="m">R = {(1,1), (5,5), (8,8), (11,11), (16,16), (1,5), (5,1), (5,8), (8,5), (8,11), (11,8)}</span></p>
+        <ol class="steps">
+          <li><b>Reflexívnosť</b> (<span class="m">∀x ∈ A : (x, x) ∈ R</span>): <b>platí</b>, pre každé x ∈ A je <span class="m">|x − x| = 0 ≤ 4</span>.</li>
+          <li><b>Symetrickosť</b> (<span class="m">∀x, y ∈ A : (x, y) ∈ R ⇒ (y, x) ∈ R</span>): <b>platí</b>, lebo <span class="m">|x − y| = |y − x|</span>. V zozname R je pri každej dvojici aj otočená.</li>
+          <li><b>Antisymetrickosť</b> (<span class="m">∀x, y ∈ A : ((x, y) ∈ R ∧ (y, x) ∈ R) ⇒ x = y</span>): <b>neplatí</b>. <span class="m">(1, 5) ∈ R</span> aj <span class="m">(5, 1) ∈ R</span>, ale 1 ≠ 5.</li>
+          <li><b>Tranzitívnosť</b> (<span class="m">∀x, y, z ∈ A : ((x, y) ∈ R ∧ (y, z) ∈ R) ⇒ (x, z) ∈ R</span>): <b>neplatí</b>. <span class="m">(1, 5) ∈ R</span> a <span class="m">(5, 8) ∈ R</span>, ale <span class="m">(1, 8) ∉ R</span>, lebo <span class="m">|1 − 8| = 7 &gt; 4</span>.<br>
+            <span class="why">Pri konečnej množine musí byť protipríklad z A. Čísla mimo A (napr. 2, 5, 7 ako vo vzore) tu použiť nemôžeš.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> reflexívna ✔, symetrická ✔, antisymetrická ✘, tranzitívna ✘.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 3: Kongruencia, 3 | (x − y) na ℤ</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Na ℤ je relácia <span class="m">x R y ⟺ 3 | (x − y)</span>. Over všetky štyri vlastnosti.</div>
+        <p><b>Pripomenutie:</b> <span class="m">3 | a</span> znamená, že existuje celé k, pre ktoré <span class="m">a = 3k</span>.</p>
+        <ol class="steps">
+          <li><b>Reflexívnosť:</b> <span class="m">∀x ∈ ℤ : 3 | (x − x)</span>. <b>Platí</b>, lebo <span class="m">x − x = 0 = 3 · 0</span>.</li>
+          <li><b>Symetrickosť:</b> <span class="m">∀x, y ∈ ℤ : 3 | (x − y) ⇒ 3 | (y − x)</span>. <b>Platí:</b> ak <span class="m">x − y = 3k</span>, tak <span class="m">y − x = −3k = 3 · (−k)</span>, a −k je celé číslo.</li>
+          <li><b>Antisymetrickosť:</b> <b>neplatí</b>. Kontrapríklad: x = 0, y = 3. <span class="m">3 | (0 − 3)</span> aj <span class="m">3 | (3 − 0)</span>, ale 0 ≠ 3.</li>
+          <li><b>Tranzitívnosť:</b> <span class="m">∀x, y, z ∈ ℤ : (3 | (x − y) ∧ 3 | (y − z)) ⇒ 3 | (x − z)</span>. <b>Platí:</b> ak <span class="m">x − y = 3k</span> a <span class="m">y − z = 3l</span>, tak
+            <span class="mb">x − z = (x − y) + (y − z) = 3k + 3l = 3(k + l)</span>
+            <span class="why">Trik: rozdiel x − z rozložím cez „medzikrok“ y. Tento trik sa hodí pri tranzitívnosti veľmi často.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> R ✔, S ✔, AS ✘, T ✔. Je to <b>ekvivalencia</b> s triedami podľa zvyšku po delení 3 (pozri tému 1, príklad 9).</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 4: Deliteľnosť na ℕ a na ℤ</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Over vlastnosti relácie <span class="m">x R y ⟺ x | y</span> a) na ℕ, b) na ℤ.</div>
+        <ol class="steps">
+          <li><b>Reflexívnosť:</b> <span class="m">x = 1 · x</span>, teda <span class="m">x | x</span>. <b>Platí na ℕ aj ℤ</b> (aj 0 | 0, lebo 0 = k · 0).</li>
+          <li><b>Symetrickosť:</b> <b>neplatí</b>. Kontrapríklad: 2 | 4, ale 4 ∤ 2.</li>
+          <li><b>Antisymetrickosť na ℕ: platí.</b> Ak x | y a y | x, tak y = kx a x = ly pre nejaké k, l ∈ ℕ. Potom x = l·k·x, takže l·k = 1. Prirodzené čísla s takým súčinom sú iba k = l = 1, teda x = y.<br>
+            <b>Na ℤ: neplatí.</b> Kontrapríklad: x = 2, y = −2. 2 | −2 (−2 = (−1)·2) aj −2 | 2, ale 2 ≠ −2.<br>
+            <span class="why">Prečo rozdiel: v ℤ môže byť k = l = −1, a to je presne prípad y = −x.</span></li>
+          <li><b>Tranzitívnosť:</b> <b>platí</b>. Ak y = kx a z = ly, tak z = l·k·x = (lk)·x, teda x | z.</li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> na ℕ: R ✔, S ✘, AS ✔, T ✔ (čiastočné usporiadanie). Na ℤ: R ✔, S ✘, AS ✘, T ✔.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 5: x &lt; y na ℤ (platnosť naprázdno)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Over vlastnosti relácie <span class="m">x R y ⟺ x &lt; y</span> na ℤ.</div>
+        <ol class="steps">
+          <li><b>Reflexívnosť:</b> <b>neplatí</b>. Napríklad x = 1: 1 &lt; 1 neplatí. (Neplatí dokonca pre žiadne x.)</li>
+          <li><b>Symetrickosť:</b> <b>neplatí</b>. 1 &lt; 2, ale 2 &lt; 1 neplatí.</li>
+          <li><b>Antisymetrickosť:</b> <span class="m">(x &lt; y ∧ y &lt; x) ⇒ x = y</span>. Predpoklad nemôže nikdy platiť, lebo x nemôže byť súčasne menšie aj väčšie ako y. Implikácia s vždy nepravdivým predpokladom je pravdivá, takže <b>platí naprázdno</b>.<br>
+            <span class="why">Prečo to nie je podvod: aby antisymetrickosť neplatila, potrebuješ kontrapríklad, teda x ≠ y v relácii oboma smermi. Taký neexistuje.</span></li>
+          <li><b>Tranzitívnosť:</b> <b>platí</b>. Z x &lt; y a y &lt; z vyplýva x &lt; z.</li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> R ✘, S ✘, AS ✔, T ✔.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 6: x ≤ y² na ℤ a na ℝ (na množine záleží)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Over vlastnosti relácie <span class="m">x R y ⟺ x ≤ y²</span> na ℤ. Potom zisti, čo sa zmení na ℝ.</div>
+        <ol class="steps">
+          <li><b>Reflexívnosť na ℤ:</b> treba <span class="m">x ≤ x²</span>, čiže <span class="m">x² − x = x(x − 1) ≥ 0</span>. Pre celé x sú x a x − 1 buď obe ≥ 0 (x ≥ 1), alebo obe ≤ 0 (x ≤ 0), takže súčin je ≥ 0. <b>Platí.</b><br>
+            <b>Na ℝ neplatí:</b> x = ½ dáva ½ ≤ ¼, čo je nepravda.<br>
+            <span class="why">Prečo: medzi 0 a 1 je x² &lt; x, ale v ℤ medzi 0 a 1 žiadne číslo nie je.</span></li>
+          <li><b>Symetrickosť:</b> <b>neplatí</b>. x = 0, y = 1: 0 ≤ 1 platí, ale 1 ≤ 0 nie.</li>
+          <li><b>Antisymetrickosť:</b> <b>neplatí</b>. x = 2, y = 3: 2 ≤ 9 aj 3 ≤ 4, ale 2 ≠ 3.</li>
+          <li><b>Tranzitívnosť:</b> <b>neplatí</b>. x = 9, y = 3, z = 2: 9 ≤ 9 aj 3 ≤ 4, ale 9 ≤ 4 neplatí.<br>
+            <span class="why">Ako som ho hľadal: chcem, aby x bolo veľké (x = y²) a z malé, ale stále y ≤ z². Pri y = 3 stačí z = 2.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> na ℤ: R ✔, S ✘, AS ✘, T ✘. Na ℝ: R ✘, S ✘, AS ✘, T ✘. Táto relácia nie je ani symetrická, ani antisymetrická.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 7: Relácia zadaná vymenovaním a prázdna relácia</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> a) Na <span class="m">A = {1, 2, 3}</span> je <span class="m">R = {(1,1), (2,2), (3,3), (1,2), (2,3)}</span>. Over vlastnosti. b) Aké vlastnosti má prázdna relácia <span class="m">R = ∅</span> na <span class="m">A = {1, 2}</span>?</div>
+        <ol class="steps">
+          <li><b>a) Reflexívnosť:</b> (1,1), (2,2), (3,3) sú v R. <b>Platí.</b></li>
+          <li><b>a) Symetrickosť:</b> (1, 2) ∈ R, ale (2, 1) ∉ R. <b>Neplatí.</b></li>
+          <li><b>a) Antisymetrickosť:</b> hľadám dvojicu rôznych prvkov oboma smermi. (1,2) nemá (2,1) a (2,3) nemá (3,2). Taká dvojica neexistuje, <b>platí.</b></li>
+          <li><b>a) Tranzitívnosť:</b> (1, 2) a (2, 3) sú v R, ale (1, 3) ∉ R. <b>Neplatí.</b><br><span class="why">Pri vymenovanej relácii systematicky prejdi všetky „reťaze“ (a, b), (b, c) a pri každej skontroluj (a, c).</span></li>
+          <li><b>b) Prázdna relácia:</b> reflexívna <b>nie je</b>, lebo (1,1) ∉ R. Symetrická, antisymetrická aj tranzitívna <b>je</b>, a to naprázdno, lebo žiadna dvojica nesplní predpoklad.</li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> a) R ✔, S ✘, AS ✔, T ✘. b) R ✘, S ✔, AS ✔, T ✔.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" data-panel="zhrnutie">
+    <h3>Ťahák: relácie</h3>
+    <table>
+      <tr><th>Vlastnosť</th><th>Definícia</th><th>Jednoducho</th><th>Vyvrátiš, ak nájdeš…</th></tr>
+      <tr><td>Reflexívna</td><td class="m">∀x : (x,x) ∈ R</td><td>každý so sebou</td><td>x, kde (x,x) ∉ R</td></tr>
+      <tr><td>Symetrická</td><td class="m">∀x,y : (x,y) ∈ R ⇒ (y,x) ∈ R</td><td>šípka aj späť</td><td>(x,y) ∈ R, (y,x) ∉ R</td></tr>
+      <tr><td>Antisymetrická</td><td class="m">∀x,y : ((x,y) ∈ R ∧ (y,x) ∈ R) ⇒ x = y</td><td>rôzne prvky nikdy oboma smermi</td><td>x ≠ y v relácii oboma smermi</td></tr>
+      <tr><td>Tranzitívna</td><td class="m">∀x,y,z : ((x,y) ∈ R ∧ (y,z) ∈ R) ⇒ (x,z) ∈ R</td><td>reťaz sa dá skrátiť</td><td>(x,y), (y,z) ∈ R, ale (x,z) ∉ R</td></tr>
+    </table>
+    <p><b>Postup:</b> definícia, potom dosadenie podmienky, rozhodnutie a zdôvodnenie (všeobecný dôkaz alebo konkrétny protipríklad).</p>
+
+    <h3>Katalóg typických relácií (overené programom)</h3>
+    <table class="tt" style="width:auto">
+      <tr><th>Relácia</th><th>Množina</th><th>R</th><th>S</th><th>AS</th><th>T</th></tr>
+      <tr><td>x = y</td><td>ℤ</td><td>✔</td><td>✔</td><td>✔</td><td>✔</td></tr>
+      <tr><td>x ≤ y</td><td>ℤ</td><td>✔</td><td>✘</td><td>✔</td><td>✔</td></tr>
+      <tr><td>x &lt; y</td><td>ℤ</td><td>✘</td><td>✘</td><td>✔</td><td>✔</td></tr>
+      <tr><td>|x − y| ≤ k (k ≥ 1)</td><td>ℤ</td><td>✔</td><td>✔</td><td>✘</td><td>✘</td></tr>
+      <tr><td>|x − y| = 1</td><td>ℤ</td><td>✘</td><td>✔</td><td>✘</td><td>✘</td></tr>
+      <tr><td>x ≡ y (mod m), m ≥ 2</td><td>ℤ</td><td>✔</td><td>✔</td><td>✘</td><td>✔</td></tr>
+      <tr><td>x + y je párne</td><td>ℤ</td><td>✔</td><td>✔</td><td>✘</td><td>✔</td></tr>
+      <tr><td>|x| = |y|</td><td>ℤ</td><td>✔</td><td>✔</td><td>✘</td><td>✔</td></tr>
+      <tr><td>x · y &gt; 0</td><td>ℤ</td><td>✘</td><td>✔</td><td>✘</td><td>✔</td></tr>
+      <tr><td>x · y ≥ 0</td><td>ℤ</td><td>✔</td><td>✔</td><td>✘</td><td>✘</td></tr>
+      <tr><td>x | y</td><td>ℕ</td><td>✔</td><td>✘</td><td>✔</td><td>✔</td></tr>
+      <tr><td>x | y</td><td>ℤ</td><td>✔</td><td>✘</td><td>✘</td><td>✔</td></tr>
+      <tr><td>x ≤ y²</td><td>ℤ</td><td>✔</td><td>✘</td><td>✘</td><td>✘</td></tr>
+      <tr><td>x ≤ y²</td><td>ℝ</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+      <tr><td>x = 2y</td><td>ℤ</td><td>✘</td><td>✘</td><td>✔</td><td>✘</td></tr>
+      <tr><td>∅ (prázdna)</td><td>neprázdna A</td><td>✘</td><td>✔</td><td>✔</td><td>✔</td></tr>
+    </table>
+    <p class="why">Katalóg ber ako kontrolu výsledku. Na písomke musíš každú vlastnosť zdôvodniť.</p>
+
+    <h3>Najčastejšie chyby</h3>
+    <ul>
+      <li>Dokazovať platnosť jedným konkrétnym príkladom. Pri „platí“ treba všeobecný argument.</li>
+      <li>Myslieť si, že „nie je symetrická“ znamená „je antisymetrická“.</li>
+      <li>Zabudnúť na platnosť naprázdno (x &lt; y je antisymetrická).</li>
+      <li>Pri konečnej množine použiť v protipríklade čísla, ktoré do nej nepatria.</li>
+      <li>Ignorovať množinu: ℕ vs ℤ vs ℝ môže zmeniť výsledok.</li>
+      <li>Nenapísať definíciu, hoci ju zadanie vyžaduje.</li>
+    </ul>
+  </div>
+
+  <div class="tab-panel" data-panel="cvicenia">
+    <p>Pri každej relácii over všetky štyri vlastnosti presne podľa postupu: definícia, dosadenie, rozhodnutie, zdôvodnenie.</p>
+
+    <div class="task"><span class="tnum">Cvičenie 1.</span> Na ℤ: <span class="m">x R y ⟺ |x| = |y|</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <ul>
+        <li><b>R ✔:</b> |x| = |x| platí pre každé x.</li>
+        <li><b>S ✔:</b> ak |x| = |y|, tak aj |y| = |x| (rovnosť je súmerná).</li>
+        <li><b>AS ✘:</b> x = 1, y = −1: |1| = |−1| oboma smermi, ale 1 ≠ −1.</li>
+        <li><b>T ✔:</b> ak |x| = |y| a |y| = |z|, tak |x| = |z|.</li>
+      </ul>
+      <p>Je to ekvivalencia s triedami {0}, {1, −1}, {2, −2}, …</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 2.</span> Na ℤ: <span class="m">x R y ⟺ x · y ≥ 0</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <ul>
+        <li><b>R ✔:</b> x · x = x² ≥ 0 pre každé x.</li>
+        <li><b>S ✔:</b> x · y = y · x.</li>
+        <li><b>AS ✘:</b> x = 1, y = 2: 1 · 2 ≥ 0 oboma smermi, ale 1 ≠ 2.</li>
+        <li><b>T ✘:</b> x = 1, y = 0, z = −1: 1 · 0 = 0 ≥ 0 a 0 · (−1) = 0 ≥ 0, ale 1 · (−1) = −1 &lt; 0.<br>
+          <span class="why">Nula „spája“ kladné aj záporné čísla, preto ju v kontrapríklade použijem ako y.</span></li>
+      </ul>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 3.</span> Na ℝ: <span class="m">x R y ⟺ x ≤ y + 1</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <ul>
+        <li><b>R ✔:</b> x ≤ x + 1 platí vždy.</li>
+        <li><b>S ✘:</b> x = 0, y = 5: 0 ≤ 6 platí, ale 5 ≤ 1 nie.</li>
+        <li><b>AS ✘:</b> x = 0, y = 0,5: 0 ≤ 1,5 aj 0,5 ≤ 1, ale 0 ≠ 0,5.</li>
+        <li><b>T ✘:</b> x = 2, y = 1, z = 0: 2 ≤ 2 aj 1 ≤ 1, ale 2 ≤ 1 neplatí.</li>
+      </ul>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 4.</span> Na ℤ: <span class="m">x R y ⟺ x = 2y</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <ul>
+        <li><b>R ✘:</b> x = 1: 1 = 2 · 1 neplatí. (Platí iba pre x = 0, to nestačí.)</li>
+        <li><b>S ✘:</b> (2, 1) ∈ R, lebo 2 = 2 · 1, ale (1, 2) ∉ R, lebo 1 ≠ 4.</li>
+        <li><b>AS ✔:</b> ak x = 2y a y = 2x, tak x = 4x, teda x = 0 a potom y = 0. Vždy x = y.</li>
+        <li><b>T ✘:</b> (4, 2) ∈ R a (2, 1) ∈ R, ale (4, 1) ∉ R, lebo 4 ≠ 2.</li>
+      </ul>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 5.</span> Na ℤ: <span class="m">x R y ⟺ x + y je párne</span>. Ak je to ekvivalencia, urč triedy.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <ul>
+        <li><b>R ✔:</b> x + x = 2x je párne.</li>
+        <li><b>S ✔:</b> x + y = y + x.</li>
+        <li><b>AS ✘:</b> x = 1, y = 3: 1 + 3 = 4 je párne oboma smermi, ale 1 ≠ 3.</li>
+        <li><b>T ✔:</b> ak x + y = 2k a y + z = 2l, tak x + z = (x + y) + (y + z) − 2y = 2(k + l − y), čo je párne.</li>
+      </ul>
+      <p><b>Ekvivalencia</b> s dvoma triedami: párne čísla a nepárne čísla. x + y je párne práve vtedy, keď majú x a y rovnakú paritu.</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 6.</span> <span class="m">A = {1, 2, 3, 4}</span>, <span class="m">R = {(1,1), (2,2), (3,3), (4,4), (1,2), (2,1), (3,4), (4,3)}</span>. Je R ekvivalencia? Ak áno, urč triedy.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <ul>
+        <li><b>R ✔:</b> všetky (x, x) sú v R.</li>
+        <li><b>S ✔:</b> ku (1,2) je (2,1) a ku (3,4) je (4,3).</li>
+        <li><b>T ✔:</b> reťaze: (1,2), (2,1) dávajú (1,1) ∈ R; (2,1), (1,2) dávajú (2,2) ∈ R; podobne pre 3, 4. Ostatné reťaze obsahujú slučku a výsledok je pôvodná dvojica.</li>
+      </ul>
+      <p><b>Áno, je to ekvivalencia</b>, triedy sú <span class="m">R[1] = R[2] = {1, 2}</span> a <span class="m">R[3] = R[4] = {3, 4}</span>. (Antisymetrická nie je, kvôli (1,2), (2,1).)</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 7.</span> Koľko existuje všetkých binárnych relácií na 3-prvkovej množine? Koľko z nich je reflexívnych?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><span class="m">|A × A| = 9</span>, relácia je ľubovoľná podmnožina, preto ich je <span class="m">2⁹ = 512</span>.</p>
+      <p>Reflexívna relácia musí obsahovať 3 dvojice (x, x). O zvyšných 6 dvojiciach rozhoduješ ľubovoľne: <span class="m">2⁶ = 64</span>.</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 8.</span> Nájdi reláciu na ℤ, ktorá je <b>symetrická aj antisymetrická</b>. Je reflexívna? Je tranzitívna?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Napríklad <span class="m">x R y ⟺ x = y</span>. Symetrická je, lebo x = y ⇒ y = x. Antisymetrická je, lebo z x = y vyplýva x = y. Je aj reflexívna a tranzitívna.</p>
+      <p>Iný príklad je prázdna relácia: symetrická, antisymetrická aj tranzitívna naprázdno, ale nie reflexívna.</p>
+      <p><span class="why">Vo všeobecnosti: symetrická a zároveň antisymetrická relácia smie obsahovať iba dvojice tvaru (x, x).</span></p>
+    </div></details>
+  </div>
+
+  <div class="done-row">
+    <input type="checkbox" id="done-relacie" data-done="relacie">
+    <label for="done-relacie">Tému Binárne relácie mám zvládnutú</label>
+  </div>
+</section>
+
+<!-- ============================ SPLNITEĽNOSŤ A VYPLÝVANIE ============================ -->
+<section class="topic" id="topic-vyplyvanie">
+  <h2>4. Splniteľnosť a vyplývanie</h2>
+  <p class="lead">Systém formúl, kedy sa dá splniť, čo znamená S ⊨ φ, ako to overiť tabuľkou aj rýchlou úvahou a ako riešiť slovné úlohy („kto je vinný“, „vyplýva záver?“).</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="teoria">Teória</button>
+    <button class="tab-btn" data-tab="priklady">Riešené príklady</button>
+    <button class="tab-btn" data-tab="zhrnutie">Zhrnutie</button>
+    <button class="tab-btn" data-tab="cvicenia">Cvičenia</button>
+  </div>
+
+  <div class="tab-panel active" data-panel="teoria">
+    <div class="simple"><span class="lbl">O čom je celá téma</span>
+      Doteraz sme skúmali jednu formulu. Teraz máme <b>viac formúl naraz</b>, napríklad výpovede svedkov alebo predpoklady úvahy. Pýtame sa dve otázky: <b>Môžu platiť všetky naraz?</b> (splniteľnosť) A <b>vyplýva z nich niečo ďalšie?</b> (vyplývanie). Toto je presne úloha 1 z info od spolužiakov a úloha 3 zo vzorovej písomky.
+    </div>
+
+    <h3>4.1 Splniteľnosť systému formúl</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Systém je splniteľný, ak existuje aspoň jedna situácia (riadok tabuľky), v ktorej sú <b>všetky</b> formuly pravdivé súčasne. Ak taký riadok nie je, formuly si navzájom odporujú.
+    </div>
+    <div class="def"><span class="lbl">Definícia</span>
+      <b>Systém formúl</b> S je množina formúl, napr. <span class="m">S = {p ⇒ q, p ∨ q}</span>. S je <b><span class="term" tabindex="0" data-def="Systém formúl je splniteľný, ak existuje ohodnotenie (riadok tabuľky), pri ktorom sú všetky jeho formuly pravdivé naraz.">splniteľný</span></b>, ak existuje ohodnotenie, pri ktorom sú pravdivé <b>všetky</b> formuly z S. Inak je <b>nesplniteľný</b>.
+    </div>
+    <p><b>Postup:</b> urob tabuľku so stĺpcom pre každú formulu z S a hľadaj riadok, kde sú všetky tieto stĺpce rovné 1.</p>
+    <div class="trap"><span class="lbl">Pozor</span>
+      Nestačí, aby bola každá formula splniteľná <i>samostatne</i>. <span class="m">p</span> aj <span class="m">¬p</span> sú každá splniteľné, ale systém <span class="m">{p, ¬p}</span> splniteľný nie je. Rozhoduje <b>ten istý riadok</b> pre všetky.
+    </div>
+
+    <h3>4.2 Vyplývanie (sémantický dôsledok)</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Záver φ <b>vyplýva</b> z predpokladov S, ak <b>nemôže nastať</b> situácia, v ktorej by všetky predpoklady platili a záver nie. Inými slovami: kedykoľvek platia predpoklady, platí aj záver. Na nič iné sa nepozeráš.
+    </div>
+    <div class="def"><span class="lbl">Definícia</span>
+      Formula φ <b><span class="term" tabindex="0" data-def="φ vyplýva zo S (S ⊨ φ), ak je φ pravdivá v každom riadku, v ktorom sú pravdivé všetky formuly z S.">vyplýva</span></b> zo systému S, zapisujeme <span class="m">S ⊨ φ</span> (na prednáške <span class="m">S |= φ</span>), ak je φ pravdivá pri <b>každom</b> ohodnotení, pri ktorom sú pravdivé všetky formuly z S. Ak nevyplýva, píšeme <span class="m">S ⊭ φ</span>.
+    </div>
+    <h4>Postup tabuľkou</h4>
+    <ol>
+      <li>Urob tabuľku so stĺpcami všetkých formúl z S a so záverom φ.</li>
+      <li><b>Označ (✓) riadky, kde sú všetky formuly z S rovné 1.</b> Ostatné riadky ťa nezaujímajú.</li>
+      <li>Pozri sa na φ <b>iba v označených riadkoch</b>:
+        <ul>
+          <li>všade 1: <span class="m">S ⊨ φ</span>, <b>vyplýva</b>,</li>
+          <li>aspoň raz 0: <span class="m">S ⊭ φ</span>, <b>nevyplýva</b>, a ten riadok je protipríklad.</li>
+        </ul></li>
+    </ol>
+    <div class="trap"><span class="lbl">Najčastejšia chyba</span>
+      Pozerať sa na φ vo <b>všetkých</b> riadkoch. Riadky, kde niektorý predpoklad neplatí, sa nerátajú. Pri nich je to ako s implikáciou naprázdno: „ak by predpoklady platili, tak…“, lenže tu neplatia.
+    </div>
+
+    <h3>4.3 Rýchla metóda: hľadanie protipríkladu</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Namiesto celej tabuľky skúsiš priamo nájsť „zlý“ riadok: <b>všetky predpoklady = 1 a záver = 0</b>. Z jednoduchých formúl (napr. <span class="m">¬y ∧ z</span>) hneď vieš hodnoty premenných a dosadzuješ ďalej. Ak narazíš na spor, zlý riadok neexistuje a záver vyplýva.
+    </div>
+    <p>Užitočné „vynútené“ hodnoty:</p>
+    <ul>
+      <li><span class="m">α ∧ β = 1</span>: obe sú 1.</li>
+      <li><span class="m">α ∨ β = 0</span>: obe sú 0.</li>
+      <li><span class="m">α ⇒ β = 0</span>: α = 1 a β = 0.</li>
+      <li><span class="m">α ⇔ β = 1</span>: rovnaké hodnoty.</li>
+      <li>Samotný literál ako predpoklad (napr. <span class="m">¬r</span>) priamo určí hodnotu premennej.</li>
+    </ul>
+    <p>Na písomke je táto metóda úplne v poriadku, ak ju <b>slovne zdôvodníš</b>. Ak si nie si istý, sprav tabuľku. Pri 3 premenných má iba 8 riadkov.</p>
+
+    <h3>4.4 Dôležité vety</h3>
+    <table>
+      <tr><th>Veta</th><th>Jednoducho</th></tr>
+      <tr><td>Ak <span class="m">φ ∈ S</span>, tak <span class="m">S ⊨ φ</span>.</td><td>Predpoklad samotný z predpokladov určite vyplýva.</td></tr>
+      <tr><td>Tautológia vyplýva z každého S.</td><td>Čo platí vždy, platí aj vtedy, keď platia predpoklady.</td></tr>
+      <tr><td>Ak je S nesplniteľný, tak <span class="m">S ⊨ φ</span> pre <b>každú</b> φ.</td><td>Nie je žiadny označený riadok, takže nie je ani protipríklad. „Z nepravdy vyplýva čokoľvek.“</td></tr>
+      <tr><td><b><span class="m">S ⊨ φ</span> ⟺ <span class="m">S ∪ {¬φ}</span> je nesplniteľný.</b></td><td>„φ vyplýva“ = „predpoklady spolu s opakom záveru si odporujú“. Na tejto vete stojí <b>rezolučná metóda</b> (téma 5).</td></tr>
+    </table>
+
+    <h3>4.5 Vzory úvah, ktoré platia a ktoré nie</h3>
+    <table>
+      <tr><th>Vzor</th><th>Zápis</th><th>Platí?</th></tr>
+      <tr><td>Modus ponens</td><td class="m">{p ⇒ q, p} ⊨ q</td><td>✔</td></tr>
+      <tr><td>Modus tollens</td><td class="m">{p ⇒ q, ¬q} ⊨ ¬p</td><td>✔</td></tr>
+      <tr><td>Disjunktívny sylogizmus</td><td class="m">{p ∨ q, ¬p} ⊨ q</td><td>✔</td></tr>
+      <tr><td>Reťazenie implikácií</td><td class="m">{p ⇒ q, q ⇒ r} ⊨ p ⇒ r</td><td>✔</td></tr>
+      <tr><td>„Potvrdenie záveru“ (chyba)</td><td class="m">{p ⇒ q, q} ⊭ p</td><td>✘ (p = 0, q = 1)</td></tr>
+      <tr><td>„Popretie predpokladu“ (chyba)</td><td class="m">{p ⇒ q, ¬p} ⊭ ¬q</td><td>✘ (p = 0, q = 1)</td></tr>
+    </table>
+
+    <h3>4.6 Slovné úlohy</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Slovnú úlohu najprv „preložíš“ do formúl (téma 2.6) a potom riešiš ako bežnú úlohu. Pri otázke „kto je vinný / kto pôjde“ hľadáš riadky, kde platí všetko (splniteľnosť). Pri otázke „vyplýva záver?“ overuješ <span class="m">S ⊨ φ</span>.
+    </div>
+    <ol>
+      <li>Označ jednoduché výroky premennými (bez záporu).</li>
+      <li>Každú vetu prepíš na formulu. Všetky spolu tvoria S.</li>
+      <li>Ak je otázka „vyplýva…?“, záver zapíš ako φ.</li>
+      <li>Rieš tabuľkou, rýchlou metódou alebo rezolúciou.</li>
+      <li>Odpovedz slovne, napr. „Vinný je iba Mišo.“</li>
+    </ol>
+  </div>
+
+  <div class="tab-panel" data-panel="priklady">
+
+    <div class="ex">
+      <div class="ex-head">Príklad 1: Vyplývanie tabuľkou (z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Rozhodni, či platí <span class="m">S ⊨ α</span> a <span class="m">S ⊨ β</span>, ak <span class="m">S = {p ⇒ q, p ∨ q}</span>, <span class="m">α : ¬q ⇒ p</span>, <span class="m">β : q ⇒ p</span>.</div>
+        <ol class="steps">
+          <li>Urobím tabuľku so stĺpcami predpokladov <span class="m">p ⇒ q</span>, <span class="m">p ∨ q</span> a záverov α, β.</li>
+          <li><b>Označím riadky</b>, kde sú oba predpoklady 1. Sú to riadky 01 a 11 (✓ v poslednom stĺpci, podfarbené).<br>
+            <span class="why">Riadok 00 vypadne, lebo p ∨ q = 0. Riadok 10 vypadne, lebo p ⇒ q = 0.</span></li>
+          <li><b>α v označených riadkoch:</b> 1 a 1. Všade 1, takže <span class="m">S ⊨ α</span>.</li>
+          <li><b>β v označených riadkoch:</b> v riadku 01 je 0, takže <span class="m">S ⊭ β</span>. Protipríklad: p = 0, q = 1.</li>
+        </ol>
+        <table class="tt" style="width:auto">
+<tr><th>p</th><th>q</th><th>p ⇒ q</th><th>p ∨ q</th><th>¬q</th><th>α: ¬q ⇒ p</th><th>β: q ⇒ p</th><th></th></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td></td></tr>
+<tr class="sel"><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td class="hl">0</td><td><b style='color:var(--bad)'>✗</b></td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td></td></tr>
+<tr class="sel"><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>✓</td></tr>
+</table>
+        <p class="why">Posledný stĺpec (✓/✗) sa týka β: ✗ označuje riadok, ktorý je protipríkladom.</p>
+        <div class="vysledok"><b>Výsledok:</b> <span class="m">S ⊨ α</span>, <span class="m">S ⊭ β</span>.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 2: Kto ukradol triednu knihu? (splniteľnosť, z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Podozriví hovoria pravdu. Janko: „Mišo je vinný a Slavo je nevinný.“ Mišo: „Ak je vinný Janko, tak je vinný aj Slavo.“ Slavo: „Ja som nevinný, ale najmenej jeden z ostatných je vinný.“ Kto je vinný?</div>
+        <ol class="steps">
+          <li><b>Premenné:</b> j = „Janko je vinný“, m = „Mišo je vinný“, s = „Slavo je vinný“.</li>
+          <li><b>Prepis:</b>
+            <ul>
+              <li>Janko: <span class="m">m ∧ ¬s</span>,</li>
+              <li>Mišo: <span class="m">j ⇒ s</span>,</li>
+              <li>Slavo: <span class="m">¬s ∧ (j ∨ m)</span>, kde „ale“ = ∧ a „najmenej jeden z ostatných“ = j ∨ m.</li>
+            </ul></li>
+          <li><b>Otázka:</b> všetci hovoria pravdu, teda hľadám riadky, kde sú všetky tri formuly 1 (splniteľnosť).</li>
+          <li><b>Rýchla úvaha:</b> z Jankovej výpovede je m = 1 a s = 0. Z Mišovej <span class="m">j ⇒ s</span> pri s = 0 musí byť j = 0, inak 1 ⇒ 0. Overím Slavovu: <span class="m">¬0 ∧ (0 ∨ 1) = 1</span> ✔.</li>
+        </ol>
+        <table class="tt" style="width:auto">
+<tr><th>j</th><th>m</th><th>s</th><th>¬s</th><th>m ∧ ¬s</th><th>j ⇒ s</th><th>j ∨ m</th><th>¬s ∧ (j ∨ m)</th><th></th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+<tr class="sel"><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>✓</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td></td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td></td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td></td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td></td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td></td></tr>
+</table>
+        <div class="vysledok"><b>Výsledok:</b> jediný vyhovujúci riadok je j = 0, m = 1, s = 0. <b>Vinný je iba Mišo.</b></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 3: Je úvaha správna? (z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Predpoklady: Ján nie je učiteľ. Neplatí, že Ján je učiteľ a zároveň je bohatý. Ak je Ján majiteľ prosperujúcej firmy, je bohatý. Záver: Ján nie je majiteľ prosperujúcej firmy.</div>
+        <ol class="steps">
+          <li>u = „Ján je učiteľ“, b = „Ján je bohatý“, m = „Ján je majiteľ firmy“.</li>
+          <li><span class="m">S = {¬u, ¬(u ∧ b), m ⇒ b}</span>, <span class="m">φ : ¬m</span>.</li>
+          <li><b>Hľadám protipríklad</b> (všetky predpoklady 1, φ = 0): φ = 0 znamená m = 1. Z <span class="m">m ⇒ b</span> potom b = 1. Z <span class="m">¬u</span> je u = 0. Skontrolujem <span class="m">¬(u ∧ b) = ¬(0 ∧ 1) = 1</span> ✔.</li>
+          <li>Našiel som riadok u = 0, b = 1, m = 1, kde platia všetky predpoklady, ale záver nie.</li>
+        </ol>
+        <table class="tt" style="width:auto">
+<tr><th>u</th><th>b</th><th>m</th><th>¬u</th><th>¬(u ∧ b)</th><th>m ⇒ b</th><th>φ: ¬m</th><th></th></tr>
+<tr class="sel"><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>✓</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+<tr class="sel"><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>✓</td></tr>
+<tr class="sel"><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td class="hl">0</td><td><b style='color:var(--bad)'>✗</b></td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td></td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td></td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+</table>
+        <div class="vysledok"><b>Výsledok:</b> <span class="m">S ⊭ ¬m</span>, záver <b>nevyplýva</b>. Ján môže byť bohatý majiteľ firmy, ktorý nie je učiteľ, a všetky predpoklady by stále platili.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 4: Vzorová písomka, úloha 3</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Rozhodnite, či formula α vyplýva zo systému formúl M, ak <span class="m">M = {(x ⇒ y) ∨ z,  x ⇔ ¬z,  (x ∧ y) ⇒ z,  ¬y ∧ z}</span>, <span class="m">α : (x ∨ y) ⇒ z</span>.</div>
+        <p><b>Spôsob 1: rýchla úvaha.</b> Hľadám riadok, kde sú všetky formuly z M rovné 1.</p>
+        <ol class="steps">
+          <li><span class="m">¬y ∧ z = 1</span>: konjunkcia, takže <b>y = 0, z = 1</b>.<br><span class="why">Začínam od najjednoduchšej formuly, ktorá rovno určí hodnoty.</span></li>
+          <li><span class="m">x ⇔ ¬z = 1</span>: ¬z = 0, takže aj <b>x = 0</b>.</li>
+          <li>Kontrola zvyšných: <span class="m">(x ⇒ y) ∨ z = (0 ⇒ 0) ∨ 1 = 1</span> ✔, <span class="m">(x ∧ y) ⇒ z = 0 ⇒ 1 = 1</span> ✔.</li>
+          <li>Predpoklady platia teda <b>iba v jednom riadku</b>: x = 0, y = 0, z = 1. V ňom <span class="m">α = (0 ∨ 0) ⇒ 1 = 0 ⇒ 1 = 1</span>.</li>
+        </ol>
+        <p><b>Spôsob 2: tabuľka</b> (na písomke je najistejšia):</p>
+        <table class="tt" style="width:auto">
+<tr><th>x</th><th>y</th><th>z</th><th>(x⇒y) ∨ z</th><th>x ⇔ ¬z</th><th>(x∧y) ⇒ z</th><th>¬y ∧ z</th><th>α</th><th></th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td></td></tr>
+<tr class="sel"><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>✓</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td></td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td></td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td></td></tr>
+</table>
+        <div class="vysledok"><b>Výsledok:</b> v jedinom riadku, kde platia všetky formuly z M, platí aj α. Teda <span class="m">M ⊨ α</span>, <b>α vyplýva z M</b>. (Rovnaký výsledok dá aj rezolúcia, pozri tému 5, príklad 6.)</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 5: Nesplniteľný systém</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Je <span class="m">S = {p ⇒ q, q ⇒ r, p, ¬r}</span> splniteľný? Vyplýva z neho formula <span class="m">¬p</span>? A formula <span class="m">p</span>?</div>
+        <ol class="steps">
+          <li>Z predpokladov p a ¬r: p = 1, r = 0.</li>
+          <li>Z <span class="m">p ⇒ q</span> pri p = 1 musí byť q = 1.</li>
+          <li>Z <span class="m">q ⇒ r</span> pri q = 1 musí byť r = 1, a to je <b>spor</b> s r = 0.</li>
+          <li>Žiadny riadok nespĺňa všetky formuly, <b>S je nesplniteľný</b>.</li>
+          <li>Podľa vety „z nesplniteľného systému vyplýva čokoľvek“ platí <span class="m">S ⊨ ¬p</span> aj <span class="m">S ⊨ p</span>.<br>
+            <span class="why">Prečo to dáva zmysel: neexistuje označený riadok, takže neexistuje ani protipríklad.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> S je nesplniteľný a vyplýva z neho každá formula.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" data-panel="zhrnutie">
+    <h3>Ťahák: splniteľnosť a vyplývanie</h3>
+    <table>
+      <tr><th>Pojem</th><th>Ako overiť</th></tr>
+      <tr><td>S je splniteľný</td><td>existuje riadok, kde sú <b>všetky</b> formuly z S rovné 1</td></tr>
+      <tr><td>S ⊨ φ (vyplýva)</td><td>v <b>každom</b> riadku, kde sú všetky formuly z S rovné 1, je aj φ = 1</td></tr>
+      <tr><td>S ⊭ φ (nevyplýva)</td><td>existuje riadok: všetky formuly z S = 1 a φ = 0 (protipríklad)</td></tr>
+      <tr><td>Kľúčová veta</td><td><span class="m">S ⊨ φ ⟺ S ∪ {¬φ}</span> je nesplniteľný</td></tr>
+      <tr><td>Nesplniteľné S</td><td>vyplýva z neho čokoľvek</td></tr>
+    </table>
+    <h3>Postup krok za krokom</h3>
+    <ol>
+      <li>Prepíš (ak je slovná úloha).</li>
+      <li>Tabuľka: stĺpce formúl z S a φ.</li>
+      <li>Označ riadky, kde S = samé 1.</li>
+      <li>Skontroluj φ iba v nich.</li>
+      <li>Odpovedz a pri „nevyplýva“ uveď protipríklad.</li>
+    </ol>
+    <h3>Najčastejšie chyby</h3>
+    <ul>
+      <li>Kontrolovať φ vo všetkých riadkoch namiesto iba v označených.</li>
+      <li>Zameniť „každá formula je splniteľná“ so „systém je splniteľný“.</li>
+      <li>Pri nesplniteľnom S povedať „nič nevyplýva“. Správne je „vyplýva všetko“.</li>
+      <li>Chyba v prepise slovnej úlohy, hlavne „ak“ verzus „len ak“.</li>
+    </ul>
+  </div>
+
+  <div class="tab-panel" data-panel="cvicenia">
+    <div class="task"><span class="tnum">Cvičenie 1.</span> Platí <span class="m">{p ∨ q, ¬p} ⊨ q</span>?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Predpoklad ¬p dáva p = 0. Potom <span class="m">p ∨ q = 1</span> vyžaduje q = 1. Jediný riadok, kde platia predpoklady, je p = 0, q = 1, a v ňom q = 1. <b>Vyplýva</b> (disjunktívny sylogizmus).</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 2.</span> Platí <span class="m">{p ⇒ q, q} ⊨ p</span>?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Hľadám protipríklad: p = 0 (záver neplatí), q = 1 (predpoklad q). Potom <span class="m">p ⇒ q = 0 ⇒ 1 = 1</span>. Všetky predpoklady platia a záver nie, takže <b>nevyplýva</b>.</p>
+      <p><span class="why">Slovne: „Ak prší, je mokro. Je mokro.“ Z toho nevyplýva, že prší, mohlo byť napríklad pokropené.</span></p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 3.</span> Platí <span class="m">{p ⇒ q, ¬q} ⊨ ¬p</span>?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Protipríklad by vyžadoval ¬p = 0, teda p = 1, a ¬q = 1, teda q = 0. Potom <span class="m">p ⇒ q = 1 ⇒ 0 = 0</span>, čiže predpoklad neplatí, a to je spor. <b>Vyplýva</b> (modus tollens).</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 4.</span> Platí <span class="m">{p ⇒ q, q ⇒ r} ⊨ p ⇒ r</span>?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Protipríklad: <span class="m">p ⇒ r = 0</span>, teda p = 1, r = 0. Z <span class="m">p ⇒ q</span> je q = 1, ale potom <span class="m">q ⇒ r = 1 ⇒ 0 = 0</span>, čo je spor. <b>Vyplýva.</b></p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 5.</span> Je systém <span class="m">{p ⇔ q, q ⇔ ¬p}</span> splniteľný?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Z oboch formúl: p má rovnakú hodnotu ako q a q má rovnakú hodnotu ako ¬p, teda p má rovnakú hodnotu ako ¬p. To je nemožné. <b>Nesplniteľný.</b> (Over si to aj tabuľkou so 4 riadkami.)</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 6.</span> „Ak príde Peter, príde aj Jana. Ak príde Jana, nepríde Ivan. Ivan príde.“ Vyplýva z toho, že Peter nepríde?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>p, j, i: <span class="m">S = {p ⇒ j, j ⇒ ¬i, i}</span>, <span class="m">φ : ¬p</span>.</p>
+      <p>i = 1. Z <span class="m">j ⇒ ¬i</span> je j = 0, inak 1 ⇒ 0. Z <span class="m">p ⇒ j</span> pri j = 0 je p = 0. Jediný vyhovujúci riadok má p = 0, teda ¬p = 1. <b>Vyplýva, Peter nepríde.</b></p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 7.</span> Rozhodni, či <span class="m">{x ∨ y, x ⇒ z, y ⇒ z} ⊨ z</span>, a potom či <span class="m">{x ∨ y, x ⇒ z} ⊨ z</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><b>Prvé:</b> protipríklad by vyžadoval z = 0. Potom z <span class="m">x ⇒ z</span> je x = 0 a z <span class="m">y ⇒ z</span> je y = 0, ale potom <span class="m">x ∨ y = 0</span>, spor. <b>Vyplýva</b> (úvaha „po prípadoch“).</p>
+      <p><b>Druhé:</b> z = 0, x = 0, y = 1: <span class="m">x ∨ y = 1</span>, <span class="m">x ⇒ z = 0 ⇒ 0 = 1</span>, a z = 0. <b>Nevyplýva</b>, protipríklad je x = 0, y = 1, z = 0.</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 8.</span> Vysvetli vlastnými slovami, prečo platí <span class="m">S ⊨ φ ⟺ S ∪ {¬φ}</span> je nesplniteľný.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>S ∪ {¬φ} je splniteľný práve vtedy, keď existuje riadok, kde platia všetky formuly z S a zároveň ¬φ, teda φ = 0. Presne taký riadok je protipríklad k vyplývaniu.</p>
+      <p>Takže: protipríklad existuje ⟺ S ∪ {¬φ} je splniteľný. Po negácii oboch strán: <span class="m">S ⊨ φ</span> ⟺ S ∪ {¬φ} je nesplniteľný.</p>
+    </div></details>
+  </div>
+
+  <div class="done-row">
+    <input type="checkbox" id="done-vyplyvanie" data-done="vyplyvanie">
+    <label for="done-vyplyvanie">Tému Splniteľnosť a vyplývanie mám zvládnutú</label>
+  </div>
+</section>
+
+<!-- ============================ REZOLÚCIA ============================ -->
+<section class="topic" id="topic-rezolucia">
+  <h2>5. Klauzuly a rezolučná metóda</h2>
+  <p class="lead">Ako prepísať formuly do klauzúl, ako funguje rezolučné pravidlo, rezolučný uzáver, Robinsonov princíp a zrýchlená metóda (eliminácia premenných). Použitie na splniteľnosť aj vyplývanie.</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="teoria">Teória</button>
+    <button class="tab-btn" data-tab="priklady">Riešené príklady</button>
+    <button class="tab-btn" data-tab="zhrnutie">Zhrnutie</button>
+    <button class="tab-btn" data-tab="cvicenia">Cvičenia</button>
+  </div>
+
+  <div class="tab-panel active" data-panel="teoria">
+    <div class="simple"><span class="lbl">O čom je celá téma</span>
+      Tabuľka má <span class="m">2ⁿ</span> riadkov: pri 5 premenných 32, pri 10 už 1024. Rezolučná metóda rozhoduje o splniteľnosti <b>bez tabuľky</b>. Formuly rozbiješ na malé kúsky (klauzuly) a z nich mechanicky odvodzuješ nové. Ak sa dopracuješ k <b>sporu</b> (prázdna klauzula F), systém je nesplniteľný. Ak už nič nové nevznikne, systém je splniteľný.
+    </div>
+
+    <h3>5.1 Literál a klauzula</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Literál je premenná alebo jej negácia (p, ¬p). Klauzula je „alebo“ niekoľkých literálov (p ∨ ¬q ∨ r). Klauzula je pravdivá, keď je pravdivý aspoň jeden jej literál.
+    </div>
+    <div class="def"><span class="lbl">Definícia</span>
+      <b><span class="term" tabindex="0" data-def="Výroková premenná alebo jej negácia, napr. p alebo ¬p.">Literál</span></b> je výroková premenná alebo jej negácia.
+      <b><span class="term" tabindex="0" data-def="Disjunkcia (∨) literálov, napr. p ∨ ¬q ∨ r. Aj samotný literál je klauzula.">Klauzula</span></b> je disjunkcia literálov <span class="m">l₁ ∨ l₂ ∨ … ∨ lₖ</span>. Aj samotný literál je klauzula.
+      <b>Prázdna klauzula</b> (neobsahuje žiadny literál) sa značí <b>F</b> a znamená spor (kontradikciu).
+    </div>
+    <p>Systém klauzúl K znamená, že majú platiť <b>všetky</b> klauzuly naraz. Je to teda vlastne konjunkcia klauzúl, čiže konjunktívny tvar (KT).</p>
+    <div class="trap"><span class="lbl">Pozor na preklep v slajdoch</span>
+      Na jednom slajde prednášky je „elementárnu konjunkciu nazývame aj klauzulou“. Správne (a tak je to aj na slajde o rezolúcii) je, že klauzula je <b>disjunkcia</b> literálov.
+    </div>
+
+    <h3>5.2 Prevod formuly na klauzuly</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Zbavíš sa ⇔ a ⇒, negácie „posunieš“ až k premenným a nakoniec formulu upravíš na tvar „(… ∨ …) ∧ (… ∨ …) ∧ …“. Každá zátvorka spojená ∧ je jedna klauzula.
+    </div>
+    <ol>
+      <li><b>Odstráň ⇔:</b> <span class="m">α ⇔ β |=| (¬α ∨ β) ∧ (α ∨ ¬β)</span>.</li>
+      <li><b>Odstráň ⇒:</b> <span class="m">α ⇒ β |=| ¬α ∨ β</span>.</li>
+      <li><b>Posuň negácie k premenným:</b> de Morgan a <span class="m">¬¬α |=| α</span>.</li>
+      <li><b>Roznásob ∨ cez ∧:</b> <span class="m">α ∨ (β ∧ γ) |=| (α ∨ β) ∧ (α ∨ γ)</span>.</li>
+      <li><b>Rozdeľ</b> konjunkciu na jednotlivé klauzuly.</li>
+    </ol>
+    <h4>Hotové prevody (overené)</h4>
+    <table>
+      <tr><th>Formula</th><th>Klauzuly</th></tr>
+      <tr><td class="m">p ⇒ q</td><td class="m">¬p ∨ q</td></tr>
+      <tr><td class="m">¬p ⇒ q</td><td class="m">p ∨ q</td></tr>
+      <tr><td class="m">p ⇔ q</td><td class="m">¬p ∨ q,  p ∨ ¬q</td></tr>
+      <tr><td class="m">p ⇒ (q ∧ r)</td><td class="m">¬p ∨ q,  ¬p ∨ r</td></tr>
+      <tr><td class="m">p ⇒ (q ∨ r)</td><td class="m">¬p ∨ q ∨ r</td></tr>
+      <tr><td class="m">(p ∧ q) ⇒ r</td><td class="m">¬p ∨ ¬q ∨ r</td></tr>
+      <tr><td class="m">(p ∨ q) ⇒ r</td><td class="m">¬p ∨ r,  ¬q ∨ r</td></tr>
+      <tr><td class="m">p ∧ q</td><td class="m">p,  q</td></tr>
+      <tr><td class="m">¬(p ∧ q)</td><td class="m">¬p ∨ ¬q</td></tr>
+      <tr><td class="m">¬(p ∨ q)</td><td class="m">¬p,  ¬q</td></tr>
+      <tr><td class="m">¬(p ⇒ q)</td><td class="m">p,  ¬q</td></tr>
+    </table>
+
+    <h3>5.3 Rezolučné pravidlo</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Máš dve klauzuly, v jednej je <b>l</b> a v druhej <b>¬l</b>. Premenná l je buď pravdivá, alebo nie. Ak je l pravdivé, druhá klauzula musí byť splnená „zvyškom“ β. Ak je l nepravdivé, prvá musí byť splnená zvyškom α. V každom prípade teda platí <b>α ∨ β</b>. Pár l, ¬l z klauzúl „vyškrtneš“ a zvyšky spojíš.
+    </div>
+    <div class="def"><span class="lbl">Pravidlo</span>
+      <span class="mb">α ∨ ¬l,  β ∨ l  ⊨  α ∨ β</span>
+      Klauzuly <span class="m">α ∨ ¬l</span> a <span class="m">β ∨ l</span> sú <b>rodičovské</b>, <span class="m">α ∨ β</span> je <b><span class="term" tabindex="0" data-def="Nová klauzula, ktorá vznikne z dvoch rodičovských klauzúl vyškrtnutím komplementárnej dvojice l, ¬l a spojením zvyšku.">rezolventa</span></b>. Z <span class="m">l</span> a <span class="m">¬l</span> vznikne prázdna klauzula <b>F</b>.
+    </div>
+    <table>
+      <tr><th>1. klauzula</th><th>2. klauzula</th><th>Rezolventa</th></tr>
+      <tr><td class="m">p ∨ q</td><td class="m">¬p ∨ ¬r</td><td class="m">q ∨ ¬r</td></tr>
+      <tr><td class="m">p ∨ ¬q ∨ r</td><td class="m">¬p ∨ ¬s</td><td class="m">¬q ∨ r ∨ ¬s</td></tr>
+      <tr><td class="m">p ∨ q ∨ r</td><td class="m">¬p ∨ q ∨ ¬s</td><td class="m">q ∨ r ∨ ¬s</td></tr>
+      <tr><td class="m">p</td><td class="m">¬p ∨ r</td><td class="m">r</td></tr>
+      <tr><td class="m">p ∨ q</td><td class="m">¬p ∨ ¬q ∨ r</td><td class="m">q ∨ ¬q ∨ r</td></tr>
+      <tr><td class="m">p</td><td class="m">¬p</td><td><b>F</b></td></tr>
+    </table>
+    <p>Pri piatom riadku je rezolventa tautológia (obsahuje q aj ¬q), takže nič nové nehovorí a je zbytočná.</p>
+    <div class="trap"><span class="lbl">Pozor: vždy iba jeden pár naraz</span>
+      Z <span class="m">p ∨ q</span> a <span class="m">¬p ∨ ¬q</span> <b>nesmieš</b> vyškrtnúť p aj q naraz a dostať F. Správne je vyškrtnúť jeden pár, a výsledok je tautológia <span class="m">q ∨ ¬q</span> (alebo <span class="m">p ∨ ¬p</span>). Tieto dve klauzuly sú spolu splniteľné, napríklad p = 1, q = 0.
+    </div>
+    <p>Rovnaké literály v rezolvente píš iba raz: <span class="m">p ∨ p |=| p</span>.</p>
+
+    <h3>5.4 Rezolučný uzáver a Robinsonov princíp</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Rezolučný uzáver sú všetky klauzuly, ktoré sa z K dajú odvodiť (opakuješ, kým pribúda niečo nové). Robinsonov princíp hovorí: <b>systém je nesplniteľný práve vtedy, keď sa dá odvodiť F</b>.
+    </div>
+    <div class="def"><span class="lbl">Definícia a veta</span>
+      <span class="m">R(K)</span> = K a k tomu všetky rezolventy dvojíc z K. <span class="m">R⁰(K) = K</span>, <span class="m">Rⁱ⁺¹(K) = R(Rⁱ(K))</span> a <span class="m">R*(K)</span> je zjednotenie všetkých <span class="m">Rⁱ(K)</span> (<b>rezolučný uzáver</b>).<br>
+      <b>Robinsonov rezolučný princíp:</b> systém klauzúl K je splniteľný práve vtedy, keď <span class="m">R*(K)</span> neobsahuje prázdnu klauzulu F.
+    </div>
+
+    <h3>5.5 Použitie na vyplývanie</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Chceš ukázať, že záver vyplýva? Pridaj k predpokladom <b>opak záveru</b> a ukáž, že vznikne spor (F). Je to „dôkaz sporom“: keby záver neplatil, predpoklady by si odporovali.
+    </div>
+    <span class="mb">S ⊨ φ  ⟺  S ∪ {¬φ} je nesplniteľný  ⟺  z klauzúl S ∪ {¬φ} sa dá odvodiť F</span>
+
+    <h3>5.6 Postup na písomke</h3>
+    <ol>
+      <li><b>Ak ide o vyplývanie:</b> k S pridaj <span class="m">¬φ</span>. Nezabudni, že sa neguje <b>celý</b> záver.</li>
+      <li><b>Každú formulu prepíš na klauzuly</b> a všetky klauzuly <b>očísluj</b>.</li>
+      <li><b>Rezolvuj</b> a pri každej novej klauzule napíš, z ktorých vznikla, napr. „6. ¬x (2, 5)“.</li>
+      <li><b>Záver:</b>
+        <ul>
+          <li>odvodil si F: systém je nesplniteľný, teda <b>záver vyplýva</b>,</li>
+          <li>už nevzniká nič nové a F nie je medzi nimi: systém je splniteľný, teda <b>záver nevyplýva</b>.</li>
+        </ul></li>
+    </ol>
+    <div class="tip"><span class="lbl">Stratégia</span>
+      Začni od <b>jednoliterálových klauzúl</b> (napr. <span class="m">¬t</span>, <span class="m">x</span>). Každá rezolúcia s nimi klauzulu skráti, a tak sa najrýchlejšie dostaneš k F.
+    </div>
+
+    <h3>5.7 Zrýchlená rezolučná metóda (eliminácia premenných)</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Vyberieš jednu premennú, napr. p, a „vymažeš“ ju zo systému. Každú klauzulu s <b>p</b> zrezolvuješ s každou klauzulou s <b>¬p</b>. Výsledky si necháš, pôvodné klauzuly s p a ¬p zahodíš. Klauzuly bez p prenesieš bezo zmeny. Potom to isté urobíš pre ďalšiu premennú. Ak niekedy vznikne F, systém je nesplniteľný. Ak sa minú premenné bez F, je splniteľný.
+    </div>
+    <div class="def"><span class="lbl">Formálne (podľa prednášky)</span>
+      Pre zvolenú premennú p rozdelíš K na tri časti:
+      <ul style="margin:4px 0">
+        <li><span class="m">K≠(p)</span>: klauzuly bez p,</li>
+        <li><span class="m">K₀(p)</span>: klauzuly s literálom ¬p,</li>
+        <li><span class="m">K₁(p)</span>: klauzuly s literálom p.</li>
+      </ul>
+      <span class="m">K₀₁(p)</span> sú všetky rezolventy podľa p (jeden rodič z K₀, druhý z K₁). Nový systém je <span class="m">K(p) = K≠(p) ∪ K₀₁(p)</span> a už neobsahuje p.<br>
+      <b>Veta:</b> K je splniteľný práve vtedy, keď je splniteľný <span class="m">K(p)</span>.
+    </div>
+    <ul>
+      <li>Tautologické rezolventy (obsahujú l aj ¬l) <b>vynechaj</b>.</li>
+      <li>Ak p nie je v žiadnej klauzule s ¬p (K₀ je prázdne) alebo naopak, <span class="m">K₀₁ = ∅</span> a klauzuly s p jednoducho zmiznú.</li>
+      <li><b>Ohodnotenie</b> pri splniteľnom systéme nájdeš spätne: premenné dosadzuješ v <b>opačnom poradí</b>, než si ich eliminoval. Hodnotu vždy zvolíš tak, aby boli splnené klauzuly z príslušného kroku.</li>
+    </ul>
+    <p class="why">Na prednáške je táto metóda zapísaná kompaktnou tabuľkou so šípkami. Tu je rozpísaná po krokoch, princíp je ten istý.</p>
+  </div>
+
+  <div class="tab-panel" data-panel="priklady">
+
+    <div class="ex">
+      <div class="ex-head">Príklad 1: Prevod na klauzuly (z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Prepíš do klauzúl formuly <span class="m">¬x ⇔ t</span>, <span class="m">u ⇒ (y ∧ z)</span>, <span class="m">¬t ⇒ (y ∨ z)</span> a negáciu formuly <span class="m">x ⇒ (y ∨ z)</span>.</div>
+        <ol class="steps">
+          <li><span class="m">¬x ⇔ t</span> |=| <span class="m">(¬x ⇒ t) ∧ (t ⇒ ¬x)</span> |=| <span class="m">(x ∨ t) ∧ (¬t ∨ ¬x)</span>, klauzuly <b>x ∨ t</b> a <b>¬x ∨ ¬t</b>.<br>
+            <span class="why">⇔ je implikácia oboma smermi. Pri ¬x ⇒ t dá nahradenie implikácie ¬¬x ∨ t = x ∨ t.</span></li>
+          <li><span class="m">u ⇒ (y ∧ z)</span> |=| <span class="m">¬u ∨ (y ∧ z)</span> |=| <span class="m">(¬u ∨ y) ∧ (¬u ∨ z)</span>, klauzuly <b>¬u ∨ y</b> a <b>¬u ∨ z</b>.<br>
+            <span class="why">Distributívnosť: ¬u „roznásobím“ do zátvorky s ∧.</span></li>
+          <li><span class="m">¬t ⇒ (y ∨ z)</span> |=| <span class="m">t ∨ y ∨ z</span>, jedna klauzula.</li>
+          <li><span class="m">¬(x ⇒ (y ∨ z))</span> |=| <span class="m">x ∧ ¬(y ∨ z)</span> |=| <span class="m">x ∧ ¬y ∧ ¬z</span>, tri klauzuly <b>x</b>, <b>¬y</b>, <b>¬z</b>.<br>
+            <span class="why">Negácia implikácie: predpoklad platí a záver nie.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> <span class="m">K = {x ∨ t, ¬x ∨ ¬t, ¬u ∨ y, ¬u ∨ z, t ∨ y ∨ z, x, ¬y, ¬z}</span>. Pokračovanie je v príklade 5.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 2: Rezolučný uzáver (z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Nájdi rezolučný uzáver systému <span class="m">K = {p ∨ q, ¬p ∨ r, ¬q ∨ r}</span>.</div>
+        <ol class="steps">
+          <li><span class="m">R⁰(K) = K = {p ∨ q, ¬p ∨ r, ¬q ∨ r}</span>.</li>
+          <li><b>Rezolventy z R⁰:</b> (p ∨ q) a (¬p ∨ r) cez p dajú <b>q ∨ r</b>. (p ∨ q) a (¬q ∨ r) cez q dajú <b>p ∨ r</b>. (¬p ∨ r) a (¬q ∨ r) nemajú komplementárny pár.<br>
+            <span class="m">R¹(K) = {p ∨ q, ¬p ∨ r, ¬q ∨ r, p ∨ r, q ∨ r}</span>.</li>
+          <li><b>Nové rezolventy:</b> (p ∨ r) a (¬p ∨ r) dajú r ∨ r = <b>r</b>. (q ∨ r) a (¬q ∨ r) dajú tiež <b>r</b>.<br>
+            <span class="m">R²(K) = R¹(K) ∪ {r}</span>.</li>
+          <li><b>Ďalší krok:</b> r nemá s čím rezolvovať (nikde nie je ¬r) a ostatné rezolventy už máme. <span class="m">R³(K) = R²(K)</span>, uzáver je hotový.</li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> <span class="m">R*(K) = {p ∨ q, ¬p ∨ r, ¬q ∨ r, p ∨ r, q ∨ r, r}</span>. Neobsahuje F, takže K je splniteľný (napr. r = 1, p = 1).</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 3: Nesplniteľný systém, oba spôsoby</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Je splniteľný <span class="m">K = {p ∨ q, p ∨ r, ¬q ∨ ¬r, ¬p}</span>?</div>
+        <p><b>Spôsob A: priamo rezolúciou</b> (očíslované, v zátvorke rodičia):</p>
+        <ol class="steps">
+          <li>1. <span class="m">p ∨ q</span>  2. <span class="m">p ∨ r</span>  3. <span class="m">¬q ∨ ¬r</span>  4. <span class="m">¬p</span></li>
+          <li>5. <span class="m">q</span> (1, 4), cez p.<br><span class="why">Začínam jednoliterálovou klauzulou ¬p, ktorá skracuje ostatné.</span></li>
+          <li>6. <span class="m">r</span> (2, 4), cez p.</li>
+          <li>7. <span class="m">¬r</span> (3, 5), cez q.</li>
+          <li>8. <b>F</b> (6, 7), cez r.</li>
+        </ol>
+        <p><b>Spôsob B: eliminácia premenných</b></p>
+        <ol class="steps">
+          <li><b>Eliminujem p:</b> <span class="m">K≠ = {¬q ∨ ¬r}</span>, <span class="m">K₀ = {¬p}</span>, <span class="m">K₁ = {p ∨ q, p ∨ r}</span>. Rezolventy <span class="m">K₀₁ = {q, r}</span>. Nový systém je <span class="m">{¬q ∨ ¬r, q, r}</span>.</li>
+          <li><b>Eliminujem q:</b> <span class="m">K≠ = {r}</span>, <span class="m">K₀ = {¬q ∨ ¬r}</span>, <span class="m">K₁ = {q}</span>, <span class="m">K₀₁ = {¬r}</span>. Nový systém je <span class="m">{r, ¬r}</span>.</li>
+          <li><b>Eliminujem r:</b> z r a ¬r vznikne <b>F</b>.</li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> odvodili sme F, <b>K je nesplniteľný</b>.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 4: Pôjde Tamara na kávu? (z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Xénia: „Pôjdem, ak nepôjde Yvona, a ak nepôjde Tamara, tak nepôjdem ani ja.“ Yvona: „Ak pôjdem, tak musí ísť Zara.“ Zara: „Nepôjdem, ak nepôjde Tamara.“ Vyplýva, že Tamara pôjde?</div>
+        <ol class="steps">
+          <li><b>Premenné:</b> x, y, z, t = „Xénia / Yvona / Zara / Tamara pôjde“.</li>
+          <li><b>Prepis:</b>
+            <ul>
+              <li>Xénia: <span class="m">(¬y ⇒ x) ∧ (¬t ⇒ ¬x)</span>,</li>
+              <li>Yvona: <span class="m">y ⇒ z</span>,</li>
+              <li>Zara: <span class="m">¬t ⇒ ¬z</span>. Za „ak“ je ¬t, preto ide doľava.</li>
+            </ul>
+            Záver je <span class="m">φ : t</span>.</li>
+          <li><b>Pridám negáciu záveru</b> ¬t a všetko prepíšem na klauzuly:<br>
+            1. <span class="m">y ∨ x</span>  2. <span class="m">t ∨ ¬x</span>  3. <span class="m">¬y ∨ z</span>  4. <span class="m">t ∨ ¬z</span>  5. <span class="m">¬t</span></li>
+          <li>6. <span class="m">¬x</span> (2, 5), cez t.</li>
+          <li>7. <span class="m">¬z</span> (4, 5), cez t.</li>
+          <li>8. <span class="m">¬y</span> (3, 7), cez z.</li>
+          <li>9. <span class="m">x</span> (1, 8), cez y.</li>
+          <li>10. <b>F</b> (6, 9), cez x.<br>
+            <span class="why">Slovne: ak by Tamara nešla, nešla by Xénia ani Zara, teda ani Yvona. Lenže Xénia podľa svojej prvej podmienky ide, ak nejde Yvona, a to je spor.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> <span class="m">S ∪ {¬t}</span> je nesplniteľný, teda <span class="m">S ⊨ t</span>. <b>Tamara na kávu pôjde.</b></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 5: Vyplývanie rezolúciou (z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Rozhodni, či <span class="m">F ⊨ α</span>, ak <span class="m">F = {¬x ⇔ t, u ⇒ (y ∧ z), ¬t ⇒ (y ∨ z)}</span>, <span class="m">α : x ⇒ (y ∨ z)</span>.</div>
+        <ol class="steps">
+          <li>Klauzuly <span class="m">F ∪ {¬α}</span> sú z príkladu 1:<br>
+            1. <span class="m">x ∨ t</span>  2. <span class="m">¬x ∨ ¬t</span>  3. <span class="m">¬u ∨ y</span>  4. <span class="m">¬u ∨ z</span>  5. <span class="m">t ∨ y ∨ z</span>  6. <span class="m">x</span>  7. <span class="m">¬y</span>  8. <span class="m">¬z</span></li>
+          <li>9. <span class="m">¬t</span> (2, 6), cez x.</li>
+          <li>10. <span class="m">y ∨ z</span> (5, 9), cez t.</li>
+          <li>11. <span class="m">z</span> (7, 10), cez y.</li>
+          <li>12. <b>F</b> (8, 11), cez z.<br>
+            <span class="why">Klauzuly 3 a 4 (s u) sme vôbec nepotrebovali. Na písomke nemusíš použiť všetky klauzuly, stačí dôjsť k F.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> odvodili sme F, takže <span class="m">F ⊨ α</span>.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 6: Vzorová písomka, úloha 3, rezolúciou</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> <span class="m">M = {(x ⇒ y) ∨ z,  x ⇔ ¬z,  (x ∧ y) ⇒ z,  ¬y ∧ z}</span>, <span class="m">α : (x ∨ y) ⇒ z</span>. Vyplýva α z M?</div>
+        <ol class="steps">
+          <li><span class="m">(x ⇒ y) ∨ z</span> |=| <span class="m">¬x ∨ y ∨ z</span>, klauzula 1.</li>
+          <li><span class="m">x ⇔ ¬z</span> |=| <span class="m">(¬x ∨ ¬z) ∧ (z ∨ x)</span>, klauzuly 2 a 3.</li>
+          <li><span class="m">(x ∧ y) ⇒ z</span> |=| <span class="m">¬x ∨ ¬y ∨ z</span>, klauzula 4.</li>
+          <li><span class="m">¬y ∧ z</span>, klauzuly 5. <span class="m">¬y</span> a 6. <span class="m">z</span>.</li>
+          <li><span class="m">¬α = ¬((x ∨ y) ⇒ z)</span> |=| <span class="m">(x ∨ y) ∧ ¬z</span>, klauzuly 7. <span class="m">x ∨ y</span> a 8. <span class="m">¬z</span>.</li>
+          <li>9. <b>F</b> (6, 8), cez z.<br><span class="why">Predpoklad hovorí z, negácia záveru hovorí ¬z, a to je okamžitý spor.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> <span class="m">M ⊨ α</span>, rovnako ako tabuľkou v téme 4.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 7: Splniteľný systém a ohodnotenie (z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Zrýchlenou rezolučnou metódou rozhodni, či je splniteľný <span class="m">K = {a ∨ ¬d, ¬b ∨ ¬c, b ∨ d, ¬b ∨ ¬e, a ∨ c ∨ d, ¬a ∨ ¬d}</span>. Ak áno, nájdi ohodnotenie.</div>
+        <ol class="steps">
+          <li><b>Eliminujem c:</b> <span class="m">K₀ = {¬b ∨ ¬c}</span>, <span class="m">K₁ = {a ∨ c ∨ d}</span>, <span class="m">K₀₁ = {a ∨ ¬b ∨ d}</span>.<br>Systém: <span class="m">{a ∨ ¬d, b ∨ d, ¬b ∨ ¬e, ¬a ∨ ¬d, a ∨ ¬b ∨ d}</span>.</li>
+          <li><b>Eliminujem a:</b> <span class="m">K₀ = {¬a ∨ ¬d}</span>, <span class="m">K₁ = {a ∨ ¬d, a ∨ ¬b ∨ d}</span>. Rezolventy: <span class="m">¬d ∨ ¬d = ¬d</span> a <span class="m">¬d ∨ ¬b ∨ d</span>, čo je tautológia, preto ju vynechám. <span class="m">K₀₁ = {¬d}</span>.<br>Systém: <span class="m">{b ∨ d, ¬b ∨ ¬e, ¬d}</span>.</li>
+          <li><b>Eliminujem d:</b> <span class="m">K₀ = {¬d}</span>, <span class="m">K₁ = {b ∨ d}</span>, <span class="m">K₀₁ = {b}</span>.<br>Systém: <span class="m">{¬b ∨ ¬e, b}</span>.</li>
+          <li><b>Eliminujem b:</b> <span class="m">K₀₁ = {¬e}</span>. Systém: <span class="m">{¬e}</span>.</li>
+          <li><b>Eliminujem e:</b> K₁ je prázdne, takže K₀₁ = ∅. Systém je prázdny a <b>F nevzniklo, K je splniteľný</b>.</li>
+          <li><b>Ohodnotenie spätne</b> (poradie e, b, d, a, c):
+            <ul>
+              <li><b>e = 0</b>, kvôli klauzule ¬e.</li>
+              <li><b>b = 1</b>, kvôli klauzule b.</li>
+              <li><b>d = 0</b>, kvôli klauzule ¬d.</li>
+              <li><b>a = 1</b>, kvôli <span class="m">a ∨ ¬b ∨ d</span>: pri b = 1, d = 0 to vyžaduje a = 1.</li>
+              <li><b>c = 0</b>, kvôli <span class="m">¬b ∨ ¬c</span> pri b = 1.</li>
+            </ul>
+            <span class="why">Kontrola v pôvodnom K: a ∨ ¬d = 1, ¬b ∨ ¬c = 1, b ∨ d = 1, ¬b ∨ ¬e = 1, a ∨ c ∨ d = 1, ¬a ∨ ¬d = 1 ✔.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> K je splniteľný, napríklad pri a = 1, b = 1, c = 0, d = 0, e = 0 (rovnako ako na prednáške).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" data-panel="zhrnutie">
+    <h3>Ťahák: rezolúcia</h3>
+    <table>
+      <tr><th>Pojem</th><th>Zapamätaj si</th></tr>
+      <tr><td>Klauzula</td><td>disjunkcia literálov, napr. <span class="m">p ∨ ¬q ∨ r</span></td></tr>
+      <tr><td>Rezolučné pravidlo</td><td class="m">α ∨ ¬l,  β ∨ l  ⊨  α ∨ β</td></tr>
+      <tr><td>F</td><td>prázdna klauzula = spor; vznikne z <span class="m">l</span> a <span class="m">¬l</span></td></tr>
+      <tr><td>Robinson</td><td>K je nesplniteľný ⟺ dá sa odvodiť F</td></tr>
+      <tr><td>Vyplývanie</td><td>pridaj <span class="m">¬φ</span>, prepíš na klauzuly a hľadaj F</td></tr>
+      <tr><td>Eliminácia p</td><td><span class="m">K(p) = K≠(p) ∪ K₀₁(p)</span>, tautológie vynechaj</td></tr>
+    </table>
+    <h3>Prevod na klauzuly</h3>
+    <p>Odstráň ⇔, potom odstráň ⇒, potom posuň negácie k premenným (de Morgan, ¬¬), potom roznásob ∨ cez ∧ a nakoniec rozdeľ podľa ∧.</p>
+    <h3>Najčastejšie chyby</h3>
+    <ul>
+      <li>Zabudnúť pridať ¬φ, alebo negovať iba časť záveru.</li>
+      <li>Rezolvovať cez dva páry naraz.</li>
+      <li>Chyba pri ⇔: musia vzniknúť <b>dve</b> klauzuly.</li>
+      <li>Pri <span class="m">(p ∨ q) ⇒ r</span> napísať <span class="m">¬p ∨ ¬q ∨ r</span>. Správne sú dve klauzuly <span class="m">¬p ∨ r</span>, <span class="m">¬q ∨ r</span>.</li>
+      <li>Povedať „vyplýva“, keď F nevyšlo. Ak F nevznikne, záver <b>nevyplýva</b>.</li>
+    </ul>
+  </div>
+
+  <div class="tab-panel" data-panel="cvicenia">
+    <div class="task"><span class="tnum">Cvičenie 1.</span> Prepíš do klauzúl: <span class="m">(p ⇒ q) ⇒ r</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><span class="m">(p ⇒ q) ⇒ r</span> |=| <span class="m">¬(¬p ∨ q) ∨ r</span> |=| <span class="m">(p ∧ ¬q) ∨ r</span> |=| <span class="m">(p ∨ r) ∧ (¬q ∨ r)</span>.</p>
+      <p>Klauzuly: <b>p ∨ r</b>, <b>¬q ∨ r</b>.</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 2.</span> Prepíš do klauzúl: <span class="m">p ⇔ (q ∨ r)</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><span class="m">(p ⇒ (q ∨ r)) ∧ ((q ∨ r) ⇒ p)</span> |=| <span class="m">(¬p ∨ q ∨ r) ∧ (¬q ∨ p) ∧ (¬r ∨ p)</span>.</p>
+      <p>Klauzuly: <b>¬p ∨ q ∨ r</b>, <b>p ∨ ¬q</b>, <b>p ∨ ¬r</b>.</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 3.</span> Urč rezolventy: a) <span class="m">p ∨ ¬q ∨ r</span> a <span class="m">q ∨ s</span>; b) <span class="m">¬p</span> a <span class="m">p ∨ q</span>; c) <span class="m">p ∨ q</span> a <span class="m">¬p ∨ ¬q</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <ul>
+        <li>a) cez q: <span class="m">p ∨ r ∨ s</span></li>
+        <li>b) cez p: <span class="m">q</span></li>
+        <li>c) cez p: <span class="m">q ∨ ¬q</span>, cez q: <span class="m">p ∨ ¬p</span>. Obe sú tautológie, teda nepoužiteľné. <b>Nie F!</b></li>
+      </ul>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 4.</span> Je splniteľný <span class="m">K = {p ∨ q, ¬p ∨ q, p ∨ ¬q, ¬p ∨ ¬q}</span>?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>5. <span class="m">q</span> (1, 2), cez p. 6. <span class="m">¬q</span> (3, 4), cez p. 7. <b>F</b> (5, 6). <b>Nesplniteľný.</b></p>
+      <p><span class="why">Intuícia: tieto štyri klauzuly „zakazujú“ všetky štyri riadky tabuľky pre p, q.</span></p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 5.</span> Rezolúciou dokáž <span class="m">{p ⇒ q, q ⇒ r, p} ⊨ r</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Klauzuly: 1. <span class="m">¬p ∨ q</span>  2. <span class="m">¬q ∨ r</span>  3. <span class="m">p</span>  4. <span class="m">¬r</span> (negácia záveru).</p>
+      <p>5. <span class="m">q</span> (1, 3)  6. <span class="m">r</span> (2, 5)  7. <b>F</b> (4, 6). <b>Vyplýva.</b></p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 6.</span> Zrýchlenou metódou rozhodni o splniteľnosti <span class="m">K = {p ∨ q, ¬p ∨ r, ¬q}</span> a nájdi ohodnotenie.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><b>Eliminujem p:</b> <span class="m">K₀₁ = {q ∨ r}</span>, systém <span class="m">{¬q, q ∨ r}</span>.</p>
+      <p><b>Eliminujem q:</b> <span class="m">K₀₁ = {r}</span>, systém <span class="m">{r}</span>.</p>
+      <p><b>Eliminujem r:</b> nemá pár, systém je prázdny a F nevzniklo. <b>Splniteľný.</b></p>
+      <p>Spätne: r = 1, q = 0 (z ¬q), p = 1 (z p ∨ q pri q = 0). Kontrola: p ∨ q = 1, ¬p ∨ r = 1, ¬q = 1 ✔.</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 7.</span> Dovolenkári (z prednášky): Božena pôjde, keď pôjde jej manžel Adam. Keď pôjde Emil, pôjdu aj Adam a Dávid. Božena a Cecília spolu určite nepôjdu. Cecília pôjde práve vtedy, keď pôjde Dávid. Aspoň jeden z Dávida a Emila pôjde. Je systém splniteľný a kto pôjde na výlet?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><span class="m">F = {a ⇒ b, e ⇒ (a ∧ d), ¬(b ∧ c), c ⇔ d, d ∨ e}</span></p>
+      <p>Klauzuly: <span class="m">K = {¬a ∨ b, ¬e ∨ a, ¬e ∨ d, ¬b ∨ ¬c, ¬c ∨ d, c ∨ ¬d, d ∨ e}</span></p>
+      <p><b>Eliminácia</b> (poradie a, b, c, d, e):</p>
+      <ul>
+        <li><b>a:</b> <span class="m">K₀₁ = {b ∨ ¬e}</span></li>
+        <li><b>b:</b> <span class="m">K₀₁ = {¬c ∨ ¬e}</span></li>
+        <li><b>c:</b> <span class="m">K₀₁ = {¬d ∨ ¬e}</span> (rezolventa ¬c ∨ d s c ∨ ¬d je tautológia)</li>
+        <li><b>d:</b> zo systému <span class="m">{d ∨ ¬e, d ∨ e, ¬d ∨ ¬e}</span> dostaneme <span class="m">K₀₁ = {¬e}</span> (druhá rezolventa je tautológia)</li>
+        <li><b>e:</b> <span class="m">{¬e}</span> nemá pár, F nevzniklo, <b>splniteľný</b>.</li>
+      </ul>
+      <p><b>Spätne:</b> e = 0. Z d ∨ e je d = 1. Z c ∨ ¬d je c = 1. Z ¬b ∨ ¬c je b = 0. Z ¬a ∨ b je a = 0.</p>
+      <p><b>Na výlet pôjdu Cecília a Dávid</b>, Adam, Božena ani Emil nepôjdu. (Program overil, že je to jediné riešenie.)</p>
+      <p><span class="why">Slovne: keby išiel Emil, išiel by Adam, teda Božena, teda nie Cecília, teda nie Dávid. Lenže Emil potrebuje Dávida, a to je spor. Emil teda nejde, a preto musí ísť Dávid a s ním Cecília.</span></p>
+    </div></details>
+  </div>
+
+  <div class="done-row">
+    <input type="checkbox" id="done-rezolucia" data-done="rezolucia">
+    <label for="done-rezolucia">Tému Klauzuly a rezolúcia mám zvládnutú</label>
+  </div>
+</section>
+
+<!-- ============================ NORMÁLNE TVARY A K-MAPA ============================ -->
+<section class="topic" id="topic-tvary">
+  <h2>6. Normálne tvary a minimalizácia (Karnaughova mapa)</h2>
+  <p class="lead">Disjunktívny a konjunktívny tvar, úplné normálne tvary z tabuľky, prechod ÚNDT ↔ ÚNKT a minimálne tvary pomocou Karnaughovej mapy. Toto je úloha 4 zo vzorovej písomky.</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="teoria">Teória</button>
+    <button class="tab-btn" data-tab="priklady">Riešené príklady</button>
+    <button class="tab-btn" data-tab="zhrnutie">Zhrnutie</button>
+    <button class="tab-btn" data-tab="cvicenia">Cvičenia</button>
+  </div>
+
+  <div class="tab-panel active" data-panel="teoria">
+    <div class="simple"><span class="lbl">O čom je celá téma</span>
+      Každú formulu (každú pravdivostnú tabuľku) sa dá zapísať v „štandardnom“ tvare. Buď ako <b>„alebo“ viacerých „a“</b> (disjunktívny tvar), alebo ako <b>„a“ viacerých „alebo“</b> (konjunktívny tvar). <b>Úplné</b> tvary sa prečítajú priamo z tabuľky, ale sú dlhé. <b>Minimálne</b> tvary sú najkratšie možné a hľadáme ich Karnaughovou mapou, teda „zoskupovaním susedných jednotiek alebo núl“.
+    </div>
+
+    <h3>6.1 Elementárna konjunkcia a disjunkcia, DT a KT</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Elementárna konjunkcia je „a“ niekoľkých literálov (p ∧ ¬q ∧ r), elementárna disjunkcia je „alebo“ niekoľkých literálov (p ∨ ¬q ∨ r). <b>DT</b> sú „a-čka“ pospájané cez „alebo“, <b>KT</b> sú „alebo-čka“ pospájané cez „a“.
+    </div>
+    <table>
+      <tr><th>Pojem</th><th>Tvar</th><th>Príklad</th></tr>
+      <tr><td>Elementárna konjunkcia</td><td>literály spojené ∧</td><td class="m">x ∧ ¬y ∧ z</td></tr>
+      <tr><td>Elementárna disjunkcia (= klauzula)</td><td>literály spojené ∨</td><td class="m">x ∨ ¬y ∨ z</td></tr>
+      <tr><td><b>Disjunktívny tvar (DT)</b></td><td>elementárne konjunkcie spojené ∨</td><td class="m">(x ∧ ¬y) ∨ (y ∧ z)</td></tr>
+      <tr><td><b>Konjunktívny tvar (KT)</b></td><td>elementárne disjunkcie spojené ∧</td><td class="m">(x ∨ ¬y) ∧ (y ∨ z)</td></tr>
+      <tr><td><b>Normálny DT (NDT)</b>, „úplný DT“</td><td>DT, v ktorom <b>každá</b> konjunkcia obsahuje <b>všetky</b> premenné</td><td class="m">(x ∧ ¬y ∧ z) ∨ (¬x ∧ y ∧ z)</td></tr>
+      <tr><td><b>Normálny KT (NKT)</b>, „úplný KT“</td><td>KT, v ktorom <b>každá</b> disjunkcia obsahuje <b>všetky</b> premenné</td><td class="m">(x ∨ ¬y ∨ z) ∧ (¬x ∨ y ∨ z)</td></tr>
+    </table>
+    <p class="why">V zadaniach sa stretneš s názvami „úplný disjunktívny (normálny) tvar“ (ÚNDT) a „úplný konjunktívny normálny tvar“ (ÚNKT). Myslí sa tým NDT a NKT.</p>
+
+    <h3>6.2 NDT a NKT z pravdivostnej tabuľky</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      <b>NDT:</b> zoberieš riadky, kde je funkcia <b>1</b>. Každý riadok „popíšeš“ konjunkciou, ktorá je pravdivá práve v ňom. Tieto konjunkcie spojíš cez ∨: „funkcia platí v tomto riadku, alebo v tomto, alebo…“.<br>
+      <b>NKT:</b> zoberieš riadky, kde je funkcia <b>0</b>. Každý riadok „zakážeš“ disjunkciou, ktorá je nepravdivá práve v ňom. Tieto disjunkcie spojíš cez ∧: „nie je to tento riadok a nie je to ani tento…“.
+    </div>
+    <table>
+      <tr><th></th><th>NDT</th><th>NKT</th></tr>
+      <tr><td>Ktoré riadky</td><td>kde f = <b>1</b></td><td>kde f = <b>0</b></td></tr>
+      <tr><td>Čo z riadku vznikne</td><td>elementárna <b>konjunkcia</b></td><td>elementárna <b>disjunkcia</b></td></tr>
+      <tr><td>Premenná s hodnotou 1</td><td>píšeš <b>x</b></td><td>píšeš <b>¬x</b></td></tr>
+      <tr><td>Premenná s hodnotou 0</td><td>píšeš <b>¬x</b></td><td>píšeš <b>x</b></td></tr>
+      <tr><td>Príklad pre riadok x=1, y=0, z=1</td><td class="m">x ∧ ¬y ∧ z</td><td class="m">¬x ∨ y ∨ ¬z</td></tr>
+    </table>
+    <div class="tip"><span class="lbl">Prečo sú negácie pri NKT „naopak“</span>
+      Disjunkcia má byť <b>nepravdivá</b> práve v danom riadku, takže každý jej literál musí byť v ňom 0. Ak x = 1, literál ¬x je 0. Ak x = 0, literál x je 0. Pri NDT je to opačne: konjunkcia má byť <b>pravdivá</b>, takže každý literál musí byť 1.
+    </div>
+    <ul>
+      <li>Tautológia (samé 1) nemá NKT, lebo nemá žiadny riadok s 0. Kontradikcia (samé 0) nemá NDT.</li>
+      <li>NDT má toľko konjunkcií, koľko je jednotiek, a NKT toľko disjunkcií, koľko je núl. Spolu je to <span class="m">2ⁿ</span>.</li>
+    </ul>
+
+    <h3>6.3 Prechod ÚNDT → ÚNKT</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Z ÚNDT vyčítaš, v ktorých riadkoch je funkcia 1. Všetky ostatné riadky sú 0 a z nich zostavíš ÚNKT. Tabuľka ti stačí v hlave, prípadne si vypíš 8 riadkov.
+    </div>
+    <ol>
+      <li>Každú konjunkciu ÚNDT preveď na riadok: x → 1, ¬x → 0. Napríklad <span class="m">x ∧ ¬y ∧ ¬z</span> je riadok <b>100</b>.</li>
+      <li>Vypíš všetkých <span class="m">2ⁿ</span> riadkov. Tie, ktoré v ÚNDT nie sú, sú nulové.</li>
+      <li>Z každého nulového riadku urob disjunkciu podľa pravidla NKT a spoj ich cez ∧.</li>
+    </ol>
+
+    <h3>6.4 DT a KT úpravami (bez tabuľky)</h3>
+    <p>Formulu môžeš do DT alebo KT dostať aj zákonmi z témy 2:</p>
+    <ul>
+      <li>odstráň ⇔ a ⇒,</li>
+      <li>posuň negácie k premenným,</li>
+      <li>roznásob:
+        <ul>
+          <li>pre <b>DT</b> distribuuj ∧ cez ∨: <span class="m">α ∧ (β ∨ γ) |=| (α ∧ β) ∨ (α ∧ γ)</span>,</li>
+          <li>pre <b>KT</b> distribuuj ∨ cez ∧: <span class="m">α ∨ (β ∧ γ) |=| (α ∨ β) ∧ (α ∨ γ)</span>.</li>
+        </ul></li>
+    </ul>
+    <p>Takto vznikne DT alebo KT, ale nie nutne úplný ani minimálny (pozri príklad 5).</p>
+
+    <h3>6.5 Minimalizácia: myšlienka „susedov“</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Ak sa dve konjunkcie líšia <b>iba v jednej premennej</b> (raz je x, raz ¬x), tá premenná „nerozhoduje“ a dá sa vyhodiť: <span class="m">(α ∧ x) ∨ (α ∧ ¬x) |=| α</span>. Minimalizácia je opakované zlučovanie takýchto „susedov“.
+    </div>
+    <span class="mb">(α ∧ x) ∨ (α ∧ ¬x) |=| α ∧ (x ∨ ¬x) |=| α ∧ T |=| α</span>
+    <span class="mb">(α ∨ x) ∧ (α ∨ ¬x) |=| α ∨ (x ∧ ¬x) |=| α ∨ F |=| α</span>
+    <div class="def"><span class="lbl">Definícia</span>
+      <b>Minimálny DT (MDT)</b>, resp. <b>minimálny KT (MKT)</b> je DT, resp. KT danej funkcie s najmenším možným počtom literálov a elementárnych konjunkcií (disjunkcií).
+    </div>
+
+    <h3>6.6 Karnaughova mapa</h3>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Karnaughova mapa je tabuľka usporiadaná tak, že <b>susedné políčka sa líšia v jednej premennej</b>. Susedov preto vidíš okom. Jednotky (alebo nuly) zakrúžkuješ do čo najväčších obdĺžnikov a každý obdĺžnik zapíšeš ako jednu krátku konjunkciu (disjunkciu).
+    </div>
+    <h4>Rozloženie (rovnaké ako na prednáške)</h4>
+    <p>Hodnoty v hlavičke idú v poradí <b>00, 10, 11, 01</b>, nie 00, 01, 10, 11! Vďaka tomu sa každé dve susedné líšia v jednom bite. „Susedné“ sú aj krajné stĺpce (01 a 00) a krajné riadky, mapa je „zavinutá dookola“. V každom políčku je napísané, ktorému riadku tabuľky zodpovedá:</p>
+    <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start">
+      <div><b>3 premenné (x | yz):</b><div class="kwrap"><table class="kmap"><tr><th class="corner">x \ yz</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>0</th><td class=""><span class="code">000</span></td><td class=""><span class="code">010</span></td><td class=""><span class="code">011</span></td><td class=""><span class="code">001</span></td></tr><tr><th>1</th><td class=""><span class="code">100</span></td><td class=""><span class="code">110</span></td><td class=""><span class="code">111</span></td><td class=""><span class="code">101</span></td></tr></table></div></div>
+      <div><b>4 premenné (pq | rs):</b><div class="kwrap"><table class="kmap"><tr><th class="corner">pq \ rs</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>00</th><td class=""><span class="code">0000</span></td><td class=""><span class="code">0010</span></td><td class=""><span class="code">0011</span></td><td class=""><span class="code">0001</span></td></tr><tr><th>10</th><td class=""><span class="code">1000</span></td><td class=""><span class="code">1010</span></td><td class=""><span class="code">1011</span></td><td class=""><span class="code">1001</span></td></tr><tr><th>11</th><td class=""><span class="code">1100</span></td><td class=""><span class="code">1110</span></td><td class=""><span class="code">1111</span></td><td class=""><span class="code">1101</span></td></tr><tr><th>01</th><td class=""><span class="code">0100</span></td><td class=""><span class="code">0110</span></td><td class=""><span class="code">0111</span></td><td class=""><span class="code">0101</span></td></tr></table></div></div>
+    </div>
+
+    <h4>Pravidlá zoskupovania</h4>
+    <ol>
+      <li>Skupina je <b>obdĺžnik</b> (aj cez okraj mapy) s počtom políčok <b>1, 2, 4, 8</b> (mocnina 2). Skupina s 3 alebo 6 políčkami nie je dovolená.</li>
+      <li>Skupiny majú byť <b>čo najväčšie</b>. Väčšia skupina znamená kratší výraz.</li>
+      <li>Skupín má byť <b>čo najmenej</b>, ale každá jednotka (pri MKT každá nula) musí byť aspoň v jednej. Skupiny sa smú <b>prekrývať</b>.</li>
+      <li>Nevytváraj skupinu, ktorej všetky políčka sú už pokryté inými skupinami.</li>
+    </ol>
+    <h4>Čítanie skupiny</h4>
+    <p>Pozri sa, ktoré premenné majú v celej skupine <b>rovnakú hodnotu</b>. Iba tie sa do výrazu dostanú, tie, ktoré sa menia, vypadnú.</p>
+    <table>
+      <tr><th></th><th>MDT: zoskupuješ <b>jednotky</b></th><th>MKT: zoskupuješ <b>nuly</b></th></tr>
+      <tr><td>Z jednej skupiny vznikne</td><td>konjunkcia (∧)</td><td>disjunkcia (∨)</td></tr>
+      <tr><td>Premenná je v skupine stále 1</td><td><b>x</b></td><td><b>¬x</b></td></tr>
+      <tr><td>Premenná je v skupine stále 0</td><td><b>¬x</b></td><td><b>x</b></td></tr>
+      <tr><td>Skupiny spojíš</td><td>cez ∨</td><td>cez ∧</td></tr>
+    </table>
+    <div class="tip"><span class="lbl">Veľkosť skupiny a počet literálov</span>
+      Pri 3 premenných má 1 políčko 3 literály, 2 políčka 2 literály, 4 políčka 1 literál a 8 políčok je konštanta. Pri 4 premenných: 1 → 4, 2 → 3, 4 → 2, 8 → 1 literál.
+    </div>
+  </div>
+
+  <div class="tab-panel" data-panel="priklady">
+
+    <div class="ex">
+      <div class="ex-head">Príklad 1: Od tabuľky po minimálne tvary (z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Funkcia <span class="m">f(x, y, z)</span> má hodnotu 0 v argumentoch 001, 110, 101, 100 a hodnotu 1 v ostatných. Nájdi NDT, NKT, MDT a MKT.</div>
+        <table class="tt" style="width:auto">
+<tr><th>x</th><th>y</th><th>z</th><th>f</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+</table>
+        <ol class="steps">
+          <li><b>NDT</b> z riadkov s 1 (000, 010, 011, 111). Premenná s 0 je negovaná:<br>
+            <span class="m">(¬x ∧ ¬y ∧ ¬z) ∨ (¬x ∧ y ∧ ¬z) ∨ (¬x ∧ y ∧ z) ∨ (x ∧ y ∧ z)</span></li>
+          <li><b>NKT</b> z riadkov s 0 (001, 100, 101, 110). Premenná s <b>1</b> je negovaná:<br>
+            <span class="m">(x ∨ y ∨ ¬z) ∧ (¬x ∨ y ∨ z) ∧ (¬x ∨ y ∨ ¬z) ∧ (¬x ∨ ¬y ∨ z)</span></li>
+          <li><b>Karnaughova mapa:</b> zapíšem hodnoty. Pozor na poradie stĺpcov 00, 10, 11, 01.</li>
+        </ol>
+        <div style="display:flex; gap:24px; flex-wrap:wrap">
+          <div><b>MDT</b> (skupiny jednotiek):<div class="kwrap"><table class="kmap"><tr><th class="corner">x \ yz</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>0</th><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td><td class="">0</td></tr><tr><th>1</th><td class="">0</td><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td><td class="">0</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">¬x ∧ ¬z</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">y ∧ z</span></li></ul></div></div>
+          <div><b>MKT</b> (skupiny núl):<div class="kwrap"><table class="kmap"><tr><th class="corner">x \ yz</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>0</th><td class="one">1</td><td class="one">1</td><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td></tr><tr><th>1</th><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">y ∨ ¬z</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">¬x ∨ z</span></li></ul></div></div>
+        </div>
+        <ol class="steps" start="4">
+          <li><b>MDT:</b> zelená skupina {000, 010} má x = 0 a z = 0 (y sa mení), teda <span class="m">¬x ∧ ¬z</span>. Modrá {011, 111} má y = 1 a z = 1, teda <span class="m">y ∧ z</span>.</li>
+          <li><b>MKT:</b> zelená skupina núl {001, 101} má y = 0 a z = 1, teda pri nulách <span class="m">y ∨ ¬z</span>. Modrá {100, 110} má x = 1 a z = 0, teda <span class="m">¬x ∨ z</span>.<br>
+            <span class="why">Kontrola algebraicky: (¬x ∧ ¬y ∧ ¬z) ∨ (¬x ∧ y ∧ ¬z) = ¬x ∧ ¬z ∧ (¬y ∨ y) = ¬x ∧ ¬z. Mapa robí presne toto zlučovanie.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> MDT = <span class="m">(¬x ∧ ¬z) ∨ (y ∧ z)</span>, MKT = <span class="m">(y ∨ ¬z) ∧ (¬x ∨ z)</span>.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 2: Vzorová písomka, úloha 4</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Daná je formula v úplnom disjunktívnom tvare
+          <span class="mb">(x ∧ ¬y ∧ ¬z) ∨ (¬x ∧ y ∧ z) ∨ (x ∧ y ∧ z) ∨ (¬x ∧ y ∧ ¬z)</span>
+          (a) Napíšte úplný konjunktívny normálny tvar. (b) Napíšte minimálny konjunktívny a minimálny disjunktívny normálny tvar.</div>
+        <ol class="steps">
+          <li><b>Riadky s jednotkou</b> z konjunkcií (x → 1, ¬x → 0): <span class="m">x ∧ ¬y ∧ ¬z</span> → <b>100</b>, <span class="m">¬x ∧ y ∧ z</span> → <b>011</b>, <span class="m">x ∧ y ∧ z</span> → <b>111</b>, <span class="m">¬x ∧ y ∧ ¬z</span> → <b>010</b>.</li>
+          <li><b>Riadky s nulou</b> sú zvyšné: 000, 001, 101, 110.</li>
+        </ol>
+        <table class="tt" style="width:auto">
+<tr><th>x</th><th>y</th><th>z</th><th>f</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+</table>
+        <ol class="steps" start="3">
+          <li><b>(a) ÚNKT</b> z núl (premenná s 1 sa neguje):
+            <ul>
+              <li>000 → <span class="m">x ∨ y ∨ z</span></li>
+              <li>001 → <span class="m">x ∨ y ∨ ¬z</span></li>
+              <li>101 → <span class="m">¬x ∨ y ∨ ¬z</span></li>
+              <li>110 → <span class="m">¬x ∨ ¬y ∨ z</span></li>
+            </ul>
+            <span class="m">ÚNKT = (x ∨ y ∨ z) ∧ (x ∨ y ∨ ¬z) ∧ (¬x ∨ y ∨ ¬z) ∧ (¬x ∨ ¬y ∨ z)</span></li>
+        </ol>
+        <div style="display:flex; gap:24px; flex-wrap:wrap">
+          <div><b>MDT</b> (jednotky):<div class="kwrap"><table class="kmap"><tr><th class="corner">x \ yz</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>0</th><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c, inset 0 0 0 6px #2f5bd3">1</td><td class="">0</td></tr><tr><th>1</th><td class="one" style="box-shadow:inset 0 0 0 3px #c2410c">1</td><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td><td class="">0</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">¬x ∧ y</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">y ∧ z</span></li><li><span class="sw" style="background:#c2410c"></span><span class="m">x ∧ ¬y ∧ ¬z</span></li></ul></div></div>
+          <div><b>MKT</b> (nuly):<div class="kwrap"><table class="kmap"><tr><th class="corner">x \ yz</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>0</th><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td><td class="one">1</td><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c, inset 0 0 0 6px #2f5bd3">0</td></tr><tr><th>1</th><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #c2410c">0</td><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">x ∨ y</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">y ∨ ¬z</span></li><li><span class="sw" style="background:#c2410c"></span><span class="m">¬x ∨ ¬y ∨ z</span></li></ul></div></div>
+        </div>
+        <ol class="steps" start="4">
+          <li><b>MDT:</b>
+            <ul>
+              <li>{010, 011}: x = 0, y = 1, teda <span class="m">¬x ∧ y</span>.</li>
+              <li>{011, 111}: y = 1, z = 1, teda <span class="m">y ∧ z</span>.</li>
+              <li>Jednotka 100 nemá suseda s 1 (susedia 000, 110, 101 sú nuly), zostáva sama: <span class="m">x ∧ ¬y ∧ ¬z</span>.</li>
+            </ul>
+            <span class="why">Prečo nie väčšie skupiny: štvorica by potrebovala štyri jednotky v obdĺžniku, a taká tu nie je.</span></li>
+          <li><b>MKT:</b>
+            <ul>
+              <li>Nuly {000, 001}: x = 0, y = 0, teda <span class="m">x ∨ y</span>.</li>
+              <li>{001, 101}: y = 0, z = 1, teda <span class="m">y ∨ ¬z</span>.</li>
+              <li>Nula 110 nemá suseda s 0, zostáva sama: <span class="m">¬x ∨ ¬y ∨ z</span>.</li>
+            </ul></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b><br>
+          MDT = <span class="m">(¬x ∧ y) ∨ (y ∧ z) ∨ (x ∧ ¬y ∧ ¬z)</span><br>
+          MKT = <span class="m">(x ∨ y) ∧ (y ∨ ¬z) ∧ (¬x ∨ ¬y ∨ z)</span><br>
+          <span class="why">Overené programom: oba tvary dávajú rovnakú tabuľku ako zadanie a kratšie tvary neexistujú.</span></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 3: Jednotky, ktoré sa nedajú zlúčiť (z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Nájdi MKT a MDT funkcie <span class="m">f(p, q, r)</span>, ktorá má NDT <span class="m">(p ∧ q ∧ r) ∨ (¬p ∧ ¬q ∧ r)</span>.</div>
+        <div style="display:flex; gap:24px; flex-wrap:wrap">
+          <div><b>MDT</b> (jednotky):<div class="kwrap"><table class="kmap"><tr><th class="corner">p \ qr</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>0</th><td class="">0</td><td class="">0</td><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td></tr><tr><th>1</th><td class="">0</td><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="">0</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">p ∧ q ∧ r</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">¬p ∧ ¬q ∧ r</span></li></ul></div></div>
+          <div><b>MKT</b> (nuly):<div class="kwrap"><table class="kmap"><tr><th class="corner">p \ qr</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>0</th><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c, inset 0 0 0 6px #2f5bd3">0</td><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td><td class="one">1</td></tr><tr><th>1</th><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c, inset 0 0 0 6px #c2410c">0</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #c2410c">0</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">r</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">p ∨ ¬q</span></li><li><span class="sw" style="background:#c2410c"></span><span class="m">¬p ∨ q</span></li></ul></div></div>
+        </div>
+        <ol class="steps">
+          <li>Jednotky sú iba v 111 a 001. Nie sú susedné (líšia sa v p aj q), preto sa nedajú zlúčiť. <b>MDT = NDT.</b></li>
+          <li><b>MKT:</b>
+            <ul>
+              <li>Štvorica núl {000, 010, 110, 100} má r = 0, teda <span class="m">r</span>.</li>
+              <li>{010, 011} má p = 0, q = 1, teda <span class="m">p ∨ ¬q</span>.</li>
+              <li>{100, 101} má p = 1, q = 0, teda <span class="m">¬p ∨ q</span>.</li>
+            </ul>
+            <span class="why">Štvorica je blok stĺpcov qr ∈ {00, 10}, ktorý sa v mape rozkladá cez oba riadky.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> MDT = <span class="m">(p ∧ q ∧ r) ∨ (¬p ∧ ¬q ∧ r)</span>, MKT = <span class="m">(¬p ∨ q) ∧ (p ∨ ¬q) ∧ r</span>.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 4: Štyri premenné (z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Nájdi MDT a MKT funkcie <span class="m">f(p, q, r, s)</span>, ktorá má hodnotu 0 iba v argumentoch 0010, 1000, 1010, 1001, 1100, 1101, 1011.</div>
+        <div style="display:flex; gap:24px; flex-wrap:wrap">
+          <div><b>MDT</b> (jednotky):<div class="kwrap"><table class="kmap"><tr><th class="corner">pq \ rs</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>00</th><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #c2410c">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c, inset 0 0 0 6px #c2410c">1</td></tr><tr><th>10</th><td class="">0</td><td class="">0</td><td class="">0</td><td class="">0</td></tr><tr><th>11</th><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td><td class="">0</td></tr><tr><th>01</th><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3, inset 0 0 0 6px #c2410c">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c, inset 0 0 0 6px #c2410c">1</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">¬p ∧ ¬r</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">q ∧ r</span></li><li><span class="sw" style="background:#c2410c"></span><span class="m">¬p ∧ s</span></li></ul></div></div>
+          <div><b>MKT</b> (nuly):<div class="kwrap"><table class="kmap"><tr><th class="corner">pq \ rs</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>00</th><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td><td class="one">1</td><td class="one">1</td></tr><tr><th>10</th><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c, inset 0 0 0 6px #c2410c">0</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c, inset 0 0 0 6px #2f5bd3">0</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c, inset 0 0 0 6px #c2410c">0</td></tr><tr><th>11</th><td class="" style="box-shadow:inset 0 0 0 3px #c2410c">0</td><td class="one">1</td><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #c2410c">0</td></tr><tr><th>01</th><td class="one">1</td><td class="one">1</td><td class="one">1</td><td class="one">1</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">¬p ∨ q</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">q ∨ ¬r ∨ s</span></li><li><span class="sw" style="background:#c2410c"></span><span class="m">¬p ∨ r</span></li></ul></div></div>
+        </div>
+        <ol class="steps">
+          <li><b>MDT:</b>
+            <ul>
+              <li>Štvorica p = 0, r = 0 (riadky 00 a 01, stĺpce 00 a 01; stĺpce 01 a 00 susedia cez okraj): <span class="m">¬p ∧ ¬r</span>.</li>
+              <li>Štvorica q = 1, r = 1 (riadky 11 a 01, stĺpce 10 a 11): <span class="m">q ∧ r</span>.</li>
+              <li>Štvorica p = 0, s = 1 (riadky 00 a 01, stĺpce 11 a 01): <span class="m">¬p ∧ s</span>.</li>
+            </ul></li>
+          <li><b>MKT</b> (nuly):
+            <ul>
+              <li>Celý riadok pq = 10, teda p = 1, q = 0: <span class="m">¬p ∨ q</span>.</li>
+              <li>Štvorica p = 1, r = 0 (riadky 10 a 11, stĺpce 00 a 01): <span class="m">¬p ∨ r</span>.</li>
+              <li>Dvojica {0010, 1010} má q = 0, r = 1, s = 0, teda <span class="m">q ∨ ¬r ∨ s</span>. Riadky pq = 00 a 10 sú v mape susedné.</li>
+            </ul></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> MDT = <span class="m">(¬p ∧ ¬r) ∨ (q ∧ r) ∨ (¬p ∧ s)</span>, MKT = <span class="m">(¬p ∨ q) ∧ (q ∨ ¬r ∨ s) ∧ (¬p ∨ r)</span>.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 5: DT a KT úpravami (z prednášky)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Napíš v DT a KT formulu <span class="m">(r ∧ ¬p) ⇒ (p ∧ ¬q)</span>.</div>
+        <ol class="steps">
+          <li><b>Odstránim ⇒:</b> <span class="m">¬(r ∧ ¬p) ∨ (p ∧ ¬q)</span>.</li>
+          <li><b>De Morgan:</b> <span class="m">(¬r ∨ p) ∨ (p ∧ ¬q)</span>.</li>
+          <li><b>DT:</b> už je to „alebo“ konjunkcií: <span class="m">(¬r) ∨ (p) ∨ (p ∧ ¬q)</span>.<br>
+            <span class="why">Samotný literál je tiež elementárna konjunkcia. (Absorpciou by sa dalo zjednodušiť na ¬r ∨ p.)</span></li>
+          <li><b>KT:</b> distribuujem <span class="m">(¬r ∨ p)</span> cez ∧: <span class="m">(¬r ∨ p ∨ p) ∧ (¬r ∨ p ∨ ¬q)</span> |=| <span class="m">(¬r ∨ p) ∧ (¬r ∨ p ∨ ¬q)</span>.</li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> DT: <span class="m">¬r ∨ p ∨ (p ∧ ¬q)</span>; KT: <span class="m">(¬r ∨ p) ∧ (¬r ∨ p ∨ ¬q)</span>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" data-panel="zhrnutie">
+    <h3>Ťahák: normálne tvary</h3>
+    <table>
+      <tr><th></th><th>NDT / MDT</th><th>NKT / MKT</th></tr>
+      <tr><td>Z ktorých riadkov</td><td>f = 1</td><td>f = 0</td></tr>
+      <tr><td>Tvar</td><td>(… ∧ …) ∨ (… ∧ …)</td><td>(… ∨ …) ∧ (… ∨ …)</td></tr>
+      <tr><td>Hodnota 1</td><td>x</td><td>¬x</td></tr>
+      <tr><td>Hodnota 0</td><td>¬x</td><td>x</td></tr>
+      <tr><td>V mape zoskupuješ</td><td>jednotky</td><td>nuly</td></tr>
+    </table>
+    <h3>Karnaughova mapa</h3>
+    <ul>
+      <li>Poradie v hlavičke: <b>00, 10, 11, 01</b> (susedné sa líšia v 1 bite), okraje sú susedné.</li>
+      <li>Skupiny: obdĺžniky s 1, 2, 4 alebo 8 políčkami, čo najväčšie a čo najmenej. Môžu sa prekrývať.</li>
+      <li>Do výrazu ide iba premenná, ktorá je v celej skupine konštantná.</li>
+    </ul>
+    <h3>Postup na úlohu typu „vzorová písomka 4“</h3>
+    <ol>
+      <li>Z ÚNDT vypíš riadky s 1, ostatné sú 0.</li>
+      <li>ÚNKT: z každého nulového riadku jedna disjunkcia (1 → ¬x, 0 → x).</li>
+      <li>Nakresli K-mapu.</li>
+      <li>MDT: skupiny jednotiek. MKT: skupiny núl.</li>
+      <li>Kontrola: dosaď do výsledku pár riadkov a porovnaj s tabuľkou.</li>
+    </ol>
+    <h3>Najčastejšie chyby</h3>
+    <ul>
+      <li>Poradie 00, 01, 10, 11 v mape: susedné políčka potom nie sú „susedia“ a skupiny vyjdú zle.</li>
+      <li>Pri NKT a MKT negovať premenné ako pri NDT (presne naopak je správne).</li>
+      <li>Skupiny s 3 alebo 6 políčkami, alebo skupiny „do L“.</li>
+      <li>Zabudnúť na susedstvo cez okraj mapy.</li>
+      <li>Nechať nejakú jednotku (nulu) nepokrytú.</li>
+    </ul>
+  </div>
+
+  <div class="tab-panel" data-panel="cvicenia">
+    <div class="task"><span class="tnum">Cvičenie 1.</span> <span class="m">f(x, y, z)</span> = 1 práve v riadkoch 000, 001, 011, 111. Napíš NDT, NKT, MDT a MKT.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><b>NDT:</b> <span class="m">(¬x ∧ ¬y ∧ ¬z) ∨ (¬x ∧ ¬y ∧ z) ∨ (¬x ∧ y ∧ z) ∨ (x ∧ y ∧ z)</span></p>
+      <p><b>NKT</b> (nuly 010, 100, 101, 110): <span class="m">(x ∨ ¬y ∨ z) ∧ (¬x ∨ y ∨ z) ∧ (¬x ∨ y ∨ ¬z) ∧ (¬x ∨ ¬y ∨ z)</span></p>
+      <div style="display:flex; gap:24px; flex-wrap:wrap"><div><div class="kwrap"><table class="kmap"><tr><th class="corner">x \ yz</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>0</th><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td></tr><tr><th>1</th><td class="">0</td><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td><td class="">0</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">¬x ∧ ¬y</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">y ∧ z</span></li></ul></div></div><div><div class="kwrap"><table class="kmap"><tr><th class="corner">x \ yz</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>0</th><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td><td class="one">1</td><td class="one">1</td></tr><tr><th>1</th><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">¬x ∨ y</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">¬y ∨ z</span></li></ul></div></div></div>
+      <p><b>MDT:</b> <span class="m">(¬x ∧ ¬y) ∨ (y ∧ z)</span>   <b>MKT:</b> <span class="m">(¬x ∨ y) ∧ (¬y ∨ z)</span></p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 2.</span> Daná je formula v ÚNDT: <span class="m">(¬x ∧ y ∧ z) ∨ (x ∧ ¬y ∧ z) ∨ (x ∧ y ∧ ¬z) ∨ (x ∧ y ∧ z)</span>. Napíš ÚNKT, MDT a MKT. (Rovnaký typ ako vzorová písomka.)</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Jednotky: 011, 101, 110, 111. Nuly: 000, 001, 010, 100.</p>
+      <p><b>ÚNKT:</b> <span class="m">(x ∨ y ∨ z) ∧ (x ∨ y ∨ ¬z) ∧ (x ∨ ¬y ∨ z) ∧ (¬x ∨ y ∨ z)</span></p>
+      <div style="display:flex; gap:24px; flex-wrap:wrap"><div><div class="kwrap"><table class="kmap"><tr><th class="corner">x \ yz</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>0</th><td class="">0</td><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #c2410c">1</td><td class="">0</td></tr><tr><th>1</th><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c, inset 0 0 0 6px #2f5bd3, inset 0 0 0 9px #c2410c">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">x ∧ y</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">x ∧ z</span></li><li><span class="sw" style="background:#c2410c"></span><span class="m">y ∧ z</span></li></ul></div></div><div><div class="kwrap"><table class="kmap"><tr><th class="corner">x \ yz</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>0</th><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c, inset 0 0 0 6px #2f5bd3, inset 0 0 0 9px #c2410c">0</td><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td></tr><tr><th>1</th><td class="" style="box-shadow:inset 0 0 0 3px #c2410c">0</td><td class="one">1</td><td class="one">1</td><td class="one">1</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">x ∨ y</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">x ∨ z</span></li><li><span class="sw" style="background:#c2410c"></span><span class="m">y ∨ z</span></li></ul></div></div></div>
+      <p><b>MDT:</b> <span class="m">(x ∧ y) ∨ (x ∧ z) ∨ (y ∧ z)</span>   <b>MKT:</b> <span class="m">(x ∨ y) ∧ (x ∨ z) ∧ (y ∨ z)</span></p>
+      <p><span class="why">Je to funkcia „väčšina“: je 1, keď sú aspoň dve premenné 1. Jednotka 111 je vo všetkých troch skupinách.</span></p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 3.</span> <span class="m">f(p, q, r, s)</span> = 1 práve v 0000, 0010, 1000, 1010, 0101, 0111, 1101, 1111. Nájdi MDT a MKT. (Pozor na okraje mapy!)</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <div style="display:flex; gap:24px; flex-wrap:wrap"><div><div class="kwrap"><table class="kmap"><tr><th class="corner">pq \ rs</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>00</th><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="">0</td><td class="">0</td></tr><tr><th>10</th><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #1f8a4c">1</td><td class="">0</td><td class="">0</td></tr><tr><th>11</th><td class="">0</td><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td></tr><tr><th>01</th><td class="">0</td><td class="">0</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td><td class="one" style="box-shadow:inset 0 0 0 3px #2f5bd3">1</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">¬q ∧ ¬s</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">q ∧ s</span></li></ul></div></div><div><div class="kwrap"><table class="kmap"><tr><th class="corner">pq \ rs</th><th>00</th><th>10</th><th>11</th><th>01</th></tr><tr><th>00</th><td class="one">1</td><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td></tr><tr><th>10</th><td class="one">1</td><td class="one">1</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td><td class="" style="box-shadow:inset 0 0 0 3px #1f8a4c">0</td></tr><tr><th>11</th><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td><td class="one">1</td><td class="one">1</td></tr><tr><th>01</th><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td><td class="" style="box-shadow:inset 0 0 0 3px #2f5bd3">0</td><td class="one">1</td><td class="one">1</td></tr></table><ul class="kgroups"><li><span class="sw" style="background:#1f8a4c"></span><span class="m">q ∨ ¬s</span></li><li><span class="sw" style="background:#2f5bd3"></span><span class="m">¬q ∨ s</span></li></ul></div></div></div>
+      <p><b>MDT:</b> <span class="m">(¬q ∧ ¬s) ∨ (q ∧ s)</span>. Štyri rohy mapy tvoria jednu skupinu, lebo okraje susedia. Rohy majú q = 0, s = 0.</p>
+      <p><b>MKT:</b> <span class="m">(q ∨ ¬s) ∧ (¬q ∨ s)</span></p>
+      <p><span class="why">Funkcia je 1 práve vtedy, keď q = s, teda je to <span class="m">q ⇔ s</span>.</span></p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 4.</span> Koľko elementárnych konjunkcií má NDT tautológie s 3 premennými? Dá sa tautológia zapísať v NKT?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Tautológia má všetkých 8 riadkov rovných 1, takže NDT má <b>8</b> konjunkcií. NKT vzniká z riadkov s 0 a tautológia žiadne nemá, preto ju v NKT zapísať <b>nemožno</b>. To zodpovedá vete z prednášky: v KNT sa dá realizovať každá funkcia, ktorá nie je identicky 1.</p>
+    </div></details>
+  </div>
+
+  <div class="done-row">
+    <input type="checkbox" id="done-tvary" data-done="tvary">
+    <label for="done-tvary">Tému Normálne tvary a K-mapa mám zvládnutú</label>
+  </div>
+</section>
+
 
 </main>
 </div>
