@@ -494,11 +494,11 @@
     </table>
     <table>
       <tr><th>Zákon</th><th>Znenie</th></tr>
-      <tr><td>Komutatívnosť</td><td class="m">A ∪ B = B ∪ A,  A ∩ B = B ∩ A</td></tr>
-      <tr><td>Asociatívnosť</td><td class="m">A ∪ (B ∪ C) = (A ∪ B) ∪ C,  A ∩ (B ∩ C) = (A ∩ B) ∩ C</td></tr>
+      <tr><td>Komutatívnosť</td><td class="m">A ∪ B = B ∪ A<br>A ∩ B = B ∩ A</td></tr>
+      <tr><td>Asociatívnosť</td><td class="m">A ∪ (B ∪ C) = (A ∪ B) ∪ C<br>A ∩ (B ∩ C) = (A ∩ B) ∩ C</td></tr>
       <tr><td>Distributívnosť</td><td class="m">A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)<br>A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)</td></tr>
-      <tr><td>De Morganove zákony</td><td class="m">(A ∪ B)′ = A′ ∩ B′,  (A ∩ B)′ = A′ ∪ B′</td></tr>
-      <tr><td>Absorpcia</td><td class="m">A ∪ (A ∩ B) = A,  A ∩ (A ∪ B) = A</td></tr>
+      <tr><td>De Morganove zákony</td><td class="m">(A ∪ B)′ = A′ ∩ B′<br>(A ∩ B)′ = A′ ∪ B′</td></tr>
+      <tr><td>Absorpcia</td><td class="m">A ∪ (A ∩ B) = A<br>A ∩ (A ∪ B) = A</td></tr>
       <tr><td>Dvojitý doplnok</td><td class="m">(A′)′ = A</td></tr>
       <tr><td>Rozdiel cez doplnok</td><td class="m">A ∖ B = A ∩ B′</td></tr>
     </table>
@@ -789,7 +789,7 @@
       <tr><td>Rozdiel</td><td class="m">A ∖ B = A ∩ B′</td><td>nie je komutatívny</td></tr>
       <tr><td>Sym. rozdiel</td><td class="m">A △ B = (A∖B) ∪ (B∖A)</td><td>„práve v jednej“</td></tr>
       <tr><td>Doplnok</td><td class="m">A′ = U ∖ A</td><td>vždy vzhľadom na univerzum U</td></tr>
-      <tr><td>De Morgan</td><td class="m">(A∪B)′ = A′∩B′,  (A∩B)′ = A′∪B′</td><td>rovnaké ako v logike</td></tr>
+      <tr><td>De Morgan</td><td class="m">(A∪B)′ = A′∩B′<br>(A∩B)′ = A′∪B′</td><td>rovnaké ako v logike</td></tr>
       <tr><td>Kart. súčin</td><td class="m">A×B = {(a,b); a∈A, b∈B}</td><td><span class="m">|A×B| = |A|·|B|</span>, <span class="m">A×B ≠ B×A</span></td></tr>
       <tr><td>Inklúzia–exklúzia</td><td class="m">|A∪B| = |A|+|B|−|A∩B|</td><td>pri troch: +jednotlivé, −dvojice, +trojica</td></tr>
       <tr><td>Potenčná množina</td><td class="m">𝒫(A) = {X; X ⊆ A}</td><td><span class="m">|𝒫(A)| = 2ⁿ</span>; <span class="m">𝒫(∅) = {∅}</span></td></tr>
@@ -1100,7 +1100,8 @@
     </div>
 
     <div class="lawlegend">
-      <span class="lawtag must">naspamäť</span> tieto zákony používaš takmer v každom príklade (prevod na klauzuly, negácia záveru, DT/KT)
+      <span class="lawtag must">naspamäť</span> tieto zákony používaš takmer v každom príklade (prevod na klauzuly, negácia záveru, DT/KT)<br>
+      <span class="why">Každý riadok v stĺpci „Znenie“ je samostatný zákon. Napríklad pri komutatívnosti platí jeden pre ∧ a druhý pre ∨, spojka sa nikdy nemení na inú.</span>
     </div>
     <table>
       <tr><th>Zákon</th><th>Znenie</th><th>Polopatisticky</th><th>Pre príklady</th></tr>
@@ -1110,11 +1111,11 @@
       <tr class="law-must"><td>Dvojitá negácia</td><td class="m">¬¬α |=| α</td><td>„nie je pravda, že neprší“ = prší</td><td><span class="lawtag must">naspamäť</span></td></tr>
       <tr class="law-must"><td><b>Negácia implikácie</b></td><td class="m">¬(α ⇒ β) |=| α ∧ ¬β</td><td>sľub porušený = predpoklad nastal, záver nie</td><td><span class="lawtag must">naspamäť</span></td></tr>
       <tr class="law-must"><td><b>Distributívne</b></td><td class="m">α ∧ (β ∨ γ) |=| (α ∧ β) ∨ (α ∧ γ)<br>α ∨ (β ∧ γ) |=| (α ∨ β) ∧ (α ∨ γ)</td><td>ako roznásobenie zátvorky, funguje oboma smermi</td><td><span class="lawtag must">naspamäť</span></td></tr>
-      <tr><td>Komutatívnosť</td><td class="m">α ∧ β |=| β ∧ α,  α ∨ β |=| β ∨ α</td><td>na poradí nezáleží</td><td></td></tr>
+      <tr><td>Komutatívnosť</td><td class="m">α ∧ β |=| β ∧ α<br>α ∨ β |=| β ∨ α</td><td>na poradí nezáleží</td><td></td></tr>
       <tr><td>Asociatívnosť</td><td class="m">α ∧ (β ∧ γ) |=| (α ∧ β) ∧ γ</td><td>pri rovnakej spojke nezáleží na zátvorkách</td><td></td></tr>
-      <tr><td>Idempotencia</td><td class="m">α ∧ α |=| α,  α ∨ α |=| α</td><td>zopakovať to isté nič nemení</td><td></td></tr>
-      <tr><td>Tautológia / kontradikcia</td><td class="m">T ∧ α |=| α,  T ∨ α |=| T<br>F ∧ α |=| F,  F ∨ α |=| α<br>α ∧ ¬α |=| F,  α ∨ ¬α |=| T</td><td>T sa správa ako 1, F ako 0</td><td></td></tr>
-      <tr><td>Absorpcia</td><td class="m">α ∧ (α ∨ β) |=| α,  α ∨ (α ∧ β) |=| α</td><td>väčšia časť „pohltí“ menšiu</td><td></td></tr>
+      <tr><td>Idempotencia</td><td class="m">α ∧ α |=| α<br>α ∨ α |=| α</td><td>zopakovať to isté nič nemení</td><td></td></tr>
+      <tr><td>Tautológia / kontradikcia</td><td class="m">T ∧ α |=| α<br>T ∨ α |=| T<br>F ∧ α |=| F<br>F ∨ α |=| α<br>α ∧ ¬α |=| F<br>α ∨ ¬α |=| T</td><td>T sa správa ako 1, F ako 0</td><td></td></tr>
+      <tr><td>Absorpcia</td><td class="m">α ∧ (α ∨ β) |=| α<br>α ∨ (α ∧ β) |=| α</td><td>väčšia časť „pohltí“ menšiu</td><td></td></tr>
       <tr><td>Obmena</td><td class="m">α ⇒ β |=| ¬β ⇒ ¬α</td><td>„ak nie záver, tak nie predpoklad“</td><td></td></tr>
     </table>
     <div class="exm"><span class="lbl">Príklad pre predstavu</span>
@@ -1296,7 +1297,7 @@
     <table>
       <tr><td class="m">α ⇒ β |=| ¬α ∨ β</td><td>nahradenie implikácie</td></tr>
       <tr><td class="m">α ⇔ β |=| (¬α ∨ β) ∧ (α ∨ ¬β)</td><td>nahradenie ekvivalencie</td></tr>
-      <tr><td class="m">¬(α ∧ β) |=| ¬α ∨ ¬β,  ¬(α ∨ β) |=| ¬α ∧ ¬β</td><td>de Morgan</td></tr>
+      <tr><td class="m">¬(α ∧ β) |=| ¬α ∨ ¬β<br>¬(α ∨ β) |=| ¬α ∧ ¬β</td><td>de Morgan</td></tr>
       <tr><td class="m">¬(α ⇒ β) |=| α ∧ ¬β</td><td>negácia implikácie</td></tr>
       <tr><td class="m">α ⇒ β |=| ¬β ⇒ ¬α</td><td>obmena (obrátená q ⇒ p <b>nie</b> je ekvivalentná)</td></tr>
       <tr><td class="m">α ∨ (β ∧ γ) |=| (α ∨ β) ∧ (α ∨ γ)</td><td>distributívnosť (potrebná pri prevode na klauzuly)</td></tr>
@@ -1560,7 +1561,7 @@
       <tr><th>Fakt</th><th>Kde sa hodí</th></tr>
       <tr><td class="m">|x − x| = 0</td><td>reflexívnosť relácií s |x − y|</td></tr>
       <tr><td class="m">|x − y| = |y − x|</td><td>symetrickosť relácií s |x − y|</td></tr>
-      <tr><td class="m">x · y = y · x,  x + y = y + x</td><td>symetrickosť</td></tr>
+      <tr><td class="m">x · y = y · x<br>x + y = y + x</td><td>symetrickosť</td></tr>
       <tr><td class="m">x² ≥ 0</td><td>reflexívnosť, napr. pri x · y ≥ 0</td></tr>
       <tr><td class="m">a | b ∧ b | c ⇒ a | c</td><td>tranzitívnosť deliteľnosti</td></tr>
       <tr><td class="m">m | a ∧ m | b ⇒ m | (a + b)</td><td>tranzitívnosť kongruencie: <span class="m">x − z = (x − y) + (y − z)</span></td></tr>
