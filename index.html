@@ -229,6 +229,8 @@
   ul.kgroups { list-style: none; padding: 0; margin: 6px 0 0; font-size: 14px; }
   ul.kgroups li { margin: 3px 0; display: flex; align-items: center; gap: 6px; }
   ul.kgroups .sw { display: inline-block; width: 14px; height: 14px; border-radius: 3px; }
+  .exm { border-left: 4px solid #0e7490; background: #e6f4f7; border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+  .exm .lbl { font-weight: 700; color: #0e7490; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 2px; }
 </style>
 </head>
 <body>
@@ -295,7 +297,7 @@
   <div class="tip"><span class="lbl">Ako s tým pracovať</span>
     Každá téma má štyri záložky. <b>Teória</b> vysvetľuje pojmy. <b>Príklady</b> obsahujú riešené úlohy so slovným postupom: čo robím a prečo. <b>Zhrnutie</b> je ťahák na rýchle zopakovanie. <b>Cvičenia</b> si najprv skús vyriešiť sám a až potom si rozbaľ riešenie.
     Keď tému zvládneš, zaškrtni ju dole na stránke. V menu sa pri nej objaví ✔.<br>
-    <b>Pomôcky:</b> fialový rámček <b>„Jednoducho povedané“</b> vysvetľuje podtému vlastnými slovami. <span class="term" tabindex="0" data-def="Takto vyzerá vysvetlenie pojmu. Na mobile naň ťukni.">Podčiarknuté slová</span> majú vysvetlenie, stačí na ne prejsť myšou. Vpravo dole sú tlačidlá <b>Symboly</b> (ako sa čítajú znaky) a <b>ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ</b> (číselné množiny).
+    <b>Pomôcky:</b> fialový rámček <b>„Jednoducho povedané“</b> vysvetľuje podtému vlastnými slovami. Tyrkysový rámček <b>„Príklad pre predstavu“</b> ukazuje pojem na jednoduchom konkrétnom príklade. <span class="term" tabindex="0" data-def="Takto vyzerá vysvetlenie pojmu. Na mobile naň ťukni.">Podčiarknuté slová</span> majú vysvetlenie, stačí na ne prejsť myšou. Vpravo dole sú tlačidlá <b>Symboly</b> (ako sa čítajú znaky) a <b>ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ</b> (číselné množiny).
   </div>
 </section>
 
@@ -341,6 +343,9 @@
       Či patrí 0 do <span class="m">ℕ</span>, závisí od konvencie predmetu. Over si v zošite, ako to berie vaša prednášajúca. Pri úlohách s reláciami na <span class="m">ℕ</span> to môže zmeniť napríklad reflexívnosť pri deliteľnosti, lebo 0 | 0 nie je samozrejmé.
     </div>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      Univerzum U = všetci žiaci v triede (30 ľudí), A = žiaci s okuliarmi (8 ľudí). Doplnok A′ sú žiaci <b>bez</b> okuliarov (22 ľudí). S číslami: <span class="m">U = {1, …, 8}</span>, <span class="m">A = {1, 2, 3}</span>, potom <span class="m">A′ = {4, 5, 6, 7, 8}</span>.
+    </div>
     <h3>1.2 Podmnožina a rovnosť množín</h3>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       A je podmnožinou B, keď sa celé A „zmestí“ do B, teda všetko, čo je v A, je aj v B. Dve množiny sú rovnaké, keď sa každá zmestí do druhej, čiže majú presne tie isté prvky.
@@ -372,6 +377,9 @@
       Postup: pri <span class="m">X ∈ M</span> hľadáš X <b>presne v takom tvare</b> medzi prvkami M. Pri <span class="m">X ⊆ M</span> „rozbaľ“ X a skontroluj, či je <b>každý jeho prvok</b> v M.
     </div>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <span class="m">{1, 2} ⊆ {1, 2, 3}</span> ✔, lebo 1 aj 2 sú v {1, 2, 3}. <span class="m">{1, 4} ⊆ {1, 2, 3}</span> ✘, lebo 4 tam nie je.<br>Rovnosť: <span class="m">{1, 2, 3} = {3, 1, 2}</span> ✔ (poradie nehrá rolu) a <span class="m">{x ∈ ℕ ; x &lt; 3} = {1, 2}</span> ✔ (rovnaké prvky, iný zápis).
+    </div>
     <h3>1.3 Operácie s množinami</h3>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       S množinami sa „počíta“ podobne ako s číslami. Môžeš ich spojiť (∪), nájsť, čo majú spoločné (∩), alebo z jednej vyhodiť to, čo je v druhej (∖). Výsledkom je vždy zase množina.
@@ -447,6 +455,9 @@
       </div>
     </div>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <span class="m">U = {1, …, 6}</span>, <span class="m">A = {1, 2, 3, 4}</span>, <span class="m">B = {3, 4, 5}</span>:<br><span class="m">A ∪ B = {1, 2, 3, 4, 5}</span>, <span class="m">A ∩ B = {3, 4}</span>, <span class="m">A ∖ B = {1, 2}</span>, <span class="m">B ∖ A = {5}</span>, <span class="m">A △ B = {1, 2, 5}</span>, <span class="m">A′ = {5, 6}</span>.<br>Disjunktné sú napr. <span class="m">{1, 2}</span> a <span class="m">{3, 4}</span>, lebo nemajú spoločný prvok.
+    </div>
     <h4>Karteziánsky súčin</h4>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       Karteziánsky súčin sú <b>všetky možné páry</b>, kde prvý člen berieš z A a druhý z B. Ako keď máš 2 tričká a 3 nohavice: všetkých kombinácií „tričko + nohavice“ je 2 · 3 = 6. Na poradí v páre záleží: (tričko, nohavice) nie je to isté ako (nohavice, tričko).
@@ -459,6 +470,9 @@
       <b>Binárna relácia</b> na množine A je ľubovoľná podmnožina <span class="m">A × A</span>. Karteziánsky súčin teda potrebuješ vedieť naisto. Relácia je jednoducho „vybraná časť“ zo všetkých možných dvojíc.
     </div>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <span class="m">{1, 2} × {a, b} = {(1, a), (1, b), (2, a), (2, b)}</span>, teda 2 · 2 = 4 dvojice. Prvý člen je vždy z {1, 2}, druhý z {a, b}.
+    </div>
     <h3>1.4 Zákony množinových operácií a súvis s logikou</h3>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       Zákony sú overené pravidlá, ako môžeš výraz s množinami prepísať bez zmeny výsledku, podobne ako v algebre a · (b + c) = a · b + a · c. Sú to presne tie isté pravidlá ako vo výrokovej logike, iba s inými značkami.
@@ -486,6 +500,9 @@
       Ak sa naučíš de Morganove a distributívne zákony tu, máš ich naučené aj pre výrokovú logiku (¬, ∧, ∨). Tie isté pravidlá budeš používať pri prevode formúl na klauzuly.
     </div>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      Overenie de Morganovho zákona: <span class="m">U = {1, …, 5}</span>, <span class="m">A = {1, 2}</span>, <span class="m">B = {2, 3}</span>.<br>Ľavá strana: <span class="m">A ∪ B = {1, 2, 3}</span>, teda <span class="m">(A ∪ B)′ = {4, 5}</span>.<br>Pravá strana: <span class="m">A′ = {3, 4, 5}</span>, <span class="m">B′ = {1, 4, 5}</span>, teda <span class="m">A′ ∩ B′ = {4, 5}</span>. Obe strany sa rovnajú ✔.
+    </div>
     <h3>1.5 Mohutnosť množiny</h3>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       Mohutnosť je „veľkosť“ množiny. Pri konečnej množine je to jednoducho počet prvkov. Pri nekonečných sa porovnáva tak, že skúsiš prvky dvoch množín pospájať do párov jeden k jednému. Ak to ide, sú „rovnako veľké“.
@@ -507,6 +524,9 @@
     <span class="mb">|A ∪ B ∪ C| = |A| + |B| + |C| − |A∩B| − |A∩C| − |B∩C| + |A∩B∩C|</span>
     <p><b>Prečo +|A∩B∩C|:</b> prvok, ktorý je vo všetkých troch množinách, sa najprv pripočíta 3-krát (v A, B aj C), potom sa 3-krát odpočíta (v každom z troch prienikov dvojíc), takže by sa nepočítal vôbec. Preto ho na konci raz pripočítame.</p>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <span class="m">A = {1, 2, 3}</span>, <span class="m">B = {3, 4}</span>. <span class="m">|A ∪ B| = 3 + 2 − 1 = 4</span>. Naozaj, <span class="m">A ∪ B = {1, 2, 3, 4}</span>. Trojku, ktorá je v oboch, sme najprv započítali dvakrát, preto −1.
+    </div>
     <h4>Nekonečné množiny</h4>
     <div class="def"><span class="lbl">Definícia</span>
       Množiny A a B majú <b>rovnakú mohutnosť</b> (<span class="m">|A| = |B|</span>), ak existuje <span class="term" tabindex="0" data-def="Bijekcia = zobrazenie, ktoré spáruje prvky dvoch množín presne jeden k jednému: nikto nezostane bez páru a nikto nemá dva páry."><b>bijekcia</b></span> <span class="m">f : A → B</span>, teda zobrazenie, ktoré je zároveň <span class="term" tabindex="0" data-def="Injektívne zobrazenie: rôzne vzory majú rôzne obrazy, nikdy sa „nezrazia“ dva prvky do jedného.">injektívne</span> (rôzne prvky idú na rôzne obrazy) a <span class="term" tabindex="0" data-def="Surjektívne zobrazenie: každý prvok cieľovej množiny B je obrazom aspoň jedného prvku, nič v B nezostane „nezasiahnuté“.">surjektívne</span> (každý prvok B je zasiahnutý).
@@ -518,6 +538,9 @@
       <li>Pri nekonečných množinách prestáva platiť intuícia „časť je menšia ako celok“: párnych čísel je „rovnako veľa“ ako všetkých prirodzených čísel.</li>
     </ul>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      Prirodzené a párne čísla „spárujeme“: 1 ↔ 2, 2 ↔ 4, 3 ↔ 6, 4 ↔ 8, … (n ↔ 2n). Každé prirodzené číslo má práve jedného párneho partnera a naopak. Preto je párnych čísel „rovnako veľa“ ako prirodzených, hoci sú len ich časťou.
+    </div>
     <h3>1.6 Potenčná množina</h3>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       Potenčná množina je „zoznam všetkých možných výberov“ z množiny, od výberu nič (∅) po výber všetko (A). Ak máš 3 veci, môžeš z nich vybrať 8 rôznych skupín.
@@ -550,6 +573,9 @@
       </ol>
     </div>
     <p>Jednoducho povedané: rozklad je „rozdelenie A na kôpky“ tak, aby <b>každý prvok A bol v práve jednej kôpke</b> a žiadna kôpka nebola prázdna.</p>
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      Ponožky <span class="m">{1, …, 6}</span> roztriedené do šuplíkov: <span class="m">{{1, 2}, {3}, {4, 5, 6}}</span> je rozklad, lebo každá ponožka je v práve jednom šuplíku a žiadny šuplík nie je prázdny. <span class="m">{{1, 2}, {2, 3}, {4, 5, 6}}</span> rozklad nie je, lebo ponožka 2 je v dvoch šuplíkoch.
+    </div>
     <div class="link"><span class="lbl">Kľúčový súvis s reláciami</span>
       Každá <span class="term" tabindex="0" data-def="Relácia ekvivalencie = relácia, ktorá je reflexívna, symetrická a tranzitívna. Zoskupuje prvky, ktoré sú si v nejakom zmysle „rovnaké“, napr. majú rovnaký zvyšok po delení 3."><b>ekvivalencia</b></span> (relácia reflexívna, symetrická a tranzitívna) na A určuje rozklad A na triedy ekvivalencie. Naopak, každý rozklad určuje ekvivalenciu: „x R y ⟺ x a y sú v tej istej triede“. Príklad: kongruencia modulo 3 rozkladá <span class="m">ℤ</span> na 3 triedy podľa zvyšku po delení 3.
     </div>
@@ -916,6 +942,9 @@
       <tr><td class="m">p ⇔ q</td><td><b>ekvivalencia</b></td><td>„p práve vtedy, keď q“, „p vtedy a len vtedy, keď q“, „p je ekvivalentné s q“</td><td>keď majú p a q <b>rovnakú</b> hodnotu</td></tr>
     </table>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      Nech p = „prší“, q = „je zima“.<ul style="margin:4px 0 0"><li><span class="m">¬p</span>: „Neprší.“</li><li><span class="m">p ∧ q</span>: „Prší a je zima.“ Pravda iba vtedy, keď platí oboje.</li><li><span class="m">p ∨ q</span>: „Prší alebo je zima.“ Stačí jedno, platí aj pri oboch.</li><li><span class="m">p ⇒ q</span>: „Ak prší, tak je zima.“ Nepravda iba vtedy, keď prší a zima nie je.</li><li><span class="m">p ⇔ q</span>: „Prší práve vtedy, keď je zima.“ Pravda, keď buď oboje platí, alebo oboje neplatí.</li></ul>
+    </div>
     <h4>Pravdivostné tabuľky spojok (naučiť naspamäť)</h4>
     <div style="display:flex; gap:18px; flex-wrap:wrap; align-items:flex-start">
       <table class="tt" style="width:auto">
@@ -986,6 +1015,9 @@
       Písmená α, β, φ, ψ (alfa, beta, fí, psí) označujú <b>ľubovoľnú formulu</b>, nie iba jednu premennú.
     </div>
     <p><b><span class="term" tabindex="0" data-def="Postupnosť formúl, ktorou sa formula postupne „poskladá“: začneš premennými a v každom kroku pridáš jednu spojku k už vytvoreným častiam. Posledná je celá formula.">Vytvárajúca postupnosť</span></b> ukazuje, ako formulu poskladáš krok po kroku. Začneš premennými a v každom kroku použiješ jednu spojku na už hotové časti. Všetky jej členy sú <b><span class="term" tabindex="0" data-def="Časť formuly, ktorá je sama osebe formulou. Napr. vo formule (p ∨ q) ⇒ r sú podformuly p, q, r, p ∨ q aj celá formula.">podformuly</span></b>. Pri tabuľke presne tieto podformuly píšeš ako stĺpce.</p>
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <b>Sú formuly:</b> <span class="m">p</span>, <span class="m">¬q</span>, <span class="m">(p ∧ q) ⇒ r</span>. <b>Nie sú formuly:</b> <span class="m">p ∧ ∨ q</span> (dve spojky za sebou), <span class="m">)p(</span> (zlé zátvorky).<br>Vytvárajúca postupnosť pre <span class="m">(p ∨ q) ⇒ ¬r</span>: <span class="m">p, q, r, p ∨ q, ¬r, (p ∨ q) ⇒ ¬r</span>.
+    </div>
     <h4>Priorita spojok (ak chýbajú zátvorky)</h4>
     <p>Podobne ako „krát pred plus“ sa dohodou viaže najsilnejšie <b>¬</b>, potom <b>∧</b>, potom <b>∨</b>, potom <b>⇒</b> a najslabšie <b>⇔</b>.</p>
     <p>Teda <span class="m">p ∨ s ∧ t ⇒ ¬r</span> čítame ako <span class="m">(p ∨ (s ∧ t)) ⇒ ¬r</span>.</p>
@@ -1008,6 +1040,9 @@
       <li>Každý stĺpec počítaj podľa tabuľky príslušnej spojky z hodnôt stĺpcov, z ktorých vznikol.</li>
     </ol>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      Tabuľka formuly <span class="m">p ∧ ¬q</span> (2 premenné, teda 4 riadky):<table class="tt" style="width:auto; margin:6px 0 0"><tr><th>p</th><th>q</th><th>¬q</th><th>p ∧ ¬q</th></tr><tr><td>0</td><td>0</td><td>1</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td></tr></table>Formula je pravdivá iba v riadku p = 1, q = 0.
+    </div>
     <h3>2.5 Tautológia, kontradikcia, splniteľná formula</h3>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       Pozrieš sa na posledný stĺpec tabuľky. <b>Samé 1</b>: formula platí vždy (tautológia). <b>Samé 0</b>: formula neplatí nikdy (kontradikcia). <b>Aspoň jedna 1</b>: formula je splniteľná, dá sa „zapnúť“.
@@ -1020,6 +1055,9 @@
     </table>
     <p>Každá tautológia je aj splniteľná. Kontradikcia je presne formula, ktorá splniteľná nie je. Keď sa v úlohe pýtajú „tautológia, kontradikcia alebo splniteľná?“, odpoveď „splniteľná“ zvyčajne znamená, že nie je ani tautológia, ani kontradikcia.</p>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      „Prší alebo neprší“ (<span class="m">p ∨ ¬p</span>) platí vždy, je to <b>tautológia</b>. „Prší a neprší“ (<span class="m">p ∧ ¬p</span>) neplatí nikdy, je to <b>kontradikcia</b>. „Prší a je zima“ (<span class="m">p ∧ q</span>) niekedy platí a niekedy nie, je to <b>splniteľná</b> formula.
+    </div>
     <h3>2.6 Prepis slovných viet do formúl</h3>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       Najprv si každý jednoduchý výrok označíš písmenom (bez „nie“, to pridáš spojkou). Potom nájdeš v texte spojky a nahradíš ich symbolmi podľa tabuľky. Rozhoduje význam vety, nie presné slová.
@@ -1070,6 +1108,9 @@
       <tr><td>Obmena</td><td class="m">α ⇒ β |=| ¬β ⇒ ¬α</td><td>„ak nie záver, tak nie predpoklad“</td></tr>
       <tr><td>Tautológia / kontradikcia</td><td class="m">T ∧ α |=| α,  T ∨ α |=| T<br>F ∧ α |=| F,  F ∨ α |=| α<br>α ∧ ¬α |=| F,  α ∨ ¬α |=| T</td><td>T sa správa ako 1, F ako 0</td></tr>
     </table>
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <span class="m">p ⇒ q |=| ¬p ∨ q</span>: „Ak prší, zoberiem si dáždnik“ znamená to isté ako „Neprší alebo si zoberiem dáždnik“.<br>De Morgan: „Nie je pravda, že prší a je zima“ = „Neprší alebo nie je zima“.
+    </div>
     <div class="link"><span class="lbl">Kde to použiješ</span>
       Nahradenie implikácie a ekvivalencie, de Morganove a distributívne zákony sú presne nástroje na <b>prepis formúl do klauzúl</b> pri rezolučnej metóde (téma 5) a pri normálnych tvaroch (téma 6). Sú to tie isté zákony ako pri množinách (∧ ↔ ∩, ∨ ↔ ∪, ¬ ↔ doplnok).
     </div>
@@ -1408,6 +1449,9 @@
       <li><span class="m">(a, c) ∈ R ∘ S</span> práve vtedy, keď <b>existuje</b> b, pre ktoré <span class="m">(a, b) ∈ R</span> a <span class="m">(b, c) ∈ S</span>.</li>
     </ul>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      Ak R = „je rodičom“, tak <span class="m">R ∘ R</span> = „je starým rodičom“: <b>a</b> je rodičom <b>b</b> a <b>b</b> je rodičom <b>c</b>, teda <b>a</b> je starým rodičom <b>c</b>.<br>S číslami: <span class="m">R = {(1, 2)}</span>, <span class="m">S = {(2, 3)}</span>, potom <span class="m">R ∘ S = {(1, 3)}</span> a <span class="m">R⁻¹ = {(2, 1)}</span>.
+    </div>
     <h3>3.3 Štyri vlastnosti relácie</h3>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       Každá vlastnosť je „pravidlo“, ktoré musí platiť pre <b>všetky</b> prvky. Ak platí pre všetky, relácia vlastnosť má. Ak nájdeš <b>jediný</b> prípad, kde pravidlo neplatí (kontrapríklad), relácia vlastnosť nemá.
@@ -1420,6 +1464,9 @@
     <p><i>Jednoducho:</i> každý prvok je v relácii sám so sebou. V matici sú na diagonále samé 1, v grafe má každý vrchol slučku.<br>
     <i>Vyvrátenie:</i> stačí jeden prvok x, pre ktorý <span class="m">(x, x) ∉ R</span>.</p>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <b>Je reflexívna:</b> x ≤ y na ℤ, napr. 5 ≤ 5. <b>Nie je:</b> x &lt; y, lebo 5 &lt; 5 neplatí.
+    </div>
     <h4>Symetrickosť</h4>
     <div class="def"><span class="lbl">Definícia</span>
       R je <b>symetrická</b>, ak <span class="m">∀x, y ∈ A : (x, y) ∈ R ⇒ (y, x) ∈ R</span>.
@@ -1427,6 +1474,9 @@
     <p><i>Jednoducho:</i> ak x súvisí s y, tak aj y súvisí s x. Každá šípka má aj spiatočnú šípku a matica je súmerná podľa diagonály. Príklad: „je súrodencom“.<br>
     <i>Vyvrátenie:</i> nájdi dvojicu, kde <span class="m">(x, y) ∈ R</span>, ale <span class="m">(y, x) ∉ R</span>.</p>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <b>Je symetrická:</b> |x − y| = 1 na ℤ: (3, 4) aj (4, 3) sú v relácii. <b>Nie je:</b> x ≤ y, lebo 2 ≤ 3, ale 3 ≤ 2 neplatí.
+    </div>
     <h4>Antisymetrickosť</h4>
     <div class="def"><span class="lbl">Definícia</span>
       R je <b>antisymetrická</b>, ak <span class="m">∀x, y ∈ A : ((x, y) ∈ R ∧ (y, x) ∈ R) ⇒ x = y</span>.
@@ -1441,6 +1491,9 @@
       </ul>
     </div>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <b>Je antisymetrická:</b> x ≤ y. <b>Nie je:</b> |x − y| ≤ 3, lebo 4 a 6 sú v relácii oboma smermi, ale 4 ≠ 6.
+    </div>
     <h4>Tranzitívnosť</h4>
     <div class="def"><span class="lbl">Definícia</span>
       R je <b>tranzitívna</b>, ak <span class="m">∀x, y, z ∈ A : ((x, y) ∈ R ∧ (y, z) ∈ R) ⇒ (x, z) ∈ R</span>.
@@ -1448,6 +1501,9 @@
     <p><i>Jednoducho:</i> keď sa dá prejsť z x do y a z y do z, musí existovať aj priama šípka z x do z. „Reťaz sa dá skrátiť.“ Príklad: „je predkom“, lebo predok môjho predka je aj môj predok.<br>
     <i>Vyvrátenie:</i> nájdi x, y, z, pre ktoré <span class="m">(x, y) ∈ R</span> a <span class="m">(y, z) ∈ R</span>, ale <span class="m">(x, z) ∉ R</span>.</p>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <b>Je tranzitívna:</b> x &lt; y, napr. 1 &lt; 2 a 2 &lt; 5, teda aj 1 &lt; 5. <b>Nie je:</b> |x − y| = 1, lebo (1, 2) a (2, 3) sú v relácii, ale (1, 3) nie, keďže |1 − 3| = 2.
+    </div>
     <div class="link"><span class="lbl">Platnosť „naprázdno“ (z témy 2)</span>
       Symetrickosť, antisymetrickosť a tranzitívnosť sú <b>implikácie</b>. Ak predpoklad nie je nikdy splnený, implikácia platí naprázdno a vlastnosť <b>platí</b>. Príklady:
       <ul style="margin:6px 0 0">
@@ -1799,12 +1855,18 @@
       Nestačí, aby bola každá formula splniteľná <i>samostatne</i>. <span class="m">p</span> aj <span class="m">¬p</span> sú každá splniteľné, ale systém <span class="m">{p, ¬p}</span> splniteľný nie je. Rozhoduje <b>ten istý riadok</b> pre všetky.
     </div>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <span class="m">S = {p, p ⇒ q}</span> je <b>splniteľný</b>, pri p = 1, q = 1 platia obe formuly. <span class="m">S = {p, ¬p}</span> splniteľný <b>nie je</b>, p nemôže byť zároveň 1 aj 0.
+    </div>
     <h3>4.2 Vyplývanie (sémantický dôsledok)</h3>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       Záver φ <b>vyplýva</b> z predpokladov S, ak <b>nemôže nastať</b> situácia, v ktorej by všetky predpoklady platili a záver nie. Inými slovami: kedykoľvek platia predpoklady, platí aj záver. Na nič iné sa nepozeráš.
     </div>
     <div class="def"><span class="lbl">Definícia</span>
       Formula φ <b><span class="term" tabindex="0" data-def="φ vyplýva zo S (S ⊨ φ), ak je φ pravdivá v každom riadku, v ktorom sú pravdivé všetky formuly z S.">vyplýva</span></b> zo systému S, zapisujeme <span class="m">S ⊨ φ</span> (na prednáške <span class="m">S |= φ</span>), ak je φ pravdivá pri <b>každom</b> ohodnotení, pri ktorom sú pravdivé všetky formuly z S. Ak nevyplýva, píšeme <span class="m">S ⊭ φ</span>.
+    </div>
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      „Prší. Ak prší, je mokro.“ ⊨ „Je mokro.“ Zapísané: <span class="m">{p, p ⇒ q} ⊨ q</span>. Keď platí p aj p ⇒ q, musí byť q = 1 (inak by bolo 1 ⇒ 0). Záver teda vyplýva.
     </div>
     <h4>Postup tabuľkou</h4>
     <ol>
@@ -1834,6 +1896,9 @@
     </ul>
     <p>Na písomke je táto metóda úplne v poriadku, ak ju <b>slovne zdôvodníš</b>. Ak si nie si istý, sprav tabuľku. Pri 3 premenných má iba 8 riadkov.</p>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      Platí <span class="m">{p ∨ q, ¬p} ⊨ q</span>? Hľadám protipríklad, teda q = 0 a predpoklady 1. Z ¬p = 1 je p = 0, ale potom <span class="m">p ∨ q = 0 ∨ 0 = 0</span>, a to je spor. Protipríklad neexistuje, takže <b>vyplýva</b>.
+    </div>
     <h3>4.4 Dôležité vety</h3>
     <table>
       <tr><th>Veta</th><th>Jednoducho</th></tr>
@@ -2160,12 +2225,18 @@
       <b>Robinsonov rezolučný princíp:</b> systém klauzúl K je splniteľný práve vtedy, keď <span class="m">R*(K)</span> neobsahuje prázdnu klauzulu F.
     </div>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <span class="m">K = {p, ¬p ∨ q, ¬q}</span>: z p a ¬p ∨ q dostanem <span class="m">q</span>, z q a ¬q dostanem <b>F</b>. K je teda nesplniteľný. Naozaj: p = 1 vynúti q = 1, ale ¬q chce q = 0.
+    </div>
     <h3>5.5 Použitie na vyplývanie</h3>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       Chceš ukázať, že záver vyplýva? Pridaj k predpokladom <b>opak záveru</b> a ukáž, že vznikne spor (F). Je to „dôkaz sporom“: keby záver neplatil, predpoklady by si odporovali.
     </div>
     <span class="mb">S ⊨ φ  ⟺  S ∪ {¬φ} je nesplniteľný  ⟺  z klauzúl S ∪ {¬φ} sa dá odvodiť F</span>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      Platí <span class="m">{p ⇒ q, p} ⊨ q</span>? Klauzuly S ∪ {¬q}: 1. <span class="m">¬p ∨ q</span>  2. <span class="m">p</span>  3. <span class="m">¬q</span>. Odvodím 4. <span class="m">q</span> (1, 2) a 5. <b>F</b> (3, 4). Záver vyplýva.
+    </div>
     <h3>5.6 Postup na písomke</h3>
     <ol>
       <li><b>Ak ide o vyplývanie:</b> k S pridaj <span class="m">¬φ</span>. Nezabudni, že sa neguje <b>celý</b> záver.</li>
@@ -2200,6 +2271,9 @@
       <li>Ak p nie je v žiadnej klauzule s ¬p (K₀ je prázdne) alebo naopak, <span class="m">K₀₁ = ∅</span> a klauzuly s p jednoducho zmiznú.</li>
       <li><b>Ohodnotenie</b> pri splniteľnom systéme nájdeš spätne: premenné dosadzuješ v <b>opačnom poradí</b>, než si ich eliminoval. Hodnotu vždy zvolíš tak, aby boli splnené klauzuly z príslušného kroku.</li>
     </ul>
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <span class="m">K = {p ∨ q, ¬p ∨ r, s}</span>, eliminujem p: <span class="m">K≠(p) = {s}</span>, <span class="m">K₀(p) = {¬p ∨ r}</span>, <span class="m">K₁(p) = {p ∨ q}</span>, <span class="m">K₀₁(p) = {q ∨ r}</span>. Nový systém je <span class="m">{s, q ∨ r}</span> a premenná p v ňom už nie je.
+    </div>
     <p class="why">Na prednáške je táto metóda zapísaná kompaktnou tabuľkou so šípkami. Tu je rozpísaná po krokoch, princíp je ten istý.</p>
   </div>
 
@@ -2496,6 +2570,9 @@
       <li>Z každého nulového riadku urob disjunkciu podľa pravidla NKT a spoj ich cez ∧.</li>
     </ol>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      ÚNDT <span class="m">(x ∧ y) ∨ (¬x ∧ ¬y)</span>: jednotky sú v riadkoch 11 a 00, nuly v riadkoch 01 a 10. ÚNKT: 01 dá <span class="m">x ∨ ¬y</span> a 10 dá <span class="m">¬x ∨ y</span>, spolu <span class="m">(x ∨ ¬y) ∧ (¬x ∨ y)</span>.
+    </div>
     <h3>6.4 DT a KT úpravami (bez tabuľky)</h3>
     <p>Formulu môžeš do DT alebo KT dostať aj zákonmi z témy 2:</p>
     <ul>
@@ -2509,12 +2586,18 @@
     </ul>
     <p>Takto vznikne DT alebo KT, ale nie nutne úplný ani minimálny (pozri príklad 5).</p>
 
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <span class="m">¬(p ∧ q) ∨ r</span> |=| <span class="m">¬p ∨ ¬q ∨ r</span> (de Morgan). Výsledok je DT (tri jednoliterálové konjunkcie spojené ∨) a zároveň KT (jedna klauzula).
+    </div>
     <h3>6.5 Minimalizácia: myšlienka „susedov“</h3>
     <div class="simple"><span class="lbl">Jednoducho povedané</span>
       Ak sa dve konjunkcie líšia <b>iba v jednej premennej</b> (raz je x, raz ¬x), tá premenná „nerozhoduje“ a dá sa vyhodiť: <span class="m">(α ∧ x) ∨ (α ∧ ¬x) |=| α</span>. Minimalizácia je opakované zlučovanie takýchto „susedov“.
     </div>
     <span class="mb">(α ∧ x) ∨ (α ∧ ¬x) |=| α ∧ (x ∨ ¬x) |=| α ∧ T |=| α</span>
     <span class="mb">(α ∨ x) ∧ (α ∨ ¬x) |=| α ∨ (x ∧ ¬x) |=| α ∨ F |=| α</span>
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      <span class="m">(x ∧ y) ∨ (x ∧ ¬y)</span> |=| <span class="m">x</span>. „x platí a y platí, alebo x platí a y neplatí“ znamená jednoducho „x platí“, na y nezáleží.
+    </div>
     <div class="def"><span class="lbl">Definícia</span>
       <b>Minimálny DT (MDT)</b>, resp. <b>minimálny KT (MKT)</b> je DT, resp. KT danej funkcie s najmenším možným počtom literálov a elementárnych konjunkcií (disjunkcií).
     </div>
@@ -2546,6 +2629,9 @@
       <tr><td>Premenná je v skupine stále 0</td><td><b>¬x</b></td><td><b>x</b></td></tr>
       <tr><td>Skupiny spojíš</td><td>cez ∨</td><td>cez ∧</td></tr>
     </table>
+    <div class="exm"><span class="lbl">Príklad pre predstavu</span>
+      Skupina políčok {010, 011} pri premenných x, y, z: x je stále 0, y je stále 1, z sa mení (0, 1). Ak sú to jednotky (MDT), skupina dá <span class="m">¬x ∧ y</span>. Ak by to boli nuly (MKT), dala by <span class="m">x ∨ ¬y</span>.
+    </div>
     <div class="tip"><span class="lbl">Veľkosť skupiny a počet literálov</span>
       Pri 3 premenných má 1 políčko 3 literály, 2 políčka 2 literály, 4 políčka 1 literál a 8 políčok je konštanta. Pri 4 premenných: 1 → 4, 2 → 3, 4 → 2, 8 → 1 literál.
     </div>
