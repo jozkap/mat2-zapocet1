@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diskrétna matematika – príprava na 1. zápočtovú</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --text: #1d2330;
+    --muted: #5b6475;
+    --line: #e2e5eb;
+    --accent: #2f5bd3;
+    --accent-soft: #e8eefc;
+    --ok: #1f8a4c;
+    --ok-soft: #e5f5ec;
+    --warn: #b4560b;
+    --warn-soft: #fdf1e4;
+    --bad: #b42318;
+    --bad-soft: #fdecea;
+    --code: #f1f3f7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  .layout { display: flex; min-height: 100vh; }
+  nav.side {
+    width: 270px;
+    flex-shrink: 0;
+    background: #182033;
+    color: #d8deeb;
+    padding: 20px 14px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  nav.side h1 { font-size: 17px; color: #fff; margin: 0 6px 4px; line-height: 1.3; }
+  nav.side .sub { font-size: 12.5px; color: #93a0bb; margin: 0 6px 18px; }
+  nav.side .group { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #7f8cab; margin: 18px 6px 6px; }
+  .topic-btn {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; text-align: left;
+    background: transparent; border: 0; color: inherit;
+    padding: 9px 10px; border-radius: 8px;
+    font: inherit; font-size: 14.5px; cursor: pointer;
+  }
+  .topic-btn:hover { background: #24304a; }
+  .topic-btn.active { background: var(--accent); color: #fff; }
+  .topic-btn.disabled { color: #6c7894; cursor: default; }
+  .topic-btn.disabled:hover { background: transparent; }
+  .topic-btn .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #2a3754; font-size: 12px; flex-shrink: 0;
+  }
+  .topic-btn.active .num { background: rgba(255,255,255,.25); }
+  .topic-btn .done-mark { margin-left: auto; color: #6fd39b; font-size: 13px; visibility: hidden; }
+  .topic-btn.done .done-mark { visibility: visible; }
+  .topic-btn .soon { margin-left: auto; font-size: 11px; color: #6c7894; }
+
+  main { flex: 1; padding: 28px 40px 80px; max-width: 980px; }
+  .topic { display: none; }
+  .topic.active { display: block; }
+  .topic > h2 { font-size: 28px; margin: 0 0 4px; }
+  .topic > .lead { color: var(--muted); margin: 0 0 18px; }
+
+  .tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--line); margin-bottom: 22px; flex-wrap: wrap; }
+  .tab-btn {
+    border: 0; background: transparent; font: inherit; font-size: 15px;
+    padding: 10px 16px; cursor: pointer; color: var(--muted);
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  h3 { font-size: 21px; margin: 30px 0 10px; padding-top: 6px; }
+  h3:first-child { margin-top: 0; }
+  h4 { font-size: 17px; margin: 0 0 8px; }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 22px; margin: 14px 0;
+  }
+  .def { border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+  .def .lbl { font-weight: 700; color: var(--accent); font-size: 13px; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 2px; }
+  .tip { border-left: 4px solid var(--ok); background: var(--ok-soft); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+  .tip .lbl { font-weight: 700; color: var(--ok); font-size: 13px; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 2px; }
+  .trap { border-left: 4px solid var(--bad); background: var(--bad-soft); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+  .trap .lbl { font-weight: 700; color: var(--bad); font-size: 13px; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 2px; }
+  .link { border-left: 4px solid var(--warn); background: var(--warn-soft); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+  .link .lbl { font-weight: 700; color: var(--warn); font-size: 13px; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 2px; }
+
+  .m { font-family: "Cambria Math", "Cambria", "Times New Roman", serif; font-size: 1.07em; white-space: nowrap; }
+  .mb { font-family: "Cambria Math", "Cambria", "Times New Roman", serif; font-size: 1.12em; display: block; text-align: center; margin: 10px 0; background: var(--code); padding: 8px 12px; border-radius: 8px; }
+
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 15px; background: var(--panel); }
+  th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f6; }
+
+  .ex { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .ex .ex-head { background: #eef1f6; padding: 10px 18px; font-weight: 700; }
+  .ex .ex-body { padding: 14px 20px; }
+  .ex .zadanie { background: var(--code); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; }
+  .ex .zadanie b:first-child { color: var(--muted); }
+  ol.steps { padding-left: 22px; margin: 6px 0; }
+  ol.steps li { margin: 8px 0; }
+  .why { color: var(--muted); font-style: italic; }
+  .vysledok { border-top: 1px dashed var(--line); margin-top: 12px; padding-top: 10px; }
+  .vysledok b { color: var(--ok); }
+
+  details { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin: 6px 0 16px; }
+  details summary { cursor: pointer; padding: 9px 14px; color: var(--accent); font-weight: 600; }
+  details[open] summary { border-bottom: 1px solid var(--line); }
+  details .sol { padding: 10px 18px 14px; }
+  .task { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; margin: 14px 0 0; }
+  .task .tnum { font-weight: 700; color: var(--accent); }
+
+  .venn-row { display: flex; flex-wrap: wrap; gap: 14px; margin: 12px 0; }
+  .venn { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 6px 6px 4px; text-align: center; font-size: 14px; }
+  .venn svg { display: block; }
+
+  .done-row { margin-top: 30px; padding: 14px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; display: flex; align-items: center; gap: 10px; }
+  .done-row input { width: 18px; height: 18px; }
+
+  ul.road li { margin: 6px 0; }
+  .badge { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 10px; margin-left: 6px; }
+  .badge.ok { background: var(--ok-soft); color: var(--ok); }
+  .badge.wait { background: #eef1f6; color: var(--muted); }
+  .badge.hi { background: var(--bad-soft); color: var(--bad); }
+  .badge.mid { background: var(--warn-soft); color: var(--warn); }
+
+  @media (max-width: 820px) {
+    .layout { flex-direction: column; }
+    nav.side { width: 100%; height: auto; position: static; }
+    main { padding: 20px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="side">
+  <h1>Diskrétna matematika</h1>
+  <p class="sub">Príprava na 1. zápočtovú · ZS 2. ročník</p>
+
+  <button class="topic-btn active" data-topic="prehlad"><span class="num">i</span>Prehľad a plán<span class="done-mark">✔</span></button>
+
+  <div class="group">Základy</div>
+  <button class="topic-btn" data-topic="mnoziny"><span class="num">1</span>Množiny<span class="done-mark">✔</span></button>
+
+  <div class="group">Binárne relácie</div>
+  <button class="topic-btn disabled" disabled><span class="num">2</span>Relácie a ich vlastnosti<span class="soon">čoskoro</span></button>
+
+  <div class="group">Výroková logika</div>
+  <button class="topic-btn disabled" disabled><span class="num">3</span>Formuly a tabuľky<span class="soon">čoskoro</span></button>
+  <button class="topic-btn disabled" disabled><span class="num">4</span>Splniteľnosť a vyplývanie<span class="soon">čoskoro</span></button>
+  <button class="topic-btn disabled" disabled><span class="num">5</span>Klauzuly a rezolúcia<span class="soon">čoskoro</span></button>
+  <button class="topic-btn disabled" disabled><span class="num">6</span>Normálne tvary a K-mapa<span class="soon">čoskoro</span></button>
+</nav>
+
+<main>
+
+<!-- ============================ PREHĽAD ============================ -->
+<section class="topic active" id="topic-prehlad">
+  <h2>Prehľad a plán učenia</h2>
+  <p class="lead">Čo bude na 1. zápočtovej písomke a v akom poradí to prejdeme.</p>
+
+  <div class="card">
+    <h4>Organizácia</h4>
+    <ul>
+      <li>Zo zápočtových písomiek môžeš získať spolu <b>max. 30 bodov</b>, na zápočet treba <b>aspoň 16</b>.</li>
+      <li>1. zápočtová je v <b>7. týždni</b> v piatok, v čase prednášky a seminára. Oprava je v 13. týždni.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h4>Obsah písomky</h4>
+    <p><b>Mail od prednášajúcej</b> (najspoľahlivejší zdroj): celá výroková logika vrátane minimalizácie boolovskej funkcie a rezolučnej metódy a k tomu binárne relácie, konkrétne overovanie vlastností.</p>
+    <p><b>Info od spolužiakov</b> (z druhej ruky):</p>
+    <ol>
+      <li>formula, systém formúl, splniteľnosť, vyplývanie <span class="m">S ⊨ φ</span></li>
+      <li>rezolučná metóda (formuly treba prepísať do klauzúl)</li>
+      <li>binárna relácia na <b>nekonečnej</b> množine: reflexívnosť, symetrickosť, antisymetrickosť, tranzitívnosť</li>
+    </ol>
+  </div>
+
+  <h3>Plán tém</h3>
+  <ul class="road">
+    <li><b>1. Množiny</b>: základ pre relácie aj logiku <span class="badge ok">hotové</span></li>
+    <li><b>2. Binárne relácie</b>: vlastnosti, aj na nekonečných množinách <span class="badge hi">vysoká priorita</span></li>
+    <li><b>3. Výroková logika</b>: formuly a pravdivostné tabuľky <span class="badge hi">vysoká priorita</span></li>
+    <li><b>4. Splniteľnosť a vyplývanie</b> <span class="badge hi">vysoká priorita</span></li>
+    <li><b>5. Klauzuly a rezolučná metóda</b> <span class="badge hi">vysoká priorita</span></li>
+    <li><b>6. Normálne tvary a minimalizácia (Karnaughova mapa)</b> <span class="badge mid">stredná priorita</span></li>
+  </ul>
+
+  <div class="tip"><span class="lbl">Ako s tým pracovať</span>
+    Každá téma má štyri záložky. <b>Teória</b> vysvetľuje pojmy. <b>Príklady</b> obsahujú riešené úlohy so slovným postupom: čo robím a prečo. <b>Zhrnutie</b> je ťahák na rýchle zopakovanie. <b>Cvičenia</b> si najprv skús vyriešiť sám a až potom si rozbaľ riešenie.
+    Keď tému zvládneš, zaškrtni ju dole na stránke. V menu sa pri nej objaví ✔.
+  </div>
+</section>
+
+<!-- ============================ MNOŽINY ============================ -->
+<section class="topic" id="topic-mnoziny">
+  <h2>1. Množiny</h2>
+  <p class="lead">Operácie s množinami, mohutnosť, potenčná množina a rozklad. Je to jazyk, v ktorom sa potom definujú relácie aj zobrazenia.</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="teoria">Teória</button>
+    <button class="tab-btn" data-tab="priklady">Riešené príklady</button>
+    <button class="tab-btn" data-tab="zhrnutie">Zhrnutie</button>
+    <button class="tab-btn" data-tab="cvicenia">Cvičenia</button>
+  </div>
+
+  <!-- ---------- TEÓRIA ---------- -->
+  <div class="tab-panel active" data-panel="teoria">
+
+    <h3>1.1 Čo je množina</h3>
+    <p><b>Množina</b> je súbor navzájom rôznych objektov, ktoré nazývame <b>prvky</b>. Pri množine nás zaujíma iba jedna vec: či tam daný prvok <i>je</i>, alebo <i>nie je</i>. Preto:</p>
+    <ul>
+      <li><b>Nezáleží na poradí:</b> <span class="m">{1, 2, 3} = {3, 1, 2}</span>.</li>
+      <li><b>Nezáleží na opakovaní:</b> <span class="m">{1, 1, 2} = {1, 2}</span>. Každý prvok sa počíta iba raz.</li>
+    </ul>
+    <p>Zápis <span class="m">a ∈ A</span> znamená „a je prvkom A“, zápis <span class="m">a ∉ A</span> znamená „a nie je prvkom A“.</p>
+
+    <h4>Spôsoby zápisu množiny</h4>
+    <ul>
+      <li><b>Vymenovaním prvkov:</b> <span class="m">A = {2, 4, 6, 8}</span>.</li>
+      <li><b>Charakteristickou vlastnosťou:</b> <span class="m">A = {x ∈ ℕ ; x je párne a x ≤ 8}</span>. Čítame: „množina všetkých x z ℕ, pre ktoré platí…“.</li>
+    </ul>
+
+    <h4>Dôležité množiny</h4>
+    <ul>
+      <li><span class="m">∅</span>: <b>prázdna množina</b>, nemá žiadny prvok.</li>
+      <li><span class="m">ℕ</span> prirodzené, <span class="m">ℤ</span> celé, <span class="m">ℚ</span> racionálne a <span class="m">ℝ</span> reálne čísla.</li>
+      <li><b>Univerzum</b> <span class="m">U</span> je „základná“ množina, v ktorej práve pracujeme. Potrebujeme ho pri doplnku.</li>
+    </ul>
+    <div class="trap"><span class="lbl">Pozor</span>
+      Či patrí 0 do <span class="m">ℕ</span>, závisí od konvencie predmetu. Over si v zošite, ako to berie vaša prednášajúca. Pri úlohách s reláciami na <span class="m">ℕ</span> to môže zmeniť napríklad reflexívnosť pri deliteľnosti, lebo 0 | 0 nie je samozrejmé.
+    </div>
+
+    <h3>1.2 Podmnožina a rovnosť množín</h3>
+    <div class="def"><span class="lbl">Definícia</span>
+      <span class="m">A ⊆ B</span> (A je <b>podmnožinou</b> B) práve vtedy, keď <b>každý</b> prvok A je aj prvkom B:
+      <span class="mb">A ⊆ B ⟺ ∀x : (x ∈ A ⇒ x ∈ B)</span>
+      <span class="m">A ⊂ B</span> (<b>vlastná podmnožina</b>) znamená, že <span class="m">A ⊆ B</span> a zároveň <span class="m">A ≠ B</span>.
+    </div>
+    <ul>
+      <li><span class="m">∅ ⊆ A</span> platí pre <b>každú</b> množinu A. Prázdna množina nemá prvok, ktorý by mohol podmienku porušiť.</li>
+      <li><span class="m">A ⊆ A</span> platí vždy.</li>
+    </ul>
+    <div class="def"><span class="lbl">Rovnosť množín</span>
+      <span class="mb">A = B ⟺ A ⊆ B ∧ B ⊆ A</span>
+      Takto sa rovnosť množín aj <b>dokazuje</b>: ukážeš obe inklúzie, alebo ukážeš, že <span class="m">x ∈ A ⟺ x ∈ B</span>.
+    </div>
+
+    <div class="trap"><span class="lbl">Najčastejšia chyba: ∈ verzus ⊆</span>
+      <span class="m">∈</span> porovnáva <b>prvok</b> s množinou, <span class="m">⊆</span> porovnáva <b>množinu</b> s množinou.<br>
+      Ak <span class="m">M = {1, {2}}</span>, tak:
+      <ul style="margin:6px 0 0">
+        <li><span class="m">{2} ∈ M</span> ✔, lebo množina {2} je jedným z prvkov M,</li>
+        <li><span class="m">{2} ⊆ M</span> ✘, lebo na to by číslo 2 muselo byť prvkom M, a ono ním nie je,</li>
+        <li><span class="m">{1} ⊆ M</span> ✔, lebo 1 ∈ M,</li>
+        <li><span class="m">{1} ∈ M</span> ✘, lebo prvkom M je číslo 1, nie množina {1}.</li>
+      </ul>
+      Postup: pri <span class="m">X ∈ M</span> hľadáš X <b>presne v takom tvare</b> medzi prvkami M. Pri <span class="m">X ⊆ M</span> „rozbaľ“ X a skontroluj, či je <b>každý jeho prvok</b> v M.
+    </div>
+
+    <h3>1.3 Operácie s množinami</h3>
+    <table>
+      <tr><th>Operácia</th><th>Zápis</th><th>Definícia</th><th>Slovami</th></tr>
+      <tr><td>Zjednotenie</td><td class="m">A ∪ B</td><td class="m">{x ; x ∈ A ∨ x ∈ B}</td><td>prvky, ktoré sú aspoň v jednej z množín</td></tr>
+      <tr><td>Prienik</td><td class="m">A ∩ B</td><td class="m">{x ; x ∈ A ∧ x ∈ B}</td><td>prvky, ktoré sú v oboch množinách</td></tr>
+      <tr><td>Rozdiel</td><td class="m">A ∖ B</td><td class="m">{x ; x ∈ A ∧ x ∉ B}</td><td>prvky A, ktoré nie sú v B</td></tr>
+      <tr><td>Symetrický rozdiel</td><td class="m">A △ B</td><td class="m">(A ∖ B) ∪ (B ∖ A)</td><td>prvky, ktoré sú práve v jednej z množín</td></tr>
+      <tr><td>Doplnok (komplement)</td><td class="m">A′</td><td class="m">U ∖ A = {x ∈ U ; x ∉ A}</td><td>všetko z univerza okrem A</td></tr>
+    </table>
+    <p>Ak <span class="m">A ∩ B = ∅</span>, množiny sú <b>disjunktné</b> (nemajú spoločný prvok).</p>
+
+    <div class="venn-row">
+      <div class="venn">
+        <svg width="190" height="130" viewBox="0 0 190 130">
+          <rect x="2" y="2" width="186" height="126" rx="6" fill="#fff" stroke="#9aa3b5"/>
+          <circle cx="72" cy="65" r="42" fill="#7d9cf0"/>
+          <circle cx="118" cy="65" r="42" fill="#7d9cf0"/>
+          <circle cx="72" cy="65" r="42" fill="none" stroke="#1d2330"/>
+          <circle cx="118" cy="65" r="42" fill="none" stroke="#1d2330"/>
+          <text x="40" y="30" font-size="14">A</text><text x="143" y="30" font-size="14">B</text>
+        </svg>
+        <span class="m">A ∪ B</span>
+      </div>
+      <div class="venn">
+        <svg width="190" height="130" viewBox="0 0 190 130">
+          <defs><clipPath id="cpB1"><circle cx="118" cy="65" r="42"/></clipPath></defs>
+          <rect x="2" y="2" width="186" height="126" rx="6" fill="#fff" stroke="#9aa3b5"/>
+          <circle cx="72" cy="65" r="42" fill="#7d9cf0" clip-path="url(#cpB1)"/>
+          <circle cx="72" cy="65" r="42" fill="none" stroke="#1d2330"/>
+          <circle cx="118" cy="65" r="42" fill="none" stroke="#1d2330"/>
+          <text x="40" y="30" font-size="14">A</text><text x="143" y="30" font-size="14">B</text>
+        </svg>
+        <span class="m">A ∩ B</span>
+      </div>
+      <div class="venn">
+        <svg width="190" height="130" viewBox="0 0 190 130">
+          <defs><mask id="mNoB"><rect x="0" y="0" width="190" height="130" fill="#fff"/><circle cx="118" cy="65" r="42" fill="#000"/></mask></defs>
+          <rect x="2" y="2" width="186" height="126" rx="6" fill="#fff" stroke="#9aa3b5"/>
+          <circle cx="72" cy="65" r="42" fill="#7d9cf0" mask="url(#mNoB)"/>
+          <circle cx="72" cy="65" r="42" fill="none" stroke="#1d2330"/>
+          <circle cx="118" cy="65" r="42" fill="none" stroke="#1d2330"/>
+          <text x="40" y="30" font-size="14">A</text><text x="143" y="30" font-size="14">B</text>
+        </svg>
+        <span class="m">A ∖ B</span>
+      </div>
+      <div class="venn">
+        <svg width="190" height="130" viewBox="0 0 190 130">
+          <defs>
+            <mask id="mNoB2"><rect x="0" y="0" width="190" height="130" fill="#fff"/><circle cx="118" cy="65" r="42" fill="#000"/></mask>
+            <mask id="mNoA2"><rect x="0" y="0" width="190" height="130" fill="#fff"/><circle cx="72" cy="65" r="42" fill="#000"/></mask>
+          </defs>
+          <rect x="2" y="2" width="186" height="126" rx="6" fill="#fff" stroke="#9aa3b5"/>
+          <circle cx="72" cy="65" r="42" fill="#7d9cf0" mask="url(#mNoB2)"/>
+          <circle cx="118" cy="65" r="42" fill="#7d9cf0" mask="url(#mNoA2)"/>
+          <circle cx="72" cy="65" r="42" fill="none" stroke="#1d2330"/>
+          <circle cx="118" cy="65" r="42" fill="none" stroke="#1d2330"/>
+          <text x="40" y="30" font-size="14">A</text><text x="143" y="30" font-size="14">B</text>
+        </svg>
+        <span class="m">A △ B</span>
+      </div>
+      <div class="venn">
+        <svg width="190" height="130" viewBox="0 0 190 130">
+          <defs><mask id="mNoA3"><rect x="0" y="0" width="190" height="130" fill="#fff"/><circle cx="95" cy="65" r="42" fill="#000"/></mask></defs>
+          <rect x="2" y="2" width="186" height="126" rx="6" fill="#7d9cf0" stroke="#9aa3b5" mask="url(#mNoA3)"/>
+          <rect x="2" y="2" width="186" height="126" rx="6" fill="none" stroke="#9aa3b5"/>
+          <circle cx="95" cy="65" r="42" fill="#fff" stroke="#1d2330"/>
+          <text x="90" y="70" font-size="14">A</text><text x="10" y="20" font-size="13">U</text>
+        </svg>
+        <span class="m">A′</span>
+      </div>
+    </div>
+
+    <h4>Karteziánsky súčin</h4>
+    <div class="def"><span class="lbl">Definícia</span>
+      <span class="mb">A × B = {(a, b) ; a ∈ A, b ∈ B}</span>
+      Je to množina <b>usporiadaných dvojíc</b>. Prvý prvok dvojice berieme z A, druhý z B. Pri dvojici záleží na poradí: <span class="m">(1, 2) ≠ (2, 1)</span>.
+    </div>
+    <div class="link"><span class="lbl">Súvis s ďalšou témou</span>
+      <b>Binárna relácia</b> na množine A je ľubovoľná podmnožina <span class="m">A × A</span>. Karteziánsky súčin teda potrebuješ vedieť naisto. Relácia je jednoducho „vybraná časť“ zo všetkých možných dvojíc.
+    </div>
+
+    <h3>1.4 Zákony množinových operácií a súvis s logikou</h3>
+    <p>Množinové operácie sú definované pomocou logických spojok, preto pre ne platia tie isté zákony ako vo výrokovej logike:</p>
+    <table>
+      <tr><th>Množiny</th><th>Logika</th></tr>
+      <tr><td class="m">x ∈ A ∪ B</td><td class="m">x ∈ A ∨ x ∈ B</td></tr>
+      <tr><td class="m">x ∈ A ∩ B</td><td class="m">x ∈ A ∧ x ∈ B</td></tr>
+      <tr><td class="m">x ∈ A′</td><td class="m">¬(x ∈ A)</td></tr>
+      <tr><td class="m">A ⊆ B</td><td class="m">x ∈ A ⇒ x ∈ B</td></tr>
+      <tr><td class="m">A = B</td><td class="m">x ∈ A ⇔ x ∈ B</td></tr>
+    </table>
+    <table>
+      <tr><th>Zákon</th><th>Znenie</th></tr>
+      <tr><td>Komutatívnosť</td><td class="m">A ∪ B = B ∪ A,  A ∩ B = B ∩ A</td></tr>
+      <tr><td>Asociatívnosť</td><td class="m">A ∪ (B ∪ C) = (A ∪ B) ∪ C,  A ∩ (B ∩ C) = (A ∩ B) ∩ C</td></tr>
+      <tr><td>Distributívnosť</td><td class="m">A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)<br>A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)</td></tr>
+      <tr><td>De Morganove zákony</td><td class="m">(A ∪ B)′ = A′ ∩ B′,  (A ∩ B)′ = A′ ∪ B′</td></tr>
+      <tr><td>Absorpcia</td><td class="m">A ∪ (A ∩ B) = A,  A ∩ (A ∪ B) = A</td></tr>
+      <tr><td>Dvojitý doplnok</td><td class="m">(A′)′ = A</td></tr>
+      <tr><td>Rozdiel cez doplnok</td><td class="m">A ∖ B = A ∩ B′</td></tr>
+    </table>
+    <div class="tip"><span class="lbl">Prečo je to užitočné</span>
+      Ak sa naučíš de Morganove a distributívne zákony tu, máš ich naučené aj pre výrokovú logiku (¬, ∧, ∨). Tie isté pravidlá budeš používať pri prevode formúl na klauzuly.
+    </div>
+
+    <h3>1.5 Mohutnosť množiny</h3>
+    <h4>Konečné množiny</h4>
+    <div class="def"><span class="lbl">Definícia</span>
+      Mohutnosť konečnej množiny <span class="m">|A|</span> je <b>počet jej prvkov</b>.
+    </div>
+    <ul>
+      <li><span class="m">|∅| = 0</span>, ale <span class="m">|{∅}| = 1</span>, lebo táto množina má jeden prvok, a to prázdnu množinu.</li>
+      <li><span class="m">|{1, {1, 2}}| = 2</span>, lebo vnútorná množina {1, 2} sa počíta ako <b>jeden</b> prvok.</li>
+      <li><span class="m">|A × B| = |A| · |B|</span>, lebo každý z |A| prvých prvkov môžeš skombinovať s každým z |B| druhých.</li>
+      <li><span class="m">|𝒫(A)| = 2<sup>|A|</sup></span> (vysvetlenie je pri potenčnej množine).</li>
+    </ul>
+
+    <h4>Princíp inklúzie a exklúzie</h4>
+    <span class="mb">|A ∪ B| = |A| + |B| − |A ∩ B|</span>
+    <p><b>Prečo:</b> keď sčítaš |A| + |B|, prvky z prieniku započítaš <b>dvakrát</b> (raz v A a raz v B). Preto ich raz odčítaš.</p>
+    <span class="mb">|A ∪ B ∪ C| = |A| + |B| + |C| − |A∩B| − |A∩C| − |B∩C| + |A∩B∩C|</span>
+    <p><b>Prečo +|A∩B∩C|:</b> prvok, ktorý je vo všetkých troch množinách, sa najprv pripočíta 3-krát (v A, B aj C), potom sa 3-krát odpočíta (v každom z troch prienikov dvojíc), takže by sa nepočítal vôbec. Preto ho na konci raz pripočítame.</p>
+
+    <h4>Nekonečné množiny</h4>
+    <div class="def"><span class="lbl">Definícia</span>
+      Množiny A a B majú <b>rovnakú mohutnosť</b> (<span class="m">|A| = |B|</span>), ak existuje <b>bijekcia</b> <span class="m">f : A → B</span>, teda zobrazenie, ktoré je zároveň injektívne (rôzne prvky idú na rôzne obrazy) a surjektívne (každý prvok B je zasiahnutý).
+    </div>
+    <ul>
+      <li>Množina je <b>spočítateľná</b>, ak má rovnakú mohutnosť ako <span class="m">ℕ</span>, teda jej prvky sa dajú „očíslovať“ 1, 2, 3, …
+        Spočítateľné sú <span class="m">ℕ, ℤ, ℚ</span> aj množina párnych čísel.</li>
+      <li><span class="m">ℝ</span> je <b>nespočítateľná</b>, má „väčšiu“ mohutnosť ako <span class="m">ℕ</span> (Cantorova diagonálna metóda).</li>
+      <li>Pri nekonečných množinách prestáva platiť intuícia „časť je menšia ako celok“: párnych čísel je „rovnako veľa“ ako všetkých prirodzených čísel.</li>
+    </ul>
+
+    <h3>1.6 Potenčná množina</h3>
+    <div class="def"><span class="lbl">Definícia</span>
+      <b>Potenčná množina</b> množiny A je množina <b>všetkých podmnožín</b> A:
+      <span class="mb">𝒫(A) = {X ; X ⊆ A}</span>
+      Prvkami <span class="m">𝒫(A)</span> sú teda <b>množiny</b>.
+    </div>
+    <p>Pre <span class="m">A = {a, b}</span>: <span class="m">𝒫(A) = {∅, {a}, {b}, {a, b}}</span>.</p>
+    <p><b>Prečo má 𝒫(A) presne 2<sup>n</sup> prvkov:</b> podmnožinu vytvoríš tak, že pri <b>každom</b> z n prvkov A sa rozhodneš, či ho do nej dáš (áno/nie). To je n nezávislých rozhodnutí, každé má 2 možnosti, spolu <span class="m">2 · 2 · … · 2 = 2<sup>n</sup></span>. Každú podmnožinu tak môžeš zapísať ako binárny reťazec dĺžky n (1 = prvok je v nej, 0 = nie je).</p>
+    <ul>
+      <li><span class="m">∅ ∈ 𝒫(A)</span> aj <span class="m">A ∈ 𝒫(A)</span> platí vždy.</li>
+      <li><span class="m">𝒫(∅) = {∅}</span>. Prázdna množina má jedinú podmnožinu, seba samu, takže <span class="m">|𝒫(∅)| = 2<sup>0</sup> = 1</span>.</li>
+    </ul>
+    <div class="link"><span class="lbl">Súvis</span>
+      <span class="m">(𝒫(A), ⊆)</span> je klasický príklad <b>čiastočne usporiadanej množiny</b>. Inklúzia je reflexívna, antisymetrická a tranzitívna. Navyše počet všetkých binárnych relácií na n-prvkovej množine je <span class="m">|𝒫(A × A)| = 2<sup>n²</sup></span>.
+    </div>
+
+    <h3>1.7 Rozklad množiny</h3>
+    <div class="def"><span class="lbl">Definícia</span>
+      <b>Rozklad</b> množiny A je systém podmnožín <span class="m">{A₁, A₂, …}</span> (nazývame ich <b>triedy</b> rozkladu), pre ktorý platia tri podmienky:
+      <ol style="margin:6px 0 0">
+        <li><b>neprázdnosť:</b> každá trieda je neprázdna, <span class="m">Aᵢ ≠ ∅</span>,</li>
+        <li><b>disjunktnosť:</b> rôzne triedy nemajú spoločný prvok, <span class="m">Aᵢ ∩ Aⱼ = ∅</span> pre <span class="m">i ≠ j</span>,</li>
+        <li><b>pokrytie:</b> zjednotenie všetkých tried je celé A, <span class="m">A₁ ∪ A₂ ∪ … = A</span>.</li>
+      </ol>
+    </div>
+    <p>Jednoducho povedané: rozklad je „rozdelenie A na kôpky“ tak, aby <b>každý prvok A bol v práve jednej kôpke</b> a žiadna kôpka nebola prázdna.</p>
+    <div class="link"><span class="lbl">Kľúčový súvis s reláciami</span>
+      Každá <b>ekvivalencia</b> (relácia reflexívna, symetrická a tranzitívna) na A určuje rozklad A na triedy ekvivalencie. Naopak, každý rozklad určuje ekvivalenciu: „x R y ⟺ x a y sú v tej istej triede“. Príklad: kongruencia modulo 3 rozkladá <span class="m">ℤ</span> na 3 triedy podľa zvyšku po delení 3.
+    </div>
+  </div>
+
+  <!-- ---------- PRÍKLADY ---------- -->
+  <div class="tab-panel" data-panel="priklady">
+
+    <div class="ex">
+      <div class="ex-head">Príklad 1: Základné operácie</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> <span class="m">U = {1, 2, …, 8}</span>, <span class="m">A = {1, 2, 3, 4, 5}</span>, <span class="m">B = {4, 5, 6, 7}</span>. Urči <span class="m">A ∪ B, A ∩ B, A ∖ B, B ∖ A, A △ B, A′, (A ∪ B)′</span>.</div>
+        <ol class="steps">
+          <li><b>A ∪ B:</b> zoberiem všetky prvky A a pridám tie prvky B, ktoré tam ešte nie sú (6, 7). Duplicitné 4 a 5 nepíšem dvakrát. <span class="m">A ∪ B = {1, 2, 3, 4, 5, 6, 7}</span>.<br><span class="why">Prečo: zjednotenie obsahuje všetko, čo je aspoň v jednej množine, a v množine sa prvok neopakuje.</span></li>
+          <li><b>A ∩ B:</b> prejdem prvky A a pri každom sa pýtam, či je aj v B. 1, 2, 3 nie; 4 áno; 5 áno. <span class="m">A ∩ B = {4, 5}</span>.<br><span class="why">Prečo: prienik vyžaduje, aby bol prvok v oboch množinách naraz.</span></li>
+          <li><b>A ∖ B:</b> z A vyškrtnem všetko, čo je v B (4 a 5). <span class="m">A ∖ B = {1, 2, 3}</span>.</li>
+          <li><b>B ∖ A:</b> z B vyškrtnem všetko, čo je v A (4 a 5). <span class="m">B ∖ A = {6, 7}</span>.<br><span class="why">Prečo: rozdiel nie je komutatívny, A ∖ B a B ∖ A sú rôzne množiny.</span></li>
+          <li><b>A △ B:</b> spojím oba rozdiely: <span class="m">{1, 2, 3} ∪ {6, 7} = {1, 2, 3, 6, 7}</span>. Kontrola: je to <span class="m">(A ∪ B) ∖ (A ∩ B)</span>, teda zjednotenie bez spoločnej časti 4, 5. Sedí.</li>
+          <li><b>A′:</b> z univerza U vyškrtnem prvky A. <span class="m">A′ = {6, 7, 8}</span>.<br><span class="why">Prečo: doplnok má zmysel len vzhľadom na univerzum. Bez U by sme nevedeli, čo všetko „nie je v A“.</span></li>
+          <li><b>(A ∪ B)′:</b> <span class="m">U ∖ {1,…,7} = {8}</span>. Kontrola de Morganom: <span class="m">A′ ∩ B′ = {6,7,8} ∩ {1,2,3,8} = {8}</span>. Sedí.</li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> <span class="m">A∪B = {1,…,7}</span>, <span class="m">A∩B = {4,5}</span>, <span class="m">A∖B = {1,2,3}</span>, <span class="m">B∖A = {6,7}</span>, <span class="m">A△B = {1,2,3,6,7}</span>, <span class="m">A′ = {6,7,8}</span>, <span class="m">(A∪B)′ = {8}</span>.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 2: Prvok (∈) verzus podmnožina (⊆)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> <span class="m">M = {1, {2}, {1, 2}, ∅}</span>. Rozhodni o pravdivosti tvrdení:
+          <span class="m">1 ∈ M</span>, <span class="m">2 ∈ M</span>, <span class="m">{2} ∈ M</span>, <span class="m">{2} ⊆ M</span>, <span class="m">{1} ⊆ M</span>, <span class="m">{1, 2} ∈ M</span>, <span class="m">{1, 2} ⊆ M</span>, <span class="m">∅ ∈ M</span>, <span class="m">∅ ⊆ M</span>, <span class="m">{∅} ⊆ M</span>.</div>
+        <p><b>Prvý krok:</b> vypíšem si prvky M ako zoznam štyroch „krabíc“: ① číslo 1, ② množina {2}, ③ množina {1, 2}, ④ množina ∅. Teda <span class="m">|M| = 4</span>.</p>
+        <ol class="steps">
+          <li><span class="m">1 ∈ M</span>: hľadám číslo 1 medzi krabicami. Je to krabica ①. <b>Pravda.</b></li>
+          <li><span class="m">2 ∈ M</span>: hľadám samotné číslo 2. Nie je tam, 2 je iba <i>vnútri</i> krabíc ② a ③. <b>Nepravda.</b><br><span class="why">Prečo: „byť vnútri prvku“ neznamená „byť prvkom“. Prvky M sú len tie štyri krabice.</span></li>
+          <li><span class="m">{2} ∈ M</span>: hľadám množinu {2} ako celok. Je to krabica ②. <b>Pravda.</b></li>
+          <li><span class="m">{2} ⊆ M</span>: rozbalím {2}, má jediný prvok, číslo 2. Je 2 ∈ M? Nie (bod 2). <b>Nepravda.</b></li>
+          <li><span class="m">{1} ⊆ M</span>: rozbalím {1}, jej jediný prvok je 1. Je 1 ∈ M? Áno. <b>Pravda.</b></li>
+          <li><span class="m">{1, 2} ∈ M</span>: krabica ③. <b>Pravda.</b></li>
+          <li><span class="m">{1, 2} ⊆ M</span>: rozbalím: 1 ∈ M áno, 2 ∈ M nie. Stačí jeden prvok, ktorý chýba. <b>Nepravda.</b></li>
+          <li><span class="m">∅ ∈ M</span>: krabica ④. <b>Pravda.</b></li>
+          <li><span class="m">∅ ⊆ M</span>: prázdna množina je podmnožinou každej množiny. <b>Pravda.</b><br><span class="why">Prečo: aby ∅ ⊆ M neplatilo, musel by existovať prvok ∅, ktorý nie je v M. ∅ však nemá žiadny prvok.</span></li>
+          <li><span class="m">{∅} ⊆ M</span>: rozbalím {∅}, jej jediný prvok je ∅. Je ∅ ∈ M? Áno (krabica ④). <b>Pravda.</b></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> pravdivé sú <span class="m">1 ∈ M, {2} ∈ M, {1} ⊆ M, {1,2} ∈ M, ∅ ∈ M, ∅ ⊆ M, {∅} ⊆ M</span>. Nepravdivé sú <span class="m">2 ∈ M, {2} ⊆ M, {1,2} ⊆ M</span>.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 3: Karteziánsky súčin</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> <span class="m">A = {1, 2}</span>, <span class="m">B = {a, b, c}</span>. Urči <span class="m">A × B</span>, <span class="m">B × A</span>, <span class="m">A × A</span> a ich mohutnosti.</div>
+        <ol class="steps">
+          <li><b>A × B:</b> idem systematicky. Zafixujem prvý prvok z A a pripájam k nemu postupne všetky prvky B.
+            Pre 1: (1,a), (1,b), (1,c). Pre 2: (2,a), (2,b), (2,c).
+            <span class="m">A × B = {(1,a), (1,b), (1,c), (2,a), (2,b), (2,c)}</span>, <span class="m">|A × B| = 2 · 3 = 6</span>.<br><span class="why">Prečo systematicky: pri väčších množinách tak nezabudneš na žiadnu dvojicu a počet si overíš vzorcom |A|·|B|.</span></li>
+          <li><b>B × A:</b> teraz je prvý prvok z B: <span class="m">{(a,1), (a,2), (b,1), (b,2), (c,1), (c,2)}</span>, mohutnosť 6.<br><span class="why">Pozor: A × B ≠ B × A, lebo (1, a) ≠ (a, 1). Majú rovnaký počet prvkov, ale sú to iné dvojice.</span></li>
+          <li><b>A × A:</b> <span class="m">{(1,1), (1,2), (2,1), (2,2)}</span>, mohutnosť <span class="m">2² = 4</span>. Toto sú všetky dvojice, z ktorých sa dá zostaviť relácia na A.</li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> <span class="m">|A×B| = |B×A| = 6</span>, <span class="m">|A×A| = 4</span>, ale <span class="m">A×B ≠ B×A</span>.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 4: Potenčná množina</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> a) Vypíš <span class="m">𝒫({a, b, c})</span>. b) Vypíš <span class="m">𝒫({1, {2}})</span>. c) Urči <span class="m">𝒫(∅)</span> a <span class="m">𝒫(𝒫(∅))</span>.</div>
+        <ol class="steps">
+          <li><b>a)</b> Množina má 3 prvky, takže čakám <span class="m">2³ = 8</span> podmnožín. Aby som na žiadnu nezabudol, vypisujem ich <b>podľa veľkosti</b>:
+            <ul>
+              <li>0 prvkov: <span class="m">∅</span></li>
+              <li>1 prvok: <span class="m">{a}, {b}, {c}</span></li>
+              <li>2 prvky: <span class="m">{a,b}, {a,c}, {b,c}</span></li>
+              <li>3 prvky: <span class="m">{a,b,c}</span></li>
+            </ul>
+            Spolu 1 + 3 + 3 + 1 = 8. Sedí.<br>
+            <span class="m">𝒫({a,b,c}) = {∅, {a}, {b}, {c}, {a,b}, {a,c}, {b,c}, {a,b,c}}</span>.</li>
+          <li><b>b)</b> Množina <span class="m">{1, {2}}</span> má <b>2 prvky</b>: číslo 1 a množinu {2}. Tú beriem ako jeden celok, ako keby to bolo písmeno. Čakám teda <span class="m">2² = 4</span> podmnožiny:
+            <span class="m">𝒫({1, {2}}) = {∅, {1}, {{2}}, {1, {2}}}</span>.<br>
+            <span class="why">Prečo {{2}} a nie {2}: podmnožina obsahujúca prvok {2} sa zapíše tak, že ho dáš do zátvoriek, teda {{2}}. Zápis {2} by bola množina s prvkom 2, a ten v pôvodnej množine nie je.</span></li>
+          <li><b>c)</b> <span class="m">∅</span> má 0 prvkov, takže 2⁰ = 1 podmnožinu, a to samu seba: <span class="m">𝒫(∅) = {∅}</span>.
+            Táto množina už má 1 prvok (∅), preto má 2¹ = 2 podmnožiny: prázdnu a celú. <span class="m">𝒫(𝒫(∅)) = 𝒫({∅}) = {∅, {∅}}</span>.<br>
+            <span class="why">Prečo to nie je „nič“: ∅ a {∅} sú rôzne veci. Prvá je prázdna krabica, druhá je krabica, v ktorej leží prázdna krabica.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> <span class="m">|𝒫({a,b,c})| = 8</span>, <span class="m">𝒫({1,{2}}) = {∅, {1}, {{2}}, {1,{2}}}</span>, <span class="m">𝒫(∅) = {∅}</span>, <span class="m">𝒫(𝒫(∅)) = {∅, {∅}}</span>.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 5: Inklúzia a exklúzia (2 množiny)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> V skupine je 30 študentov. 18 má rado matematiku, 15 programovanie a 7 oboje. Koľkí majú radi aspoň jedno z nich? Koľkí ani jedno?</div>
+        <ol class="steps">
+          <li><b>Označenie:</b> M = študenti, ktorí majú radi matematiku, P = študenti, ktorí majú radi programovanie. Zo zadania <span class="m">|M| = 18, |P| = 15, |M ∩ P| = 7</span>, univerzum <span class="m">|U| = 30</span>.<br><span class="why">Prečo označiť: slovné zadanie prevedieš na množiny a potom stačí dosadiť do vzorca.</span></li>
+          <li><b>„Aspoň jedno“</b> je zjednotenie: <span class="m">|M ∪ P| = 18 + 15 − 7 = 26</span>.<br><span class="why">Prečo −7: tých 7 je započítaných aj medzi 18, aj medzi 15. Bez odčítania by sme ich počítali dvakrát a vyšlo by 33 > 30, čo je nemožné.</span></li>
+          <li><b>„Ani jedno“</b> je doplnok zjednotenia: <span class="m">|U| − |M ∪ P| = 30 − 26 = 4</span>.</li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> aspoň jedno má rado 26 študentov, ani jedno 4 študenti.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 6: Inklúzia a exklúzia (3 množiny)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> 100 študentov, z toho 45 chodí na krúžok A, 40 na B, 35 na C. Na A aj B chodí 15, na A aj C 10, na B aj C 12 a na všetky tri 5. Koľkí nechodia na žiadny krúžok?</div>
+        <ol class="steps">
+          <li>Dosadím do vzorca pre 3 množiny:
+            <span class="mb">|A∪B∪C| = 45 + 40 + 35 − 15 − 10 − 12 + 5 = 88</span></li>
+          <li><b>Kontrola, prečo +5:</b> študent, ktorý chodí na všetky tri krúžky, sa v súčte 45 + 40 + 35 zarátal 3-krát. V odčítaní −15 −10 −12 sa odčítal tiež 3-krát (je v každom prieniku dvojíc). Bez +5 by nebol započítaný ani raz.</li>
+          <li>Žiadny krúžok: <span class="m">100 − 88 = 12</span>.</li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> na žiadny krúžok nechodí 12 študentov.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 7: Dôkaz rovnosti množín cez logiku</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Dokáž, že <span class="m">A ∖ (B ∪ C) = (A ∖ B) ∩ (A ∖ C)</span>.</div>
+        <p><b>Stratégia:</b> dve množiny sa rovnajú, ak majú rovnaké prvky. Vezmem preto <b>ľubovoľné x</b> a ukážem, že <span class="m">x ∈ ľavá strana ⟺ x ∈ pravá strana</span>. Každú množinovú operáciu prepíšem na logickú spojku podľa definície a potom upravujem ako vo výrokovej logike.</p>
+        <ol class="steps">
+          <li><span class="m">x ∈ A ∖ (B ∪ C)</span><br>⟺ <span class="m">x ∈ A ∧ ¬(x ∈ B ∪ C)</span> <span class="why">(definícia rozdielu)</span></li>
+          <li>⟺ <span class="m">x ∈ A ∧ ¬(x ∈ B ∨ x ∈ C)</span> <span class="why">(definícia zjednotenia)</span></li>
+          <li>⟺ <span class="m">x ∈ A ∧ (x ∉ B ∧ x ∉ C)</span> <span class="why">(de Morgan: ¬(p ∨ q) ≡ ¬p ∧ ¬q)</span></li>
+          <li>⟺ <span class="m">(x ∈ A ∧ x ∉ B) ∧ (x ∈ A ∧ x ∉ C)</span> <span class="why">(idempotencia: x ∈ A ∧ x ∈ A ≡ x ∈ A, a asociatívnosť, preto môžem „x ∈ A“ zopakovať)</span></li>
+          <li>⟺ <span class="m">x ∈ A ∖ B ∧ x ∈ A ∖ C</span> <span class="why">(definícia rozdielu, dvakrát)</span></li>
+          <li>⟺ <span class="m">x ∈ (A ∖ B) ∩ (A ∖ C)</span> <span class="why">(definícia prieniku)</span></li>
+        </ol>
+        <div class="vysledok"><b>Záver:</b> keďže pre ľubovoľné x platí ekvivalencia, obe množiny majú tie isté prvky, teda sa rovnajú. ∎</div>
+        <div class="tip"><span class="lbl">Tip</span> Rovnosť si môžeš pred dôkazom „otestovať“ Vennovým diagramom. Pri dôkaze však musíš ísť cez prvky ako tu, obrázok dôkazom nie je.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 8: Je to rozklad?</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> <span class="m">A = {1, 2, 3, 4, 5, 6}</span>. Rozhodni, ktoré systémy sú rozkladom A:<br>
+          a) <span class="m">{{1, 2}, {3}, {4, 5, 6}}</span>  b) <span class="m">{{1, 2}, {2, 3}, {4, 5, 6}}</span>  c) <span class="m">{{1, 2}, {4, 5, 6}}</span>  d) <span class="m">{{1, 2, 3}, ∅, {4, 5, 6}}</span></div>
+        <p><b>Postup:</b> pri každom systéme skontrolujem všetky tri podmienky (neprázdnosť, disjunktnosť, pokrytie). Stačí, aby jedna neplatila, a nie je to rozklad.</p>
+        <ol class="steps">
+          <li><b>a)</b> Triedy sú neprázdne ✔. Žiadne dve nemajú spoločný prvok ✔. Zjednotenie je {1,…,6} = A ✔. <b>Je to rozklad.</b></li>
+          <li><b>b)</b> <span class="m">{1,2} ∩ {2,3} = {2} ≠ ∅</span>. Prvok 2 je v dvoch triedach ✘. <b>Nie je rozklad.</b><br><span class="why">Prečo to vadí: v rozklade musí byť každý prvok v práve jednej triede, inak by sme nevedeli jednoznačne povedať, „kam patrí“.</span></li>
+          <li><b>c)</b> Zjednotenie je <span class="m">{1,2,4,5,6} ≠ A</span>, chýba 3 ✘. <b>Nie je rozklad.</b></li>
+          <li><b>d)</b> Obsahuje prázdnu množinu ✘. <b>Nie je rozklad.</b><br><span class="why">Prečo: trieda rozkladu má zodpovedať triede ekvivalencie R[a], a tá vždy obsahuje aspoň a, takže je neprázdna.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> rozkladom je iba a).</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 9: Rozklad ℤ podľa zvyšku (most k reláciám)</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Na <span class="m">ℤ</span> je relácia <span class="m">x R y ⟺ 3 | (x − y)</span>. Popíš triedy rozkladu, ktorý určuje.</div>
+        <ol class="steps">
+          <li><b>Čo relácia znamená:</b> 3 | (x − y) práve vtedy, keď x a y dávajú <b>rovnaký zvyšok</b> po delení 3 (veta o kongruencii z prednášky).</li>
+          <li><b>Aké zvyšky sú možné:</b> po delení 3 môže vyjsť iba 0, 1 alebo 2. Budú teda <b>3 triedy</b>.</li>
+          <li><b>Vypíšem ich:</b>
+            <ul>
+              <li><span class="m">R[0] = {…, −6, −3, 0, 3, 6, …} = {3k ; k ∈ ℤ}</span></li>
+              <li><span class="m">R[1] = {…, −5, −2, 1, 4, 7, …} = {3k + 1 ; k ∈ ℤ}</span></li>
+              <li><span class="m">R[2] = {…, −4, −1, 2, 5, 8, …} = {3k + 2 ; k ∈ ℤ}</span></li>
+            </ul>
+            <span class="why">Pozor na záporné čísla: −1 = 3·(−1) + 2, takže −1 má zvyšok 2, nie −1.</span></li>
+          <li><b>Overím rozklad:</b> triedy sú neprázdne ✔. Každé celé číslo má práve jeden zvyšok, takže triedy sú disjunktné ✔ a pokrývajú celé ℤ ✔.</li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> <span class="m">ℤ = R[0] ∪ R[1] ∪ R[2]</span>. Toto je rozklad na 3 triedy a R je ekvivalencia. Podrobne to rozoberieme v téme Relácie.</div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">Príklad 10: Mohutnosť nekonečných množín</div>
+      <div class="ex-body">
+        <div class="zadanie"><b>Zadanie:</b> Ukáž, že a) množina párnych prirodzených čísel P má rovnakú mohutnosť ako <span class="m">ℕ</span>, b) <span class="m">ℤ</span> má rovnakú mohutnosť ako <span class="m">ℕ</span>. (Uvažujeme <span class="m">ℕ = {1, 2, 3, …}</span>.)</div>
+        <ol class="steps">
+          <li><b>Stratégia:</b> rovnaká mohutnosť znamená, že treba nájsť <b>bijekciu</b>. Navrhnem predpis a overím injektívnosť aj surjektívnosť.</li>
+          <li><b>a)</b> <span class="m">f : ℕ → P, f(n) = 2n</span>.
+            <ul>
+              <li><b>Injektívnosť:</b> ak 2n₁ = 2n₂, tak n₁ = n₂. Rôzne n teda dávajú rôzne obrazy ✔.</li>
+              <li><b>Surjektívnosť:</b> každé párne číslo p sa dá zapísať ako p = 2k pre nejaké k ∈ ℕ. Potom f(k) = p ✔.</li>
+            </ul></li>
+          <li><b>b)</b> Celé čísla „očíslujem“ striedavo: 0, 1, −1, 2, −2, 3, −3, …
+            <span class="mb">f(n) = n/2 pre párne n,   f(n) = −(n − 1)/2 pre nepárne n</span>
+            Overenie na hodnotách: f(1)=0, f(2)=1, f(3)=−1, f(4)=2, f(5)=−2, …
+            <ul>
+              <li>Párne n dávajú všetky kladné celé čísla, každé práve raz.</li>
+              <li>Nepárne n dávajú 0 a všetky záporné celé čísla, každé práve raz.</li>
+              <li>Obe vetvy sa neprekrývajú (jedna dáva kladné, druhá nekladné hodnoty). Funkcia je teda injektívna aj surjektívna ✔.</li>
+            </ul>
+            <span class="why">Prečo nie f(n) = n: kladné čísla by „minuli“ celé ℕ a na nulu a záporné čísla by nezostalo nič. Preto treba striedať.</span></li>
+        </ol>
+        <div class="vysledok"><b>Výsledok:</b> <span class="m">|P| = |ℕ| = |ℤ|</span>. Všetky sú spočítateľné.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- ZHRNUTIE ---------- -->
+  <div class="tab-panel" data-panel="zhrnutie">
+    <h3>Ťahák: množiny</h3>
+    <table>
+      <tr><th>Pojem</th><th>Zápis / vzorec</th><th>Zapamätaj si</th></tr>
+      <tr><td>Prvok</td><td class="m">a ∈ A</td><td>hľadáš a <b>presne v tom tvare</b> medzi prvkami A</td></tr>
+      <tr><td>Podmnožina</td><td class="m">A ⊆ B ⟺ ∀x (x∈A ⇒ x∈B)</td><td>rozbaľ A a skontroluj každý prvok; <span class="m">∅ ⊆</span> čokoľvek</td></tr>
+      <tr><td>Rovnosť</td><td class="m">A = B ⟺ A⊆B ∧ B⊆A</td><td>dôkaz: <span class="m">x ∈ A ⟺ x ∈ B</span></td></tr>
+      <tr><td>Zjednotenie</td><td class="m">A ∪ B</td><td>∨, „aspoň v jednej“</td></tr>
+      <tr><td>Prienik</td><td class="m">A ∩ B</td><td>∧, „v oboch“</td></tr>
+      <tr><td>Rozdiel</td><td class="m">A ∖ B = A ∩ B′</td><td>nie je komutatívny</td></tr>
+      <tr><td>Sym. rozdiel</td><td class="m">A △ B = (A∖B) ∪ (B∖A)</td><td>„práve v jednej“</td></tr>
+      <tr><td>Doplnok</td><td class="m">A′ = U ∖ A</td><td>vždy vzhľadom na univerzum U</td></tr>
+      <tr><td>De Morgan</td><td class="m">(A∪B)′ = A′∩B′,  (A∩B)′ = A′∪B′</td><td>rovnaké ako v logike</td></tr>
+      <tr><td>Kart. súčin</td><td class="m">A×B = {(a,b); a∈A, b∈B}</td><td><span class="m">|A×B| = |A|·|B|</span>, <span class="m">A×B ≠ B×A</span></td></tr>
+      <tr><td>Inklúzia–exklúzia</td><td class="m">|A∪B| = |A|+|B|−|A∩B|</td><td>pri troch: +jednotlivé, −dvojice, +trojica</td></tr>
+      <tr><td>Potenčná množina</td><td class="m">𝒫(A) = {X; X ⊆ A}</td><td><span class="m">|𝒫(A)| = 2ⁿ</span>; <span class="m">𝒫(∅) = {∅}</span></td></tr>
+      <tr><td>Rozklad</td><td>systém tried</td><td>neprázdne + disjunktné + pokryjú A</td></tr>
+      <tr><td>Rovnaká mohutnosť</td><td class="m">|A| = |B|</td><td>existuje bijekcia A → B</td></tr>
+      <tr><td>Spočítateľné</td><td class="m">ℕ, ℤ, ℚ, párne čísla</td><td><span class="m">ℝ</span> je nespočítateľná</td></tr>
+    </table>
+
+    <h3>Najčastejšie chyby</h3>
+    <ul>
+      <li>Zámena <span class="m">∈</span> a <span class="m">⊆</span>, napríklad tvrdenie, že <span class="m">{2} ⊆ {1, {2}}</span> platí.</li>
+      <li>Zámena <span class="m">∅</span> a <span class="m">{∅}</span>: prvá má 0 prvkov, druhá 1.</li>
+      <li>Vnorená množina sa počíta ako <b>jeden</b> prvok: <span class="m">|{1, {2, 3}}| = 2</span>.</li>
+      <li>Pri inklúzii a exklúzii zabudnúť pripočítať prienik všetkých troch množín.</li>
+      <li>Doplnok bez univerza nemá zmysel.</li>
+      <li>V rozklade nesmie byť prázdna množina a triedy sa nesmú prekrývať.</li>
+    </ul>
+
+    <h3>Kde sa to použije ďalej</h3>
+    <ul>
+      <li><b>Relácie:</b> relácia je podmnožina <span class="m">A × A</span>, ekvivalencia zodpovedá rozkladu.</li>
+      <li><b>Logika:</b> ∪, ∩ a ′ sa správajú ako ∨, ∧ a ¬ a platia rovnaké zákony.</li>
+      <li><b>Usporiadania:</b> <span class="m">(𝒫(A), ⊆)</span> je typická čiastočne usporiadaná množina.</li>
+    </ul>
+  </div>
+
+  <!-- ---------- CVIČENIA ---------- -->
+  <div class="tab-panel" data-panel="cvicenia">
+    <p>Úlohy si najprv vyrieš na papier, až potom si rozbaľ riešenie.</p>
+
+    <div class="task"><span class="tnum">Cvičenie 1.</span> <span class="m">U = {a, b, c, d, e, f}</span>, <span class="m">A = {a, b, c, d}</span>, <span class="m">B = {c, d, e}</span>. Urči <span class="m">A △ B</span>, <span class="m">(A ∩ B)′</span>, <span class="m">A′ ∩ B</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><span class="m">A ∖ B = {a, b}</span>, <span class="m">B ∖ A = {e}</span>, takže <span class="m">A △ B = {a, b, e}</span>.</p>
+      <p><span class="m">A ∩ B = {c, d}</span>, doplnok vzhľadom na U: <span class="m">(A ∩ B)′ = {a, b, e, f}</span>.</p>
+      <p><span class="m">A′ = {e, f}</span>, prienik s B: <span class="m">A′ ∩ B = {e}</span>. Kontrola: <span class="m">A′ ∩ B = B ∖ A</span>, a to sedí.</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 2.</span> <span class="m">M = {∅, {∅}}</span>. Rozhodni: <span class="m">∅ ∈ M</span>, <span class="m">∅ ⊆ M</span>, <span class="m">{∅} ∈ M</span>, <span class="m">{∅} ⊆ M</span>, <span class="m">{{∅}} ⊆ M</span>, <span class="m">{{∅}} ∈ M</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Prvky M sú dve krabice: ① ∅, ② {∅}.</p>
+      <ul>
+        <li><span class="m">∅ ∈ M</span>: krabica ①. <b>Pravda.</b></li>
+        <li><span class="m">∅ ⊆ M</span>: ∅ je podmnožinou každej množiny. <b>Pravda.</b></li>
+        <li><span class="m">{∅} ∈ M</span>: krabica ②. <b>Pravda.</b></li>
+        <li><span class="m">{∅} ⊆ M</span>: jediný prvok {∅} je ∅, a ∅ ∈ M. <b>Pravda.</b></li>
+        <li><span class="m">{{∅}} ⊆ M</span>: jediný prvok je {∅}, a {∅} ∈ M. <b>Pravda.</b></li>
+        <li><span class="m">{{∅}} ∈ M</span>: krabica s obsahom {{∅}} medzi prvkami M nie je. <b>Nepravda.</b></li>
+      </ul>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 3.</span> Koľko prvkov má <span class="m">𝒫(𝒫({1, 2}))</span>? Vypíš <span class="m">𝒫({1, 2})</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><span class="m">𝒫({1, 2}) = {∅, {1}, {2}, {1, 2}}</span> má <span class="m">2² = 4</span> prvky.</p>
+      <p>Jej potenčná množina má teda <span class="m">2⁴ = 16</span> prvkov. Postup je „zvnútra von“: najprv zistíš mohutnosť vnútornej množiny, potom použiješ vzorec 2ⁿ ešte raz.</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 4.</span> <span class="m">|A| = 3</span>, <span class="m">|B| = 4</span>. Koľko prvkov má <span class="m">A × B</span>? Koľko existuje rôznych binárnych relácií z A do B?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><span class="m">|A × B| = 3 · 4 = 12</span>.</p>
+      <p>Relácia z A do B je ľubovoľná <b>podmnožina</b> A × B. Počet relácií je teda počet podmnožín 12-prvkovej množiny: <span class="m">|𝒫(A × B)| = 2¹² = 4096</span>.</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 5.</span> Z 50 ľudí pije 30 kávu, 25 čaj a 10 nepije ani jedno. Koľkí pijú oboje?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Aspoň jedno pije <span class="m">50 − 10 = 40</span> ľudí, takže <span class="m">|K ∪ Č| = 40</span>.</p>
+      <p>Dosadím do vzorca: <span class="m">40 = 30 + 25 − |K ∩ Č|</span>, z toho <span class="m">|K ∩ Č| = 15</span>.</p>
+      <p><span class="why">Tu sa vzorec použil „naopak“: poznáme zjednotenie a hľadáme prienik.</span></p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 6.</span> Dokáž: <span class="m">A ∩ (B ∖ C) = (A ∩ B) ∖ C</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Vezmem ľubovoľné x:</p>
+      <p><span class="m">x ∈ A ∩ (B ∖ C)</span> ⟺ <span class="m">x ∈ A ∧ (x ∈ B ∧ x ∉ C)</span> (definícia prieniku a rozdielu)<br>
+      ⟺ <span class="m">(x ∈ A ∧ x ∈ B) ∧ x ∉ C</span> (asociatívnosť ∧)<br>
+      ⟺ <span class="m">x ∈ A ∩ B ∧ x ∉ C</span> (definícia prieniku)<br>
+      ⟺ <span class="m">x ∈ (A ∩ B) ∖ C</span> (definícia rozdielu). ∎</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 7.</span> Vypíš <b>všetky</b> rozklady množiny <span class="m">{1, 2, 3}</span>.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p>Postupujem podľa počtu tried:</p>
+      <ul>
+        <li>1 trieda: <span class="m">{{1, 2, 3}}</span></li>
+        <li>2 triedy (jeden prvok zostane sám, zvyšné dva idú spolu): <span class="m">{{1}, {2, 3}}</span>, <span class="m">{{2}, {1, 3}}</span>, <span class="m">{{3}, {1, 2}}</span></li>
+        <li>3 triedy: <span class="m">{{1}, {2}, {3}}</span></li>
+      </ul>
+      <p>Spolu <b>5 rozkladov</b>. Ku každému patrí jedna ekvivalencia na {1, 2, 3}, takže na 3-prvkovej množine existuje práve 5 ekvivalencií.</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 8.</span> Je <span class="m">{ {x ∈ ℤ ; x &lt; 0}, {x ∈ ℤ ; x &gt; 0} }</span> rozkladom <span class="m">ℤ</span>? A je <span class="m">{ {párne celé čísla}, {nepárne celé čísla} }</span> rozkladom <span class="m">ℤ</span>?</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><b>Prvý systém nie je rozklad:</b> číslo 0 nie je ani záporné, ani kladné, takže nepatrí do žiadnej triedy. Podmienka pokrytia neplatí.</p>
+      <p><b>Druhý systém je rozklad:</b> obe triedy sú neprázdne, žiadne číslo nie je párne aj nepárne zároveň (disjunktnosť) a každé celé číslo je párne alebo nepárne (pokrytie). Zodpovedá kongruencii modulo 2.</p>
+    </div></details>
+
+    <div class="task"><span class="tnum">Cvičenie 9.</span> Rozhodni, či platí pre všetky množiny: <span class="m">(A ∪ B) ∖ B = A</span>. Ak nie, nájdi protipríklad a uveď, čo platí namiesto toho.</div>
+    <details><summary>Ukáž riešenie</summary><div class="sol">
+      <p><b>Neplatí vždy.</b> Protipríklad: <span class="m">A = {1, 2}</span>, <span class="m">B = {2}</span>. Potom <span class="m">(A ∪ B) ∖ B = {1, 2} ∖ {2} = {1} ≠ A</span>.</p>
+      <p>Správne je <span class="m">(A ∪ B) ∖ B = A ∖ B</span>. Rovnosť s A platí iba vtedy, keď sú A a B disjunktné.</p>
+      <p><span class="why">Toto je presne postup, ktorý použiješ pri reláciách: keď vlastnosť neplatí, stačí jeden konkrétny protipríklad.</span></p>
+    </div></details>
+  </div>
+
+  <div class="done-row">
+    <input type="checkbox" id="done-mnoziny" data-done="mnoziny">
+    <label for="done-mnoziny">Tému Množiny mám zvládnutú</label>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+(function () {
+  var STORE_KEY = "dm-zapoctova-1";
+
+  function loadState() {
+    try {
+      var raw = window.localStorage.getItem(STORE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveState(state) {
+    try {
+      window.localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    } catch (e) {
+      /* storage not available - ignore */
+    }
+  }
+
+  var state = loadState();
+  if (!state.done) { state.done = {}; }
+
+  var topicButtons = document.querySelectorAll(".topic-btn[data-topic]");
+  var topics = document.querySelectorAll(".topic");
+
+  function showTopic(name) {
+    var found = document.getElementById("topic-" + name);
+    if (!found) { name = "prehlad"; found = document.getElementById("topic-prehlad"); }
+    for (var i = 0; i < topics.length; i++) { topics[i].classList.remove("active"); }
+    for (var j = 0; j < topicButtons.length; j++) {
+      topicButtons[j].classList.toggle("active", topicButtons[j].getAttribute("data-topic") === name);
+    }
+    found.classList.add("active");
+    state.topic = name;
+    saveState(state);
+    window.scrollTo(0, 0);
+  }
+
+  for (var i = 0; i < topicButtons.length; i++) {
+    topicButtons[i].addEventListener("click", function () {
+      showTopic(this.getAttribute("data-topic"));
+    });
+  }
+
+  for (var t = 0; t < topics.length; t++) {
+    (function (topic) {
+      var tabButtons = topic.querySelectorAll(".tab-btn");
+      var panels = topic.querySelectorAll(".tab-panel");
+      for (var k = 0; k < tabButtons.length; k++) {
+        tabButtons[k].addEventListener("click", function () {
+          var target = this.getAttribute("data-tab");
+          for (var a = 0; a < tabButtons.length; a++) {
+            tabButtons[a].classList.toggle("active", tabButtons[a] === this);
+          }
+          for (var b = 0; b < panels.length; b++) {
+            panels[b].classList.toggle("active", panels[b].getAttribute("data-panel") === target);
+          }
+        });
+      }
+    })(topics[t]);
+  }
+
+  function refreshDoneMarks() {
+    for (var i = 0; i < topicButtons.length; i++) {
+      var name = topicButtons[i].getAttribute("data-topic");
+      topicButtons[i].classList.toggle("done", !!state.done[name]);
+    }
+  }
+
+  var doneBoxes = document.querySelectorAll("input[data-done]");
+  for (var d = 0; d < doneBoxes.length; d++) {
+    var key = doneBoxes[d].getAttribute("data-done");
+    doneBoxes[d].checked = !!state.done[key];
+    doneBoxes[d].addEventListener("change", function () {
+      state.done[this.getAttribute("data-done")] = this.checked;
+      saveState(state);
+      refreshDoneMarks();
+    });
+  }
+
+  refreshDoneMarks();
+  if (state.topic) { showTopic(state.topic); }
+})();
+</script>
+</body>
+</html>
