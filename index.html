@@ -154,14 +154,18 @@
   }
   .ns-toggle:hover { background: #2449ad; }
   .ns-panel {
-    position: fixed; right: 20px; bottom: 126px; z-index: 50;
-    width: 460px; max-width: calc(100vw - 40px); max-height: calc(100vh - 100px); overflow-y: auto;
+    position: fixed; right: 16px; bottom: 16px; z-index: 70;
+    width: 460px; max-width: calc(100vw - 32px); max-height: calc(100vh - 32px); overflow-y: auto;
     background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
-    box-shadow: 0 10px 34px rgba(20, 30, 60, .22); padding: 16px 18px 18px;
+    box-shadow: 0 10px 34px rgba(20, 30, 60, .28); padding: 0 18px 18px;
     display: none;
   }
   .ns-panel.open { display: block; }
-  .ns-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .ns-head {
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 2; background: var(--panel);
+    padding: 14px 0 10px; margin-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
   .ns-head h4 { margin: 0; }
   .ns-close { border: 0; background: transparent; font-size: 20px; cursor: pointer; color: var(--muted); line-height: 1; }
   .ns-box {
@@ -203,8 +207,9 @@
   table.tt td.hl { background: var(--bad-soft); color: var(--bad); font-weight: 700; }
   .sym-toggle { bottom: 72px; background: #3b4560; }
   .sym-toggle:hover { background: #2a3248; }
-  #sym-panel { bottom: 126px; width: 520px; }
-  .sym-filter { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 14px; margin-bottom: 8px; }
+  #sym-panel { width: 520px; }
+  .ns-head { flex-wrap: wrap; }
+  .sym-filter { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 14px; margin-top: 10px; }
   .sym-table { font-size: 13.5px; margin: 0; }
   .sym-table td { padding: 5px 8px; }
   .sym-table td:first-child { white-space: nowrap; font-size: 15px; }
@@ -329,6 +334,7 @@
       <span class="m">A ⊆ B</span> (A je <b>podmnožinou</b> B; vzťah ⊆ sa volá <span class="term" tabindex="0" data-def="Inklúzia = vzťah „byť podmnožinou“ (⊆). A ⊆ B čítame „A je podmnožinou B“ alebo „A je obsiahnutá v B“: každý prvok A je aj v B."><b>inklúzia</b></span>) práve vtedy, keď <b>každý</b> prvok A je aj prvkom B:
       <span class="mb">A ⊆ B ⟺ ∀x : (x ∈ A ⇒ x ∈ B)</span>
       <span class="m">A ⊂ B</span> (<b>vlastná podmnožina</b>) znamená, že <span class="m">A ⊆ B</span> a zároveň <span class="m">A ≠ B</span>.
+      <br><i>Jednoducho:</i> ⊆ a ⊂ sa majú k sebe ako ≤ a &lt; pri číslach. <span class="m">A ⊆ B</span> pripúšťa aj A = B. <span class="m">A ⊂ B</span> navyše vyžaduje, aby v B bolo niečo, čo v A nie je. Napr. <span class="m">{1} ⊂ {1, 2}</span>, ale <span class="m">{1, 2} ⊆ {1, 2}</span> a nie <span class="m">{1, 2} ⊂ {1, 2}</span>.
     </div>
     <ul>
       <li><span class="m">∅ ⊆ A</span> platí pre <b>každú</b> množinu A. Prázdna množina nemá prvok, ktorý by mohol podmienku porušiť.</li>
@@ -427,6 +433,9 @@
     </div>
 
     <h4>Karteziánsky súčin</h4>
+    <div class="simple"><span class="lbl">Jednoducho povedané</span>
+      Karteziánsky súčin sú <b>všetky možné páry</b>, kde prvý člen berieš z A a druhý z B. Ako keď máš 2 tričká a 3 nohavice: všetkých kombinácií „tričko + nohavice“ je 2 · 3 = 6. Na poradí v páre záleží: (tričko, nohavice) nie je to isté ako (nohavice, tričko).
+    </div>
     <div class="def"><span class="lbl">Definícia</span>
       <span class="mb">A × B = {(a, b) ; a ∈ A, b ∈ B}</span>
       Je to množina <b>usporiadaných dvojíc</b>. Prvý prvok dvojice berieme z A, druhý z B. Pri dvojici záleží na poradí: <span class="m">(1, 2) ≠ (2, 1)</span>.
@@ -1408,8 +1417,8 @@
   <div class="ns-head">
     <h4>Ako čítať symboly</h4>
     <button class="ns-close" id="sym-close" title="Zavrieť">×</button>
+    <input class="sym-filter" id="sym-filter" type="text" placeholder="Hľadaj (napr. implikácia, ⊆, delí)…">
   </div>
-  <input class="sym-filter" id="sym-filter" type="text" placeholder="Hľadaj (napr. implikácia, ⊆, delí)…">
 
   <table class="sym-table" id="sym-table">
     <tr class="sym-sec"><td colspan="3">Výroková logika</td></tr>
