@@ -231,6 +231,12 @@
   ul.kgroups .sw { display: inline-block; width: 14px; height: 14px; border-radius: 3px; }
   .exm { border-left: 4px solid #0e7490; background: #e6f4f7; border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
   .exm .lbl { font-weight: 700; color: #0e7490; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 2px; }
+  tr.law-must td { background: #fdecea; }
+  tr.law-must td:first-child { border-left: 4px solid var(--bad); font-weight: 700; }
+  .lawtag { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 9px; border-radius: 10px; white-space: nowrap; font-family: "Segoe UI", system-ui, sans-serif; letter-spacing: 0; text-transform: none; vertical-align: middle; }
+  .lawtag.must { background: var(--bad); color: #fff; }
+  .lawlegend { font-size: 14px; line-height: 2; margin: 10px 0 4px; }
+  .lawlegend .lawtag { margin: 0 4px 0 0; }
 </style>
 </head>
 <body>
@@ -1093,20 +1099,23 @@
       <span class="m">|=|</span> je <b>tvrdenie o dvoch formulách</b> („tieto dve sa vždy rovnajú“), podobne ako „=“ medzi dvoma výrazmi v algebre.
     </div>
 
+    <div class="lawlegend">
+      <span class="lawtag must">naspamäť</span> tieto zákony používaš takmer v každom príklade (prevod na klauzuly, negácia záveru, DT/KT)
+    </div>
     <table>
-      <tr><th>Zákon</th><th>Znenie</th><th>Polopatisticky</th></tr>
-      <tr><td>Idempotencia</td><td class="m">α ∧ α |=| α,  α ∨ α |=| α</td><td>zopakovať to isté nič nemení</td></tr>
-      <tr><td>Komutatívnosť</td><td class="m">α ∧ β |=| β ∧ α,  α ∨ β |=| β ∨ α</td><td>na poradí nezáleží</td></tr>
-      <tr><td>Asociatívnosť</td><td class="m">α ∧ (β ∧ γ) |=| (α ∧ β) ∧ γ</td><td>pri rovnakej spojke nezáleží na zátvorkách</td></tr>
-      <tr><td>Absorpcia</td><td class="m">α ∧ (α ∨ β) |=| α,  α ∨ (α ∧ β) |=| α</td><td>väčšia časť „pohltí“ menšiu</td></tr>
-      <tr><td>Dvojitá negácia</td><td class="m">¬¬α |=| α</td><td>„nie je pravda, že neprší“ = prší</td></tr>
-      <tr><td><b>De Morganove</b></td><td class="m">¬(α ∧ β) |=| ¬α ∨ ¬β<br>¬(α ∨ β) |=| ¬α ∧ ¬β</td><td>negácia „vojde“ dnu a otočí ∧ ↔ ∨</td></tr>
-      <tr><td><b>Distributívne</b></td><td class="m">α ∧ (β ∨ γ) |=| (α ∧ β) ∨ (α ∧ γ)<br>α ∨ (β ∧ γ) |=| (α ∨ β) ∧ (α ∨ γ)</td><td>ako roznásobenie zátvorky, funguje oboma smermi</td></tr>
-      <tr><td><b>Nahradenie implikácie</b></td><td class="m">α ⇒ β |=| ¬α ∨ β</td><td>„buď predpoklad neplatí, alebo platí záver“</td></tr>
-      <tr><td><b>Nahradenie ekvivalencie</b></td><td class="m">α ⇔ β |=| (α ⇒ β) ∧ (β ⇒ α) |=| (¬α ∨ β) ∧ (α ∨ ¬β)</td><td>implikácia oboma smermi</td></tr>
-      <tr><td><b>Negácia implikácie</b></td><td class="m">¬(α ⇒ β) |=| α ∧ ¬β</td><td>sľub porušený = predpoklad nastal, záver nie</td></tr>
-      <tr><td>Obmena</td><td class="m">α ⇒ β |=| ¬β ⇒ ¬α</td><td>„ak nie záver, tak nie predpoklad“</td></tr>
-      <tr><td>Tautológia / kontradikcia</td><td class="m">T ∧ α |=| α,  T ∨ α |=| T<br>F ∧ α |=| F,  F ∨ α |=| α<br>α ∧ ¬α |=| F,  α ∨ ¬α |=| T</td><td>T sa správa ako 1, F ako 0</td></tr>
+      <tr><th>Zákon</th><th>Znenie</th><th>Polopatisticky</th><th>Pre príklady</th></tr>
+      <tr class="law-must"><td><b>Nahradenie implikácie</b></td><td class="m">α ⇒ β |=| ¬α ∨ β</td><td>„buď predpoklad neplatí, alebo platí záver“</td><td><span class="lawtag must">naspamäť</span></td></tr>
+      <tr class="law-must"><td><b>Nahradenie ekvivalencie</b></td><td class="m">α ⇔ β |=| (α ⇒ β) ∧ (β ⇒ α) |=| (¬α ∨ β) ∧ (α ∨ ¬β)</td><td>implikácia oboma smermi</td><td><span class="lawtag must">naspamäť</span></td></tr>
+      <tr class="law-must"><td><b>De Morganove</b></td><td class="m">¬(α ∧ β) |=| ¬α ∨ ¬β<br>¬(α ∨ β) |=| ¬α ∧ ¬β</td><td>negácia „vojde“ dnu a otočí ∧ ↔ ∨</td><td><span class="lawtag must">naspamäť</span></td></tr>
+      <tr class="law-must"><td>Dvojitá negácia</td><td class="m">¬¬α |=| α</td><td>„nie je pravda, že neprší“ = prší</td><td><span class="lawtag must">naspamäť</span></td></tr>
+      <tr class="law-must"><td><b>Negácia implikácie</b></td><td class="m">¬(α ⇒ β) |=| α ∧ ¬β</td><td>sľub porušený = predpoklad nastal, záver nie</td><td><span class="lawtag must">naspamäť</span></td></tr>
+      <tr class="law-must"><td><b>Distributívne</b></td><td class="m">α ∧ (β ∨ γ) |=| (α ∧ β) ∨ (α ∧ γ)<br>α ∨ (β ∧ γ) |=| (α ∨ β) ∧ (α ∨ γ)</td><td>ako roznásobenie zátvorky, funguje oboma smermi</td><td><span class="lawtag must">naspamäť</span></td></tr>
+      <tr><td>Komutatívnosť</td><td class="m">α ∧ β |=| β ∧ α,  α ∨ β |=| β ∨ α</td><td>na poradí nezáleží</td><td></td></tr>
+      <tr><td>Asociatívnosť</td><td class="m">α ∧ (β ∧ γ) |=| (α ∧ β) ∧ γ</td><td>pri rovnakej spojke nezáleží na zátvorkách</td><td></td></tr>
+      <tr><td>Idempotencia</td><td class="m">α ∧ α |=| α,  α ∨ α |=| α</td><td>zopakovať to isté nič nemení</td><td></td></tr>
+      <tr><td>Tautológia / kontradikcia</td><td class="m">T ∧ α |=| α,  T ∨ α |=| T<br>F ∧ α |=| F,  F ∨ α |=| α<br>α ∧ ¬α |=| F,  α ∨ ¬α |=| T</td><td>T sa správa ako 1, F ako 0</td><td></td></tr>
+      <tr><td>Absorpcia</td><td class="m">α ∧ (α ∨ β) |=| α,  α ∨ (α ∧ β) |=| α</td><td>väčšia časť „pohltí“ menšiu</td><td></td></tr>
+      <tr><td>Obmena</td><td class="m">α ⇒ β |=| ¬β ⇒ ¬α</td><td>„ak nie záver, tak nie predpoklad“</td><td></td></tr>
     </table>
     <div class="exm"><span class="lbl">Príklad pre predstavu</span>
       <span class="m">p ⇒ q |=| ¬p ∨ q</span>: „Ak prší, zoberiem si dáždnik“ znamená to isté ako „Neprší alebo si zoberiem dáždnik“.<br>De Morgan: „Nie je pravda, že prší a je zima“ = „Neprší alebo nie je zima“.
@@ -1283,7 +1292,7 @@
       <tr><td>Priorita spojok</td><td>¬, potom ∧, potom ∨, potom ⇒, potom ⇔ (radšej zátvorkuj)</td></tr>
     </table>
 
-    <h3>Najdôležitejšie prepisy</h3>
+    <h3>Najdôležitejšie prepisy <span class="lawtag must">naspamäť</span></h3>
     <table>
       <tr><td class="m">α ⇒ β |=| ¬α ∨ β</td><td>nahradenie implikácie</td></tr>
       <tr><td class="m">α ⇔ β |=| (¬α ∨ β) ∧ (α ∨ ¬β)</td><td>nahradenie ekvivalencie</td></tr>
