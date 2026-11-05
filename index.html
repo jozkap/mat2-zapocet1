@@ -237,6 +237,10 @@
   .lawtag.must { background: var(--bad); color: #fff; }
   .lawlegend { font-size: 14px; line-height: 2; margin: 10px 0 4px; }
   .lawlegend .lawtag { margin: 0 4px 0 0; }
+  .viz { border: 1px solid #cfe3d6; background: #f3faf5; border-radius: 10px; padding: 10px 14px 6px; margin: 6px 0 14px; }
+  .viz .lbl { font-weight: 700; color: var(--ok); font-size: 13px; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 4px; }
+  .viz table { margin: 4px 0 8px; }
+  table.tt td.res { background: #fff4c2; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -1330,6 +1334,13 @@
 
     <div class="task"><span class="tnum">Cvičenie 1.</span> Vypočítaj hodnotu formuly <span class="m">((p ⇒ q) ∧ ¬r) ⇔ (q ∨ r)</span> pri ohodnotení p = 1, q = 0, r = 0.</div>
     <details><summary>Ukáž riešenie</summary><div class="sol">
+<div class="viz"><span class="lbl">Riešenie tabuľkou (jeden riadok)</span>
+<table class="tt" style="width:auto">
+<tr><th>p</th><th>q</th><th>r</th><th>p ⇒ q</th><th>¬r</th><th>(p ⇒ q) ∧ ¬r</th><th>q ∨ r</th><th>celá formula</th></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="res">1</td></tr>
+</table><p class="why">Čítaj zľava doprava: každý stĺpec počítaš z hodnôt stĺpcov, ktoré sú v ňom použité. Posledný stĺpec je výsledok.</p>
+</div>
+
       <p>Postupujem zvnútra von:</p>
       <ul>
         <li><span class="m">p ⇒ q = 1 ⇒ 0 = 0</span> (jediný nepravdivý prípad implikácie)</li>
@@ -1343,6 +1354,17 @@
     <div class="task"><span class="tnum">Cvičenie 2.</span> Zapíš pomocou formúl (vhodne si zvoľ premenné):<br>
       a) „Ak bude pršať, nepôjdeme von.“ b) „Peter ani Rado nepôjdu.“ c) „Pôjdem, ak pôjde Eva.“ d) „Pôjdem, len ak pôjde Eva.“ e) „Nepôjdem, ak nepôjde Tamara.“</div>
     <details><summary>Ukáž riešenie</summary><div class="sol">
+<div class="viz"><span class="lbl">Riešenie tabuľkou</span>
+<table>
+<tr><th>Veta</th><th>Premenné</th><th>Kľúčové slovo</th><th>Formula</th></tr>
+<tr><td>a) Ak bude pršať, nepôjdeme von.</td><td>d = prší, v = pôjdeme von</td><td>ak … (tak)</td><td class="m">d ⇒ ¬v</td></tr>
+<tr><td>b) Peter ani Rado nepôjdu.</td><td>p = Peter pôjde, r = Rado pôjde</td><td>ani … ani</td><td class="m">¬p ∧ ¬r</td></tr>
+<tr><td>c) Pôjdem, ak pôjde Eva.</td><td>j = ja pôjdem, e = Eva pôjde</td><td>ak → doľava</td><td class="m">e ⇒ j</td></tr>
+<tr><td>d) Pôjdem, len ak pôjde Eva.</td><td>j, e</td><td>len ak → doprava</td><td class="m">j ⇒ e</td></tr>
+<tr><td>e) Nepôjdem, ak nepôjde Tamara.</td><td>z = ja pôjdem, t = Tamara pôjde</td><td>ak → doľava</td><td class="m">¬t ⇒ ¬z</td></tr>
+</table>
+</div>
+
       <ul>
         <li>a) d = prší, v = pôjdeme von: <span class="m">d ⇒ ¬v</span></li>
         <li>b) p = Peter pôjde, r = Rado pôjde: <span class="m">¬p ∧ ¬r</span> (alebo ekvivalentne <span class="m">¬(p ∨ r)</span>)</li>
@@ -1354,6 +1376,28 @@
 
     <div class="task"><span class="tnum">Cvičenie 3.</span> Rozhodni, či ide o tautológiu, kontradikciu alebo splniteľnú formulu: a) <span class="m">(p ⇒ q) ⇔ (¬p ∨ q)</span>, b) <span class="m">p ∧ ¬(p ∨ q)</span>, c) <span class="m">(p ∨ q) ⇒ p</span>.</div>
     <details><summary>Ukáž riešenie</summary><div class="sol">
+<div class="viz"><span class="lbl">Riešenie tabuľkou</span>
+<p><b>a)</b></p><table class="tt" style="width:auto">
+<tr><th>p</th><th>q</th><th>p ⇒ q</th><th>¬p</th><th>¬p ∨ q</th><th>(p ⇒ q) ⇔ (¬p ∨ q)</th></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td class="res">1</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td class="res">1</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="res">1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td class="res">1</td></tr>
+</table><p>Samé 1, teda <b>tautológia</b>.</p><p><b>b)</b></p><table class="tt" style="width:auto">
+<tr><th>p</th><th>q</th><th>p ∨ q</th><th>¬(p ∨ q)</th><th>p ∧ ¬(p ∨ q)</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>1</td><td class="res">0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>0</td><td class="res">0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td><td class="res">0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>0</td><td class="res">0</td></tr>
+</table><p>Samé 0, teda <b>kontradikcia</b>.</p><p><b>c)</b></p><table class="tt" style="width:auto">
+<tr><th>p</th><th>q</th><th>p ∨ q</th><th>(p ∨ q) ⇒ p</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td class="res">1</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td class="res">0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td class="res">1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td class="res">1</td></tr>
+</table><p>Aj 1, aj 0, teda <b>splniteľná</b> (nepravdivá iba pri p = 0, q = 1).</p>
+</div>
+
       <p><b>a) Tautológia.</b> <span class="m">p ⇒ q</span> a <span class="m">¬p ∨ q</span> sú ekvivalentné (nahradenie implikácie), takže majú v každom riadku rovnakú hodnotu a ⇔ dá vždy 1.</p>
       <p><b>b) Kontradikcia.</b> De Morgan: <span class="m">p ∧ ¬p ∧ ¬q</span>. Obsahuje <span class="m">p ∧ ¬p</span>, čo je vždy 0.</p>
       <p><b>c) Splniteľná.</b> Nepravdivá je, keď predpoklad <span class="m">p ∨ q = 1</span> a záver <span class="m">p = 0</span>, teda pri p = 0, q = 1. Pri p = 1 je pravdivá. Má teda aj 0, aj 1.</p>
@@ -1373,6 +1417,20 @@
 
     <div class="task"><span class="tnum">Cvičenie 5.</span> Dokáž úpravami: <span class="m">(p ⇒ q) ∧ (p ⇒ r) |=| p ⇒ (q ∧ r)</span>.</div>
     <details><summary>Ukáž riešenie</summary><div class="sol">
+<div class="viz"><span class="lbl">Riešenie tabuľkou: obe strany majú rovnaký stĺpec</span>
+<table class="tt" style="width:auto">
+<tr><th>p</th><th>q</th><th>r</th><th>p ⇒ q</th><th>p ⇒ r</th><th>ľavá strana</th><th>q ∧ r</th><th>pravá strana</th><th>rovnaké?</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>✓</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>✓</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>✓</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>✓</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>✓</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>✓</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>✓</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>✓</td></tr>
+</table><p>Stĺpce „ľavá strana“ a „pravá strana“ sú v každom riadku rovnaké, takže formuly sú ekvivalentné. Toto je druhý, „tabuľkový“ spôsob dôkazu ekvivalencie.</p>
+</div>
+
       <p><span class="m">(p ⇒ q) ∧ (p ⇒ r)</span> |=| <span class="m">(¬p ∨ q) ∧ (¬p ∨ r)</span> (nahradenie implikácie, dvakrát)<br>
       |=| <span class="m">¬p ∨ (q ∧ r)</span> (distributívnosť „spätne“: spoločné ¬p vyberiem pred zátvorku)<br>
       |=| <span class="m">p ⇒ (q ∧ r)</span> (nahradenie implikácie spätne). ∎</p>
@@ -1381,6 +1439,16 @@
 
     <div class="task"><span class="tnum">Cvičenie 6.</span> Zjednoduš <span class="m">¬(¬p ∧ q) ∧ (p ∨ q)</span>.</div>
     <details><summary>Ukáž riešenie</summary><div class="sol">
+<div class="viz"><span class="lbl">Riešenie tabuľkou: výsledok sa zhoduje so stĺpcom p</span>
+<table class="tt" style="width:auto">
+<tr><th>p</th><th>q</th><th>¬p ∧ q</th><th>¬(¬p ∧ q)</th><th>p ∨ q</th><th>celá formula</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td class="res">0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td class="res">0</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td class="res">1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td class="res">1</td></tr>
+</table><p>Posledný stĺpec (0, 0, 1, 1) je presne stĺpec p, teda formula |=| p.</p>
+</div>
+
       <p><span class="m">¬(¬p ∧ q)</span> |=| <span class="m">p ∨ ¬q</span> (de Morgan a dvojitá negácia)</p>
       <p>Celé: <span class="m">(p ∨ ¬q) ∧ (p ∨ q)</span> |=| <span class="m">p ∨ (¬q ∧ q)</span> (distributívnosť: spoločné p vyberiem)<br>
       |=| <span class="m">p ∨ F</span> (<span class="m">¬q ∧ q</span> je kontradikcia)<br>
@@ -1390,6 +1458,16 @@
 
     <div class="task"><span class="tnum">Cvičenie 7.</span> Doplň zátvorky podľa priority spojok: a) <span class="m">¬p ∧ q ∨ r</span>, b) <span class="m">p ∨ s ∧ t ⇒ ¬r</span>, c) <span class="m">p ⇒ q ⇔ ¬q ⇒ ¬p</span>.</div>
     <details><summary>Ukáž riešenie</summary><div class="sol">
+<div class="viz"><span class="lbl">Riešenie tabuľkou</span>
+<table>
+<tr><th>Pôvodne</th><th>So zátvorkami</th><th>Hlavná spojka (vyhodnotí sa posledná)</th></tr>
+<tr><td class="m">¬p ∧ q ∨ r</td><td class="m">((¬p) ∧ q) ∨ r</td><td class="m">∨</td></tr>
+<tr><td class="m">p ∨ s ∧ t ⇒ ¬r</td><td class="m">(p ∨ (s ∧ t)) ⇒ (¬r)</td><td class="m">⇒</td></tr>
+<tr><td class="m">p ⇒ q ⇔ ¬q ⇒ ¬p</td><td class="m">(p ⇒ q) ⇔ ((¬q) ⇒ (¬p))</td><td class="m">⇔</td></tr>
+</table>
+<p class="why">Poradie viazania (od najsilnejšej): ¬, ∧, ∨, ⇒, ⇔. Hlavná spojka je vždy tá najslabšia, ktorá nie je v zátvorke.</p>
+</div>
+
       <ul>
         <li>a) <span class="m">((¬p) ∧ q) ∨ r</span>: ¬ sa viaže iba na p, potom ∧, nakoniec ∨.</li>
         <li>b) <span class="m">(p ∨ (s ∧ t)) ⇒ (¬r)</span></li>
@@ -1399,6 +1477,14 @@
 
     <div class="task"><span class="tnum">Cvičenie 8.</span> Koľko riadkov má pravdivostná tabuľka formuly so 4 premennými? Koľko existuje rôznych boolovských funkcií dvoch premenných?</div>
     <details><summary>Ukáž riešenie</summary><div class="sol">
+<div class="viz"><span class="lbl">Riešenie tabuľkou</span>
+<table class="tt" style="width:auto">
+<tr><th>počet premenných n</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+<tr><th>riadkov tabuľky 2ⁿ</th><td>2</td><td>4</td><td>8</td><td class="res">16</td></tr>
+<tr><th>boolovských funkcií 2^(2ⁿ)</th><td>4</td><td class="res">16</td><td>256</td><td>65 536</td></tr>
+</table>
+</div>
+
       <p><span class="m">2⁴ = 16</span> riadkov, lebo každá zo 4 premenných má 2 možnosti.</p>
       <p>Funkcia dvoch premenných má 4 riadky a v každom si môže „vybrať“ 0 alebo 1, teda <span class="m">2⁴ = 16</span> funkcií (vo všeobecnosti <span class="m">2^(2ⁿ)</span>). Je to rovnaká úvaha ako pri potenčnej množine.</p>
     </div></details>
